@@ -1,6 +1,8 @@
-import { Tabs } from "expo-router";
+import { Tabs, useNavigation } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+
+import Logo from "../../assets/noticeme.png";
 
 import EventsIcon from "../../assets/icons/events.svg";
 import CalendarIcon from "../../assets/icons/calendar.svg";
@@ -9,6 +11,8 @@ import ActivityIcon from "../../assets/icons/activity.svg";
 import ProfileIcon from "../../assets/icons/profile.svg";
 
 export default function TabsLayout() {
+  const navigation = useNavigation();
+
   return (
     <Tabs
       screenOptions={{
@@ -24,9 +28,34 @@ export default function TabsLayout() {
           paddingBottom: 6,
         },
         tabBarLabelStyle: {
-          fontFamily: "Regular",
+          fontFamily: "Bold",
           fontSize: 14,
+          textShadowColor: "#64CEC2",
+          textShadowRadius: 0,
+          textShadowOffset: { width: 0, height: 10 },
         },
+        headerTitleAlign: "center",
+        headerStyle: {
+          borderBottomWidth: 3,
+          borderBottomColor: "#64CEC2",
+        },
+        headerTitle: () => (
+          <View style={styles.headerTitleContainer}>
+            <Image source={Logo} style={styles.logo} />
+            <View style={styles.headerTextContainer}>
+              <Text style={styles.headerTitleShadow}>NoticeMe</Text>
+              <Text style={styles.headerTitleText}>NoticeMe</Text>
+            </View>
+          </View>
+        ),
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.backButton}
+          >
+            <MaterialIcons name="arrow-back" size={32} color="#006D62" />
+          </TouchableOpacity>
+        ),
       }}
     >
       <Tabs.Screen
@@ -114,6 +143,39 @@ export default function TabsLayout() {
 }
 
 const styles = StyleSheet.create({
+  headerTitleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  logo: {
+    width: 36,
+    height: 36,
+    marginRight: 10,
+  },
+
+  headerTextContainer: {
+    position: "relative",
+  },
+
+  headerTitleText: {
+    fontSize: 28,
+    fontFamily: "Bold",
+    color: "#006D62",
+  },
+
+  headerTitleShadow: {
+    position: "absolute",
+    fontSize: 28,
+    fontFamily: "Bold",
+    color: "#64CEC2",
+    top: 3,
+  },
+
+  backButton: {
+    paddingLeft: 10,
+  },
+
   iconContainer: {
     justifyContent: "center",
     // alignItems: "center",
@@ -123,6 +185,7 @@ const styles = StyleSheet.create({
     // shadowRadius: 4, // Shadow blur
     // elevation: 5, // Shadow for Android
   },
+
   activeIcon: {
     strokeWidth: 2,
     // stroke: "#64CEC2", // Outline color when active
