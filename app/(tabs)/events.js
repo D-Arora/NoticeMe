@@ -14,8 +14,8 @@ export default function Events() {
     >
       <Text style={{ marginTop: 100 }}>Events Screen</Text>
       <StickerText
-        text="Test Outline"
-        font="System"
+        text="Event Details"
+        font="Regular"
         fontSize={40}
         textColor="#fff"
         stroke="#016d63"

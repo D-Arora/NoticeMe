@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Slot } from "expo-router";
-import { MaterialIcons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import Aleo from "../assets/fonts/Aleo-Regular.otf";
@@ -9,6 +8,7 @@ import AleoLight from "../assets/fonts/Aleo-Light.otf";
 import AleoLightItalic from "../assets/fonts/Aleo-LightItalic.otf";
 import AleoBold from "../assets/fonts/Aleo-Bold.otf";
 import AleoBoldItalic from "../assets/fonts/Aleo-BoldItalic.otf";
+import { SafeAreaView } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -32,5 +32,9 @@ export default function RootLayout(options) {
     return null;
   }
 
-  return <Slot />;
+  return (
+    <SafeAreaView>
+      <Slot />
+    </SafeAreaView>
+  );
 }
