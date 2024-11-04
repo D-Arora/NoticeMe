@@ -17,9 +17,9 @@ export default function Events() {
         text="Test Outline"
         font="System"
         fontSize={40}
-        textColor="#016d63"
-        stroke="#FFFFFF"
-        strokeWidth={4}
+        textColor="#fff"
+        stroke="#016d63"
+        strokeWidth={2}
       />
     </View>
   );
