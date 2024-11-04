@@ -2,6 +2,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { StickerText } from "../../components/stickerText";
+import StyledButton from "../../components/StyledButton";
 
 export default function Events() {
   return (
