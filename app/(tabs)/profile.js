@@ -1,49 +1,53 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import React from 'react';
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import ProfileBackground from '../../assets/ProfileBackgroundGradient.svg';
-import User from '../../assets/images/users/user.jpg'; 
 import EditProfile from '../../assets/icons/EditProfile.svg';
 import Tag from "../../components/Tag";
 import colours from "../../colours.js";
 import FollowersButton from "../../components/FollowersButton";
 import ProfileInterface from "../../components/ProfileInterface";
+import CommentCard from "../../components/CommentCard";
 
 export default function Profile() {
   return (
-    <View>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       {/* top of profile */}
       <View style={styles.header}>
-      <ProfileBackground style={styles.background}/>
-      
-      <View style={styles.profileBar}>
-        <View style={styles.profilePicture}>
+        <ProfileBackground style={styles.background} />
+        
+        <View style={styles.profileBar}>
+          <View style={styles.profilePicture}></View>
+          <View style={{ flex: 1 }}>
+            <View style={{flexDirection: 'row', padding: 10, justifyContent: "space-around"}}>
+              <Text style={{fontSize: 30, color: "white", justifyContent: 'center'}}>Anna Wang</Text>
+              <EditProfile width="25px" />
+            </View>
+            <View style={styles.followersContainer}> 
+              <FollowersButton title="Followers" users={123} />
+              <FollowersButton title="Following" users={2078} />
+            </View>
+          </View>
+        </View>
+        <Text style={styles.description}>
+          Hey there !! My name is Anna and I am a third year Mechatronic Engineering and Science student passionate about upskilling and improving myself.
+        </Text>
+        <View style={styles.TagContainer}>
+          <Tag title="2nd Year" colour="#8A3FC3" />
+          <Tag title="Engineering" colour="#006e62" />
+          <Tag title="Neuroscience" colour="#3c6392" />
+        </View>    
+      </View>
 
-        </View>
-        <View style={{ flex: 1}}>
-          <View style={{flexDirection: 'row', padding: 10, justifyContent: "space-around"}}>
-            <Text style={{fontSize: 30, color: "white", justifyContent: 'center'}}>Anna Wang</Text>
-            <EditProfile width="25px"/>
-          </View>
-          <View style={styles.followersContainer}> 
-            <FollowersButton title="Followers" users={123} />
-            <FollowersButton title="Following" users={2078} />
-          </View>
-        </View>
-      </View>
-      <Text style={styles.description}>Hey there !! My name is Anna and I am a third year Mechatronic Engineering and Science student passionate about upskilling and improving myself.  </Text>
-      <View style={styles.TagContainer}>
-        <Tag title="2nd Year" colour="#8A3FC3" />
-        <Tag title="Engineering" colour="#006e62" />
-        <Tag title="Neuroscience" colour="#3c6392" />
-      </View>    
-      </View>
       {/* bottom of profile */}
       <View style={styles.bottomContainer}>
         <Text style={styles.heading1}>Societies</Text>
-        <ProfileInterface name="Mechanical Engineering Society" members="1078 members" role="Member"></ProfileInterface>
-        <ProfileInterface name="Neuroscience Society" members="1234 members" role="President"></ProfileInterface>
-        <ProfileInterface name="Dog Lovers Society" members="834 members" role="Member"></ProfileInterface>
+        <ProfileInterface name="Mechanical Engineering Society" members="1078 members" role="Member" />
+        <ProfileInterface name="Neuroscience Society" members="1234 members" role="President" />
+        <ProfileInterface name="Dog Lovers Society" members="834 members" role="Member" />
+        <Text style={styles.heading1}>Recently Commented</Text>
+        <CommentCard name="NeuroSoc 2024 AGM" time="3 hours ago" comment="Yall cooked" />
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -77,7 +81,6 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: 20,
-    
   },
   profileBar: {
     flexDirection: 'row',
@@ -92,10 +95,11 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   bottomContainer: {
-      padding: 20,
+    padding: 20,
   },
   heading1: {
     fontSize: 30,
     color: colours.light.text,
+    marginBottom: 10,
   }
 });
