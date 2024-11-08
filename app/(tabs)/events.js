@@ -22,6 +22,7 @@ export default function Events() {
         stroke="#016d63"
         strokeWidth={2}
       />
+      <StyledButton title="President" onPress={() => console.log("Create Event")} colourChange={true} />
     </View>
   );
 }
