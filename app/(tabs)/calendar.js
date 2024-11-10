@@ -573,7 +573,7 @@ export default function Calendar() {
         params: {
           title: event.title,
         },
-      })
+      });
     }
   });
 
