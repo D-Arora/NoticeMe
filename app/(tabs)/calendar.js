@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import {
   Pressable,
@@ -112,6 +113,7 @@ const events = [
 const tabHeight = 40;
 
 export default function Calendar() {
+  const router = useRouter();
   const bigCalendarConatiner = useRef(null);
   const [calendarHeight, setCalendarHeight] = useState(500);
   const main = useRef(null);
@@ -455,7 +457,7 @@ export default function Calendar() {
             // height: 80,
           },
         ]}
-        onPress={() => onPressEvent(event.start)}
+        onPress={() => onPressEvent(event)}
       >
         {
           // dayjs(event.end).diff(event.start, 'minute') < 32 ? (
@@ -559,13 +561,19 @@ export default function Calendar() {
     }
   }, []);
 
-  const onPressEvent = React.useCallback((start) => {
+  const onPressEvent = React.useCallback((event) => {
     // console.log(e);
     if (mode == "month" || mode == "week") {
-      setDate(new Date(start));
+      setDate(new Date(event.start));
       setMode("day");
     } else {
       // TODO navigate to event page with the event information!
+      router.push({
+        pathname: "events/event",
+        params: {
+          title: event.title,
+        },
+      })
     }
   });
 
