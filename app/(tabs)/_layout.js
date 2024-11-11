@@ -64,8 +64,9 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen
-        name="events"
+        name="events/index"
         options={{
+          href: '/events',
           title: "Events",
           tabBarIcon: ({ color }) => (
             <View
@@ -141,6 +142,18 @@ export default function TabsLayout() {
               <ProfileIcon width={32} height={32} fill={color} />
             </View>
           ),
+        }}
+      />
+            <Tabs.Screen
+        name="events/event"
+        options={{
+          href: null,
+        }}
+      />
+            <Tabs.Screen
+        name="events/map"
+        options={{
+          href: null,
         }}
       />
     </Tabs>

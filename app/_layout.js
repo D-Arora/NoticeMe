@@ -33,6 +33,7 @@ export default function RootLayout(options) {
   }
 
   return (
+    // <SafeAreaView style={{ flex: 1, marginTop: -40, marginBottom: -30 }}>
     <SafeAreaView style={{ flex: 1 }}>
       <Slot />
     </SafeAreaView>
