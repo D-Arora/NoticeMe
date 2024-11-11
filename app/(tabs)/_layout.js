@@ -1,6 +1,7 @@
 import { Tabs, useNavigation } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import { Colours } from "../../colours";
 
 import Logo from "../../assets/noticeme.png";
 
@@ -53,7 +54,11 @@ export default function TabsLayout() {
             onPress={() => navigation.goBack()}
             style={styles.backButton}
           >
-            <MaterialIcons name="arrow-back" size={32} color="#006D62" />
+            <MaterialIcons
+              name="arrow-back"
+              size={32}
+              color={Colours.light.text}
+            />
           </TouchableOpacity>
         ),
       }}
@@ -161,7 +166,7 @@ const styles = StyleSheet.create({
   headerTitleText: {
     fontSize: 28,
     fontFamily: "Bold",
-    color: "#006D62",
+    color: Colours.light.text,
   },
 
   headerTitleShadow: {
