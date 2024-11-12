@@ -1,11 +1,19 @@
 import { Tabs, useNavigation } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
-import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Logo from "../../assets/noticeme.png";
 
 import EventsIcon from "../../assets/icons/events.svg";
-import CalendarIcon from "../../assets/icons/calendar.svg";
+import CalendarIcon from "../../assets/icons/calendar-simplified.svg";
 import SearchIcon from "../../assets/icons/search.svg";
 import ActivityIcon from "../../assets/icons/activity.svg";
 import ProfileIcon from "../../assets/icons/profile.svg";
@@ -13,6 +21,7 @@ import colours from "../../colours";
 
 export default function TabsLayout() {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   return (
     <Tabs
@@ -20,13 +29,18 @@ export default function TabsLayout() {
         tabBarActiveTintColor: colours.light.primaryPurple,
         tabBarInactiveTintColor: colours.light.primaryGreen,
         tabBarStyle: {
-          // margin: 30,
           shadowOpacity: 0,
           borderTopWidth: 3,
           borderTopColor: colours.light.primaryGreen,
-          height: 64,
+          height: Platform.select({
+            ios: 64 + insets.bottom,
+            android: 64,
+          }),
           paddingTop: 2,
-          paddingBottom: 6,
+          paddingBottom: Platform.select({
+            ios: insets.bottom + 6,
+            android: 6,
+          }),
         },
         tabBarLabelStyle: {
           fontFamily: "Bold",
@@ -39,6 +53,10 @@ export default function TabsLayout() {
         headerStyle: {
           borderBottomWidth: 3,
           borderBottomColor: colours.light.primaryGreen,
+          height: Platform.select({
+            ios: 44 + insets.top,
+            android: 56 + insets.top,
+          }),
         },
         headerTitle: () => (
           <View style={styles.headerTitleContainer}>
