@@ -1,7 +1,7 @@
 import { Tabs, useNavigation } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
-import { Colours } from "../../colours";
+import colours from "../../colours";
 
 import Logo from "../../assets/noticeme.png";
 
@@ -57,7 +57,7 @@ export default function TabsLayout() {
             <MaterialIcons
               name="arrow-back"
               size={32}
-              color={Colours.light.text}
+              color={colours.light.text}
             />
           </TouchableOpacity>
         ),
@@ -66,7 +66,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="events/index"
         options={{
-          href: '/events',
+          href: "/events",
           title: "Events",
           tabBarIcon: ({ color }) => (
             <View
@@ -144,13 +144,13 @@ export default function TabsLayout() {
           ),
         }}
       />
-            <Tabs.Screen
+      <Tabs.Screen
         name="events/event"
         options={{
           href: null,
         }}
       />
-            <Tabs.Screen
+      <Tabs.Screen
         name="events/map"
         options={{
           href: null,
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   headerTitleText: {
     fontSize: 28,
     fontFamily: "Bold",
-    color: Colours.light.text,
+    color: colours.light.text,
   },
 
   headerTitleShadow: {
