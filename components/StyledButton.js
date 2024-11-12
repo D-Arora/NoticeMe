@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { View, Button, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import colours from "../colours";
 
 const StyledButton = ({ onPress, title, colourChange }) => {
   const [isClicked, setIsClicked] = useState(false);
+  const [buttonLayout, setButtonLayout] = useState(null); // To store the button's layout
 
   const handlePress = () => {
     if (colourChange) {
@@ -13,8 +14,28 @@ const StyledButton = ({ onPress, title, colourChange }) => {
     onPress && onPress(); // Call the provided onPress function if it exists
   };
 
+  const handleLayout = (e) => {
+    const { width, height } = e.nativeEvent.layout;
+    setButtonLayout({ width, height }); // Set the button's width and height
+  };
+
   return (
     <TouchableOpacity onPress={handlePress} style={styles.shadowContainer}>
+      {/* Pseudo Shadow */}
+      {buttonLayout && (
+        <View
+          style={[
+            styles.buttonShadow,
+            {
+              width: buttonLayout.width,
+              height: buttonLayout.height,
+              top: 3, // Adjust position of the shadow
+            },
+          ]}
+        />
+      )}
+
+      {/* Button */}
       <View
         style={[
           styles.button,
@@ -22,8 +43,9 @@ const StyledButton = ({ onPress, title, colourChange }) => {
             backgroundColor: isClicked
               ? colours.light.text
               : colours.light.primaryPurple,
-          }, // Toggle color based on isClicked state
+          },
         ]}
+        onLayout={handleLayout} // Measure button size on layout
       >
         <Text style={styles.buttonText}>{title}</Text>
       </View>
@@ -33,11 +55,7 @@ const StyledButton = ({ onPress, title, colourChange }) => {
 
 const styles = StyleSheet.create({
   shadowContainer: {
-    shadowColor: colours.light.primaryGreen,
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    elevation: 6,
+    position: "relative", // Ensure container positions elements correctly
   },
   button: {
     paddingVertical: 12,
@@ -48,6 +66,11 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 16,
+  },
+  buttonShadow: {
+    position: "absolute", // Position the shadow beneath the button
+    backgroundColor: colours.light.primaryGreen, // Shadow color
+    borderRadius: 30, // Same as button's border radius
   },
 });
 

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import Logo from "../../assets/noticeme.png";
+import Logo from "../../assets/icons/hat-logo.png";
 
 import EventsIcon from "../../assets/icons/events.svg";
 import CalendarIcon from "../../assets/icons/calendar-simplified.svg";
@@ -18,6 +18,7 @@ import SearchIcon from "../../assets/icons/search.svg";
 import ActivityIcon from "../../assets/icons/activity.svg";
 import ProfileIcon from "../../assets/icons/profile.svg";
 import colours from "../../colours";
+import StickerText from "../../components/StickerText";
 
 export default function TabsLayout() {
   const navigation = useNavigation();
@@ -61,10 +62,7 @@ export default function TabsLayout() {
         headerTitle: () => (
           <View style={styles.headerTitleContainer}>
             <Image source={Logo} style={styles.logo} />
-            <View style={styles.headerTextContainer}>
-              <Text style={styles.headerTitleShadow}>NoticeMe</Text>
-              <Text style={styles.headerTitleText}>NoticeMe</Text>
-            </View>
+            <StickerText text="NoticeMe" fontFamily="Bold" />
           </View>
         ),
         headerLeft: () => (
@@ -78,7 +76,7 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen
-        name="events"
+        name="events/index"
         options={{
           title: "Events",
           tabBarIcon: ({ color }) => (
@@ -168,27 +166,10 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    width: 36,
-    height: 36,
-    marginRight: 10,
-  },
-
-  headerTextContainer: {
-    position: "relative",
-  },
-
-  headerTitleText: {
-    fontSize: 28,
-    fontFamily: "Bold",
-    color: "#006D62",
-  },
-
-  headerTitleShadow: {
-    position: "absolute",
-    fontSize: 28,
-    fontFamily: "Bold",
-    color: colours.light.primaryGreen,
-    top: 3,
+    width: 32,
+    height: 32,
+    marginRight: 5,
+    marginTop: 5,
   },
 
   backButton: {
