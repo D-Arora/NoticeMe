@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { useRouter } from 'expo-router';
 import ProfileBackground from '../../assets/ProfileBackgroundGradient.svg';
 import EditProfile from '../../assets/icons/EditProfile.svg';
 import Tag from "../../components/Tag";
@@ -9,6 +10,8 @@ import ProfileInterface from "../../components/ProfileInterface";
 import CommentCard from "../../components/CommentCard";
 
 export default function Profile() {
+  const router = useRouter();
+  
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       {/* top of profile */}
@@ -20,7 +23,7 @@ export default function Profile() {
           <View style={{ flex: 1 }}>
             <View style={{flexDirection: 'row', padding: 10, justifyContent: "space-around"}}>
               <Text style={{fontSize: 30, color: "white", justifyContent: 'center'}}>Anna Wang</Text>
-              <EditProfile width="25px" />
+              <EditProfile width="25px" onPress={() => router.push('/EditProfile')}/>
             </View>
             <View style={styles.followersContainer}> 
               <FollowersButton title="Followers" users={123} />
@@ -32,9 +35,9 @@ export default function Profile() {
           Hey there !! My name is Anna and I am a third year Mechatronic Engineering and Science student passionate about upskilling and improving myself.
         </Text>
         <View style={styles.TagContainer}>
-          <Tag title="2nd Year" colour="#8A3FC3" />
-          <Tag title="Engineering" colour="#006e62" />
-          <Tag title="Neuroscience" colour="#3c6392" />
+          <Tag title="2nd Year" colour="#FD7A02" />
+          <Tag title="Engineering" colour="#0087FF" />
+          <Tag title="Neuroscience" colour="#8A3FC3" />
         </View>    
       </View>
 
