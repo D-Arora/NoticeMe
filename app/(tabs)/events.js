@@ -1,7 +1,7 @@
 // screens/Events.js
 import React from "react";
 import { View, Text } from "react-native";
-import { StickerText } from "../../components/stickerText";
+import { StickerText } from "../../components/StickerText";
 import StyledButton from "../../components/StyledButton";
 
 export default function Events() {
@@ -16,13 +16,16 @@ export default function Events() {
       <Text style={{ marginTop: 100 }}>Events Screen</Text>
       <StickerText
         text="Event Details"
-        font="Regular"
+        fontFamily="Regular"
         fontSize={40}
         textColor="#fff"
-        stroke="#016d63"
-        strokeWidth={2}
+        shadowColor="#016d63"
       />
-      <StyledButton title="President" onPress={() => console.log("Create Event")} colourChange={true} />
+      <StyledButton
+        title="President"
+        onPress={() => console.log("Create Event")}
+        colourChange={true}
+      />
     </View>
   );
 }
