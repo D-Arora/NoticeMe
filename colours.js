@@ -1,16 +1,14 @@
 // colors.js
 const lightTheme = {
-    primary: '#7ad1c2',
-    secondary: '#9e5dd4',
-    text: '#006e62',
-    // Other light theme colors
-  };
-  
-const darkTheme = {
-
+  primaryGreen: "#64CEC2",
+  primaryPurple: "#8A3FC3",
+  text: "#006e62",
+  // Other light theme colors
 };
 
+const darkTheme = {};
+
 export default {
-    light: lightTheme,
-    dark: darkTheme,
+  light: lightTheme,
+  dark: darkTheme,
 };

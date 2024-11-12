@@ -9,6 +9,7 @@ import CalendarIcon from "../../assets/icons/calendar.svg";
 import SearchIcon from "../../assets/icons/search.svg";
 import ActivityIcon from "../../assets/icons/activity.svg";
 import ProfileIcon from "../../assets/icons/profile.svg";
+import colours from "../../colours";
 
 export default function TabsLayout() {
   const navigation = useNavigation();
@@ -16,13 +17,13 @@ export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#8A3FC3",
-        tabBarInactiveTintColor: "#64CEC2",
+        tabBarActiveTintColor: colours.light.primaryPurple,
+        tabBarInactiveTintColor: colours.light.primaryGreen,
         tabBarStyle: {
           // margin: 30,
           shadowOpacity: 0,
           borderTopWidth: 3,
-          borderTopColor: "#64CEC2",
+          borderTopColor: colours.light.primaryGreen,
           height: 64,
           paddingTop: 2,
           paddingBottom: 6,
@@ -30,14 +31,14 @@ export default function TabsLayout() {
         tabBarLabelStyle: {
           fontFamily: "Bold",
           fontSize: 14,
-          textShadowColor: "#64CEC2",
+          textShadowColor: colours.light.primaryGreen,
           textShadowRadius: 0,
           textShadowOffset: { width: 0, height: 10 },
         },
         headerTitleAlign: "center",
         headerStyle: {
           borderBottomWidth: 3,
-          borderBottomColor: "#64CEC2",
+          borderBottomColor: colours.light.primaryGreen,
         },
         headerTitle: () => (
           <View style={styles.headerTitleContainer}>
@@ -66,7 +67,7 @@ export default function TabsLayout() {
             <View
               style={[
                 styles.iconContainer,
-                color === "#8A3FC3" && styles.activeIcon,
+                color === colours.light.primaryPurple && styles.activeIcon,
               ]}
             >
               <EventsIcon width={32} height={32} fill={color} />
@@ -82,7 +83,7 @@ export default function TabsLayout() {
             <View
               style={[
                 styles.iconContainer,
-                color === "#8A3FC3" && styles.activeIcon,
+                color === colours.light.primaryPurple && styles.activeIcon,
               ]}
             >
               <CalendarIcon width={32} height={32} fill={color} />
@@ -98,7 +99,7 @@ export default function TabsLayout() {
             <View
               style={[
                 styles.iconContainer,
-                color === "#8A3FC3" && styles.activeIcon,
+                color === colours.light.primaryPurple && styles.activeIcon,
               ]}
             >
               <SearchIcon width={32} height={32} fill={color} />
@@ -114,7 +115,7 @@ export default function TabsLayout() {
             <View
               style={[
                 styles.iconContainer,
-                color === "#8A3FC3" && styles.activeIcon,
+                color === colours.light.primaryPurple && styles.activeIcon,
               ]}
             >
               <ActivityIcon width={32} height={32} fill={color} />
@@ -130,7 +131,7 @@ export default function TabsLayout() {
             <View
               style={[
                 styles.iconContainer,
-                color === "#8A3FC3" && styles.activeIcon,
+                color === colours.light.primaryPurple && styles.activeIcon,
               ]}
             >
               <ProfileIcon width={32} height={32} fill={color} />
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     fontSize: 28,
     fontFamily: "Bold",
-    color: "#64CEC2",
+    color: colours.light.primaryGreen,
     top: 3,
   },
 
@@ -188,6 +189,6 @@ const styles = StyleSheet.create({
 
   activeIcon: {
     strokeWidth: 2,
-    // stroke: "#64CEC2", // Outline color when active
+    // stroke: colours.light.primaryGreen, // Outline color when active
   },
 });

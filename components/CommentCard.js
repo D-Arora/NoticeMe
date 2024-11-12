@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import colours from "../colours";
 
@@ -25,7 +25,7 @@ const CommentCard = ({ onPress, name, time, comment }) => {
 
 const styles = StyleSheet.create({
   shadowContainer: {
-    shadowColor: colours.light.primary,
+    shadowColor: colours.light.primaryGreen,
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 1,
     shadowRadius: 0,
@@ -35,9 +35,9 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 18,
     borderRadius: 30,
-    alignItems: 'center',
+    alignItems: "center",
     backgroundColor: "white",
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   cardThumbnail: {
     flex: 1,
@@ -46,12 +46,12 @@ const styles = StyleSheet.create({
     flex: 3,
   },
   cardDetails: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   smallText: {
     fontSize: 12,
-    color: colours.light.text
+    color: colours.light.text,
   },
   commentText: {
     fontSize: 20,
