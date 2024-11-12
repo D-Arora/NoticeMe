@@ -37,11 +37,6 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        <StatusBar
-          barStyle={Platform.OS === "ios" ? "dark-content" : "light-content"}
-          backgroundColor="transparent"
-          translucent
-        />
         <Slot />
       </SafeAreaView>
     </SafeAreaProvider>
@@ -51,5 +46,6 @@ export default function RootLayout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: -70,
   },
 });

@@ -4,7 +4,7 @@ import { Text, View, StyleSheet } from "react-native";
 
 const StickerText = ({
   text = "placeholder text...",
-  fontSize = 28,
+  fontSize = 30,
   fontFamily = "Regular",
   textColor = "#006D62",
   shadowColor = "#00bfae",

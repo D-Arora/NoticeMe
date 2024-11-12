@@ -1,24 +1,39 @@
+import React from "react";
 import { Tabs, useNavigation } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   StyleSheet,
   View,
   Image,
-  Text,
-  TouchableOpacity,
+  StatusBar,
   Platform,
+  TouchableOpacity,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import colours from "../../colours";
+import StickerText from "../../components/StickerText";
 import Logo from "../../assets/icons/hat-logo.png";
-
 import EventsIcon from "../../assets/icons/events.svg";
 import CalendarIcon from "../../assets/icons/calendar-simplified.svg";
 import SearchIcon from "../../assets/icons/search.svg";
 import ActivityIcon from "../../assets/icons/activity.svg";
 import ProfileIcon from "../../assets/icons/profile.svg";
-import colours from "../../colours";
-import StickerText from "../../components/StickerText";
+
+// Header component within the same file
+const Header = () => {
+  return (
+    <View style={[styles.headerTitleContainer]}>
+      <StatusBar
+        barStyle={Platform.OS === "ios" ? "dark-content" : "light-content"}
+        backgroundColor="transparent"
+        translucent
+      />
+      <Image source={Logo} style={styles.logo} />
+      <StickerText text="NoticeMe" fontFamily="Bold" />
+    </View>
+  );
+};
 
 export default function TabsLayout() {
   const navigation = useNavigation();
@@ -34,12 +49,12 @@ export default function TabsLayout() {
           borderTopWidth: 3,
           borderTopColor: colours.light.primaryGreen,
           height: Platform.select({
-            ios: 64 + insets.bottom,
+            ios: 30 + insets.bottom,
             android: 64,
           }),
           paddingTop: 2,
           paddingBottom: Platform.select({
-            ios: insets.bottom + 6,
+            ios: 0,
             android: 6,
           }),
         },
@@ -55,16 +70,11 @@ export default function TabsLayout() {
           borderBottomWidth: 3,
           borderBottomColor: colours.light.primaryGreen,
           height: Platform.select({
-            ios: 44 + insets.top,
+            ios: 64 + insets.top,
             android: 56 + insets.top,
           }),
         },
-        headerTitle: () => (
-          <View style={styles.headerTitleContainer}>
-            <Image source={Logo} style={styles.logo} />
-            <StickerText text="NoticeMe" fontFamily="Bold" />
-          </View>
-        ),
+        headerTitle: () => <Header />,
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.goBack()}
@@ -78,7 +88,15 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="events/index"
         options={{
-          title: "Events",
+          title: () => (
+            <StickerText
+              text="Events"
+              fontSize="14"
+              textColor={colours.light.primaryGreen}
+              shadowColour={colours.light.text}
+              shadowOffset={1}
+            />
+          ),
           tabBarIcon: ({ color }) => (
             <View
               style={[
@@ -94,7 +112,15 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="calendar"
         options={{
-          title: "Calendar",
+          title: () => (
+            <StickerText
+              text="Calendar"
+              fontSize="14"
+              textColor={colours.light.primaryGreen}
+              shadowColour={colours.light.text}
+              shadowOffset={1}
+            />
+          ),
           tabBarIcon: ({ color }) => (
             <View
               style={[
@@ -110,7 +136,15 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="search"
         options={{
-          title: "Search",
+          title: () => (
+            <StickerText
+              text="Search"
+              fontSize="14"
+              textColor={colours.light.primaryGreen}
+              shadowColour={colours.light.text}
+              shadowOffset={1}
+            />
+          ),
           tabBarIcon: ({ color }) => (
             <View
               style={[
@@ -126,7 +160,15 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="activity"
         options={{
-          title: "Activity",
+          title: () => (
+            <StickerText
+              text="Activity"
+              fontSize="14"
+              textColor={colours.light.primaryGreen}
+              shadowColour={colours.light.text}
+              shadowOffset={1}
+            />
+          ),
           tabBarIcon: ({ color }) => (
             <View
               style={[
@@ -142,7 +184,15 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
+          title: () => (
+            <StickerText
+              text="Profile"
+              fontSize="14"
+              textColor={colours.light.primaryGreen}
+              shadowColour={colours.light.text}
+              shadowOffset={1}
+            />
+          ),
           tabBarIcon: ({ color }) => (
             <View
               style={[
@@ -163,31 +213,20 @@ const styles = StyleSheet.create({
   headerTitleContainer: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
   },
-
   logo: {
     width: 32,
     height: 32,
     marginRight: 5,
     marginTop: 5,
   },
-
-  backButton: {
-    paddingLeft: 10,
-  },
-
   iconContainer: {
     justifyContent: "center",
-    // alignItems: "center",
-    // shadowColor: "#000", // Shadow color
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowOpacity: 0.3, // Shadow opacity
-    // shadowRadius: 4, // Shadow blur
-    // elevation: 5, // Shadow for Android
   },
-
   activeIcon: {
     strokeWidth: 2,
-    // stroke: colours.light.primaryGreen, // Outline color when active
   },
 });
