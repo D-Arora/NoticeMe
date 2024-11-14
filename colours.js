@@ -12,7 +12,9 @@ const darkTheme = {
 
 };
 
+const darkTheme = {};
+
 export default {
-    light: lightTheme,
-    dark: darkTheme,
+  light: lightTheme,
+  dark: darkTheme,
 };

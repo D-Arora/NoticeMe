@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { View, Button, StyleSheet, TouchableOpacity, Text } from "react-native";
 import colours from "../colours";
 
-const StyledButton = ({ onPress, title, colourChange }) => {
+const StyledButton = ({
+  onPress,
+  title,
+  colour,
+  shadowColour,
+  colourChange,
+}) => {
   const [isClicked, setIsClicked] = useState(false);
 
   const handlePress = () => {
@@ -14,11 +20,28 @@ const StyledButton = ({ onPress, title, colourChange }) => {
   };
 
   return (
-    <TouchableOpacity onPress={handlePress} style={styles.shadowContainer}>
-      <View style={[
-        styles.button,
-        { backgroundColor: isClicked ? colours.light.text : colours.light.secondary } // Toggle color based on isClicked state
-      ]}>
+    <TouchableOpacity
+      onPress={handlePress}
+      style={{
+        shadowColor: !shadowColour ? colours.light.primary : shadowColour,
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 1,
+        shadowRadius: 0,
+        elevation: 6,
+      }}
+    >
+      <View
+        style={[
+          styles.button,
+          {
+            backgroundColor: isClicked
+              ? colours.light.text
+              : !colour
+              ? colours.light.secondary
+              : colour,
+          }, // Toggle color based on isClicked state
+        ]}
+      >
         <Text style={styles.buttonText}>{title}</Text>
       </View>
     </TouchableOpacity>
@@ -37,10 +60,10 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 22,
     borderRadius: 30,
-    alignItems: 'center',
+    alignItems: "center",
   },
   buttonText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
   },
 });
