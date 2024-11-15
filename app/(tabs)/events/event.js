@@ -1,4 +1,4 @@
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, Image } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 
 export default function Event() {
@@ -11,11 +11,24 @@ export default function Event() {
         flexDirection: "column",
         alignItems: "center",
         gap: 20,
+        padding: 10,
       }}
     >
-      <Text>Single EVent page</Text>
+      <Text>Single event page</Text>
       <Text>{`title: ${params.title}`}</Text>
       <Text>{`event time: ${params.start} - ${params.end}`}</Text>
+      <Text>{`loation: ${params.location}`}</Text>
+      <Text>{`longitude: ${params.longitude}`}</Text>
+      <Text>{`latitude: ${params.latitude}`}</Text>
+      <Image
+                style={{ width: 300, height: 300, borderRadius: 20 }}
+                resizeMode='contain'
+                source={
+                  !params.image
+                    ? require("../../../assets/adaptive-icon.png")
+                    : { uri: params.image }
+                }
+              />
 
       <View
         style={{

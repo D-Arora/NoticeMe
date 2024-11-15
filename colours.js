@@ -12,7 +12,7 @@ const darkTheme = {
 
 };
 
-const darkTheme = {};
+// const darkTheme = {};
 
 export default {
   light: lightTheme,
