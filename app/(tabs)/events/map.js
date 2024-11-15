@@ -23,6 +23,7 @@ export default function Map() {
   const navigation = useNavigation();
   const params = useLocalSearchParams();
   const mapRef = useRef(null);
+  const markerRef = useRef(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [eventLocation, setEventLocation] = useState({
     latitude: !params.latitude
@@ -45,7 +46,6 @@ export default function Map() {
         </TouchableOpacity>
       ),
     });
-
   }, []);
 
   useEffect(() => {
@@ -61,8 +61,8 @@ export default function Map() {
     };
 
     setEventLocation(location);
-    focusMap(location)
-  }, [mapRef, params.location, params.latitude, params.longitude]);
+    focusMap(location);
+  }, [mapRef, markerRef, params.location, params.latitude, params.longitude]);
 
   const focusMap = (eventLocation) => {
     // mapRef.current?.animateToRegion(eventLocation);
@@ -106,14 +106,18 @@ export default function Map() {
           style={styles.map}
           showsUserLocation={true}
           initialRegion={eventLocation}
+          region={eventLocation}
+          onRegionChange={onRegionChange}
         >
           <Marker
             // isPreselected={true}
             // titleVisibility="visible"
             // subtitleVisibility="visible"
+            ref={markerRef}
+            tappable={false} // when marker is tappable buggy edge cases occur
             coordinate={{
               latitude: eventLocation.latitude,
-              longitude: eventLocation.longitude
+              longitude: eventLocation.longitude,
             }}
             title={!params.location ? "location" : params.location}
             description={`${!params.title ? "title" : params.title} @ ${
@@ -211,7 +215,10 @@ export default function Map() {
                   justifyContent: "center",
                 }}
               >
-                <Pressable style={[styles.button, {flexShrink: 0}]} onPress={openExternalMaps}>
+                <Pressable
+                  style={[styles.button, { flexShrink: 0 }]}
+                  onPress={openExternalMaps}
+                >
                   <View
                     style={{
                       display: "flex",
@@ -224,7 +231,7 @@ export default function Map() {
                   </View>
                 </Pressable>
                 <Pressable
-                  style={[styles.button, {flexShrink: 1}]}
+                  style={[styles.button, { flexShrink: 1 }]}
                   onPress={() => navigation.navigate("events/event", params)}
                 >
                   <View
