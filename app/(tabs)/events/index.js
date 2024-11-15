@@ -9,17 +9,19 @@ export default function Events() {
   const [events, setEvents] = useState([
     {
       title: "Meeting",
-      image: 'https://pbs.twimg.com/media/Gatqoa5aoAA1tqA?format=jpg&name=medium',
+      image:
+        "https://pbs.twimg.com/media/Gatqoa5aoAA1tqA?format=jpg&name=medium",
       start: dayjs().set("hour", 10).set("minute", 0).toDate(),
       end: dayjs().set("hour", 10).set("minute", 30).toDate(),
       color: "#008033",
-      latitude: -33.856521540,
+      latitude: -33.85652154,
       longitude: 151.215339612,
       location: "Sydney Opera House, Sydney",
     },
     {
       title: "UNSW Library Study Session",
-      image: 'https://pbs.twimg.com/media/GYNX098akAEL6_g?format=jpg&name=medium',
+      image:
+        "https://pbs.twimg.com/media/GYNX098akAEL6_g?format=jpg&name=medium",
       start: dayjs().set("hour", 10).set("minute", 0).toDate(),
       end: dayjs().set("hour", 10).set("minute", 30).toDate(),
       color: "red",

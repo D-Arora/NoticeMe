@@ -21,14 +21,14 @@ export default function Event() {
       <Text>{`longitude: ${params.longitude}`}</Text>
       <Text>{`latitude: ${params.latitude}`}</Text>
       <Image
-                style={{ width: 300, height: 300, borderRadius: 20 }}
-                resizeMode='contain'
-                source={
-                  !params.image
-                    ? require("../../../assets/adaptive-icon.png")
-                    : { uri: params.image }
-                }
-              />
+        style={{ width: 300, height: 300, borderRadius: 20 }}
+        resizeMode="contain"
+        source={
+          !params.image
+            ? require("../../../assets/adaptive-icon.png")
+            : { uri: params.image }
+        }
+      />
 
       <View
         style={{
@@ -38,10 +38,15 @@ export default function Event() {
         }}
       >
         <Text>{`this box uses this colour ${params.color} or maybe a default color of white`}</Text>
-        <Button title="Go to this event map" onPress={() => router.push({
-          pathname: "/events/map",
-          params
-        })} />
+        <Button
+          title="Go to this event map"
+          onPress={() =>
+            router.push({
+              pathname: "/events/map",
+              params,
+            })
+          }
+        />
       </View>
       <Button title="Go to all events" onPress={() => router.push("/events")} />
     </View>
