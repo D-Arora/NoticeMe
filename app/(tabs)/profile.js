@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, ImageBackground } from "react-native";
+import { useRouter } from 'expo-router';
 import ProfileBackground from '../../assets/ProfileBackgroundGradient.svg';
 import EditProfile from '../../assets/icons/EditProfile.svg';
 import Tag from "../../components/Tag";
@@ -9,33 +10,37 @@ import ProfileInterface from "../../components/ProfileInterface";
 import CommentCard from "../../components/CommentCard";
 
 export default function Profile() {
+  const router = useRouter();
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       {/* top of profile */}
       <View style={styles.header}>
-        <ProfileBackground style={styles.background} />
-        
-        <View style={styles.profileBar}>
-          <View style={styles.profilePicture}></View>
-          <View style={{ flex: 1 }}>
-            <View style={{flexDirection: 'row', padding: 10, justifyContent: "space-around"}}>
-              <Text style={{fontSize: 30, color: "white", justifyContent: 'center'}}>Anna Wang</Text>
-              <EditProfile width="25px" />
-            </View>
-            <View style={styles.followersContainer}> 
-              <FollowersButton title="Followers" users={123} />
-              <FollowersButton title="Following" users={2078} />
+        <ProfileBackground style={styles.profileBG} />
+        <View style={styles.background}>
+
+          <View style={styles.profileBar}>
+            <View style={styles.profilePicture}></View>
+            <View style={{ flex: 1 }}>
+              <View style={{ flexDirection: 'row', padding: 10, justifyContent: "space-around" }}>
+                <Text style={{ fontSize: 30, color: "white", justifyContent: 'center' }}>Anna Wang</Text>
+                <EditProfile width="25px" onPress={() => router.push('/EditProfile')} />
+              </View>
+              <View style={styles.followersContainer}>
+                <FollowersButton title="Followers" users={123} />
+                <FollowersButton title="Following" users={2078} />
+              </View>
             </View>
           </View>
+          <Text style={styles.description}>
+            Hey there !! My name is Anna and I am a third year Mechatronic Engineering and Science student passionate about upskilling and improving myself.
+          </Text>
+          <View style={styles.TagContainer}>
+            <Tag title="2nd Year" colour="#FD7A02" />
+            <Tag title="Engineering" colour="#0087FF" />
+            <Tag title="Neuroscience" colour="#8A3FC3" />
+          </View>
         </View>
-        <Text style={styles.description}>
-          Hey there !! My name is Anna and I am a third year Mechatronic Engineering and Science student passionate about upskilling and improving myself.
-        </Text>
-        <View style={styles.TagContainer}>
-          <Tag title="2nd Year" colour="#8A3FC3" />
-          <Tag title="Engineering" colour="#006e62" />
-          <Tag title="Neuroscience" colour="#3c6392" />
-        </View>    
       </View>
 
       {/* bottom of profile */}
@@ -47,7 +52,7 @@ export default function Profile() {
         <Text style={styles.heading1}>Recently Commented</Text>
         <CommentCard name="NeuroSoc 2024 AGM" time="3 hours ago" comment="Yall cooked" />
       </View>
-    </ScrollView>
+    </ScrollView >
   );
 }
 
@@ -63,14 +68,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly'
   },
   background: {
+    display: 'flex',
+  },
+  profileBG: {
+    zIndex: -1,
     position: 'absolute',
     top: 0,
-    bottom: 0,
     left: 0,
-    right: 0,
     width: '100%',
     height: '100%',
-    resizeMode: 'cover'
   },
   profilePicture: {
     backgroundColor: 'white',
