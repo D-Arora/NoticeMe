@@ -7,6 +7,7 @@ import {
   View,
   Image,
   Platform,
+  TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "expo-router";
 import { useLocalSearchParams } from "expo-router";
@@ -15,6 +16,7 @@ import EvilIcons from "@expo/vector-icons/EvilIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import Map from "../../../components/Map"; // will auto choose native or web
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function MapPage() {
   const navigation = useNavigation();
@@ -29,6 +31,19 @@ export default function MapPage() {
       : parseFloat(params.longitude),
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
+  });
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.navigate("events/event", params)}
+          style={{ paddingLeft: 10 }}
+        >
+          <MaterialIcons name="arrow-back" size={32} color="#006e62" />
+        </TouchableOpacity>
+      ),
+    });
   });
 
   useEffect(() => {
@@ -62,7 +77,7 @@ export default function MapPage() {
         regionLocation.longitude +
         "?q=" +
         params.location,
-      web: `http://maps.google.com/maps?q=${params.location}`
+      web: `http://maps.google.com/maps?q=${params.location}`,
     });
     Linking.openURL(url);
   };

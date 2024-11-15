@@ -1,9 +1,26 @@
-import { View, Text, Button, Image } from "react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import { View, Text, Button, Image, TouchableOpacity } from "react-native";
+import { useRouter, useLocalSearchParams, useNavigation } from "expo-router";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useEffect } from "react";
 
 export default function Event() {
+  const navigation = useNavigation();
   const router = useRouter();
   const params = useLocalSearchParams();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.navigate("events/index")}
+          style={{ paddingLeft: 10 }}
+        >
+          <MaterialIcons name="arrow-back" size={32} color="#006e62" />
+        </TouchableOpacity>
+      ),
+    });
+  });
+
   return (
     <View
       style={{
