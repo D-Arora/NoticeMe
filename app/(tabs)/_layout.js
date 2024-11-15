@@ -1,4 +1,4 @@
-import { Tabs, useNavigation } from "expo-router";
+import { Stack, Tabs, useNavigation } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import colours from "../../colours";
