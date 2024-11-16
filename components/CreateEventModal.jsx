@@ -11,12 +11,33 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 
+const defaultEvent = {
+  title: 'title',
+  start: new Date(),
+  end: new Date(),
+  color: "#7ad1c2",
+  latitude: -33.85652154,
+  longitude: 151.215339612,
+  location: "Sydney Opera House, Sydney",
+};
+
 export const CreateEventModal = ({ isVisible, setIsVisible, onSubmit }) => {
   const router = useRouter();
   const [event, setEvent] = useState({});
 
   const updateEvent = (key, value) => {
     setEvent({ ...event, [key]: value });
+  };
+
+  const submitEvent = () => {
+    const eventObj = event;
+    for (const [key, defaultValue] of Object.entries(defaultEvent)) {
+      if (!eventObj[key]) {
+        eventObj[key] = defaultValue;
+      }
+    }
+    onSubmit(eventObj);
+    setIsVisible(false);
   };
 
   return (
@@ -59,10 +80,7 @@ export const CreateEventModal = ({ isVisible, setIsVisible, onSubmit }) => {
             </Pressable>
             <Text>Create Event</Text>
             <Pressable
-              onPress={() => {
-                setIsVisible(false);
-                onSubmit(event);
-              }}
+              onPress={submitEvent}
             >
               <View>
                 <Text style={{ color: "blue" }}> Done</Text>
@@ -106,7 +124,7 @@ export const CreateEventModal = ({ isVisible, setIsVisible, onSubmit }) => {
             <Text>Color</Text>
             <TextInput
               placeholderTextColor="gray"
-              placeholder="Enter color"
+              placeholder="Enter color to reduce the number of clicks users need to input, colour will be calculated automatically as the average colour of the image they input"
               value={event.color}
               onChangeText={(text) => updateEvent("color", text)}
             />

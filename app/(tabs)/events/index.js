@@ -7,19 +7,21 @@ import {
   StyleSheet,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import StyledButton from "../../../components/StyledButton";
 import { StickerText } from "../../../components/StickerText";
 import { Entypo } from "@expo/vector-icons";
 import { CreateEventModal } from "../../../components/CreateEventModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { CreateEventModal } from "./CreateEventModal";
 
-const defaultEvents = [
+export const EVENTS_STORE_KEY = "@events";
+
+export const defaultEvents = [
   {
     title: "Meeting",
-    image:
-      "https://pbs.twimg.com/media/Gatqoa5aoAA1tqA?format=jpg&name=medium",
+    image: "https://pbs.twimg.com/media/Gatqoa5aoAA1tqA?format=jpg&name=medium",
     start: dayjs().set("hour", 10).set("minute", 0).toDate(),
     end: dayjs().set("hour", 10).set("minute", 30).toDate(),
     color: "#008033",
@@ -29,8 +31,7 @@ const defaultEvents = [
   },
   {
     title: "UNSW Library Study Session",
-    image:
-      "https://pbs.twimg.com/media/GYNX098akAEL6_g?format=jpg&name=medium",
+    image: "https://pbs.twimg.com/media/GYNX098akAEL6_g?format=jpg&name=medium",
     start: dayjs().set("hour", 10).set("minute", 0).toDate(),
     end: dayjs().set("hour", 10).set("minute", 30).toDate(),
     color: "red",
@@ -116,11 +117,36 @@ const defaultEvents = [
 
 export default function Events() {
   const router = useRouter();
-  const [events, setEvents] = useState(defaultEvents);
+  const [events, setEvents] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const pushEvent = (newEvent) => {
     setEvents([...events, newEvent]);
   };
+
+  useEffect(() => {
+    const getEventsFromAsyncStorage = async () => {
+      const storedEvents = await AsyncStorage.getItem(EVENTS_STORE_KEY);
+      if (!storedEvents) {
+        setEvents(defaultEvents);
+        await AsyncStorage.setItem(
+          EVENTS_STORE_KEY,
+          JSON.stringify(defaultEvents)
+        );
+      } else {
+        setEvents(JSON.parse(storedEvents));
+      }
+    };
+
+    getEventsFromAsyncStorage();
+  }, []);
+
+  useEffect(() => {
+    const saveEventsToAsyncStorage = async () => {
+      await AsyncStorage.setItem(EVENTS_STORE_KEY, JSON.stringify(events));
+    };
+
+    saveEventsToAsyncStorage();
+  }, [events]);
 
   return (
     <View style={styles.container}>
