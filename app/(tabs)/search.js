@@ -10,11 +10,13 @@ import {
   ScrollView,
 } from "react-native";
 import { defaultEvents, EVENTS_STORE_KEY } from "./events";
+import { defaultUsers } from "./profile";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function Search() {
   const navigation = useNavigation();
   const [events, setEvents] = useState([]);
+  const [users, setUsers] = useState([]);
   const [searchInput, setSearchInput] = useState("");
 
   const categories = {
@@ -27,18 +29,22 @@ export default function Search() {
 
   const [filterPredicates, setFilterPredicates] = useState({
     eventsInFuture: {
+      categories: [categories.events],
       isEnabled: false,
       predicateFn: (e) => new Date(e.end) > new Date(),
     },
-    EventsWith_S_inTitle: {
+    hasWith_S_inTitle: {
+      categories: [categories.events],
       isEnabled: false,
       predicateFn: (e) => e.title.toLowerCase().includes("s"),
     },
     EventsWithDefinedColour: {
+      categories: [categories.events],
       isEnabled: false,
       predicateFn: (e) => !!e.color,
     },
-    EventsWithImage: {
+    hasImage: {
+      categories: [categories.events, categories.accounts],
       isEnabled: false,
       predicateFn: (e) => !!e.image,
     },
@@ -47,18 +53,32 @@ export default function Search() {
 
   const [sortComparators, setSortComparators] = useState({
     sortByStartTime: {
-      isEnabled: false,
-      comparatorFn: (a, b) => new Date(a.start) - new Date(b.start), // Sorts events by start time in ascending order
-    },
-    sortByTitle: {
+      categories: [categories.events],
       isEnabled: false,
       comparatorFn: (a, b) =>
-        a.title.localeCompare(b.title, undefined, { sensitivity: "base" }),
+        a.start && b.start ? new Date(a.start) - new Date(b.start) : 0, // Sorts events by start time in ascending order
+    },
+    sortByTitle: {
+      categories: [categories.events, categories.accounts],
+      isEnabled: false,
+      comparatorFn: (a, b) => {
+        if (a.title && b.title) {
+          return a.title.localeCompare(b.title, undefined, {
+            sensitivity: "base",
+          });
+        }
+        if (a.name && b.name) {
+          return a.name.localeCompare(b.name, undefined, {
+            sensitivity: "base",
+          });
+        }
+      },
     },
     // Todo other comparators
   });
 
   const [filterdEvents, setFilteredEvents] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
   const getEventsFromAsyncStorage = async () => {
     const storedEvents = await AsyncStorage.getItem(EVENTS_STORE_KEY);
@@ -77,6 +97,7 @@ export default function Search() {
 
   useEffect(() => {
     getEventsFromAsyncStorage();
+    setUsers(defaultUsers);
   }, []);
 
   useFocusEffect(
@@ -112,6 +133,28 @@ export default function Search() {
 
     setFilteredEvents(updatedEvents);
   }, [searchInput, filterPredicates, sortComparators, events]);
+
+  useEffect(() => {
+    let updatedUsers = users.filter((user) =>
+      Object.values(filterPredicates)
+        .filter((x) => x.isEnabled)
+        .every(({ predicateFn }) => predicateFn(user))
+    );
+
+    if (searchInput !== "") {
+      updatedUsers = updatedUsers.filter((event) =>
+        event.title.toLowerCase().includes(searchInput.toLowerCase())
+      );
+    }
+
+    Object.values(sortComparators)
+      .filter((x) => x.isEnabled)
+      .forEach(({ comparatorFn }) => {
+        updatedUsers.sort(comparatorFn);
+      });
+
+    setFilteredUsers(updatedUsers);
+  }, [searchInput, filterPredicates, sortComparators, users]);
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -170,8 +213,12 @@ export default function Search() {
           padding: 10,
         }}
       >
-        {Object.entries(filterPredicates).map(
-          ([predicateKey, { isEnabled }], index) => (
+        {Object.entries(filterPredicates)
+          .filter(
+            ([_, val]) =>
+              category == categories.all || val.categories.includes(category)
+          )
+          .map(([predicateKey, { isEnabled }], index) => (
             <Pressable
               key={index}
               style={{
@@ -205,8 +252,7 @@ export default function Search() {
                 <Text numberOfLines={1}>{predicateKey}</Text>
               </View>
             </Pressable>
-          )
-        )}
+          ))}
       </View>
 
       <Text>SOrting one at a time!!</Text>
@@ -219,8 +265,12 @@ export default function Search() {
           padding: 10,
         }}
       >
-        {Object.entries(sortComparators).map(
-          ([comparatorKey, { isEnabled }], index) => (
+        {Object.entries(sortComparators)
+          .filter(
+            ([_, val]) =>
+              category == categories.all || val.categories.includes(category)
+          )
+          .map(([comparatorKey, { isEnabled }], index) => (
             <Pressable
               key={index}
               style={{
@@ -260,8 +310,7 @@ export default function Search() {
                 <Text numberOfLines={1}>{comparatorKey}</Text>
               </View>
             </Pressable>
-          )
-        )}
+          ))}
       </View>
 
       <Text>Results</Text>
@@ -370,7 +419,107 @@ export default function Search() {
       {(category == categories.all || category == categories.accounts) && (
         <>
           <Text>Accounts</Text>
-          <Text>Some Accounts should be here???</Text>
+          <ScrollView
+            horizontal={false}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 50,
+              padding: 10,
+              width: "100%",
+            }}
+          >
+            <View style={{ gap: 10, padding: 10, width: "100%" }}>
+              {filteredUsers.map((params, index) => (
+                <Pressable
+                  key={index}
+                  onPress={() =>
+                    navigation.navigate("profile", {
+                      ...params,
+                      faculties: JSON.stringify(params.faculties),
+                      societies: JSON.stringify(params.societies),
+                      comments: JSON.stringify(params.comments),
+                    })
+                  }
+                >
+                  <View
+                    style={{
+                      padding: 10,
+                      borderRadius: 28,
+                      backgroundColor: "white",
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginLeft: 10,
+                      marginRight: 10,
+                      width: "100%",
+                      gap: 10,
+                      shadowColor: "#64CEC2",
+                      shadowOffset: { width: 0, height: 5 },
+                      shadowOpacity: 1,
+                      shadowRadius: 0,
+                      elevation: 6,
+                      padding: 10,
+                    }}
+                  >
+                    <Image
+                      style={{ width: 100, height: 100, borderRadius: 20 }}
+                      resizeMode="cover"
+                      source={
+                        !params.image
+                          ? require("../../assets/adaptive-icon.png")
+                          : { uri: params.image }
+                      }
+                    />
+                    <View style={{ overflow: "scroll", flexShrink: 1 }}>
+                      <Text
+                        style={{
+                          color: "#006D62",
+                          fontFamily: "Bold",
+                          fontSize: 30,
+                        }}
+                        numberOfLines={1}
+                      >
+                        {!params.name ? "undefined title" : params.name}
+                      </Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 5,
+                          alignItems: "center",
+                        }}
+                      >
+                        <Ionicons name="time" size={24} color="#006D62" />
+                        <Text style={{ color: "#006D62" }} numberOfLines={1}>
+                          {!params.description
+                            ? "undefined description"
+                            : params.description}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 5,
+                          alignItems: "center",
+                        }}
+                      >
+                        <Ionicons
+                          name="location-sharp"
+                          size={24}
+                          color="#006D62"
+                        />
+                        <Text style={{ color: "#006D62" }} numberOfLines={1}>
+                          {!params.year ? "undefined year" : params.year}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </Pressable>
+              ))}
+            </View>
+          </ScrollView>
         </>
       )}
     </View>
