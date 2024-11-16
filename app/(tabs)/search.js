@@ -23,7 +23,7 @@ export default function Search() {
     accounts: "accounts",
   };
 
-  const [category, setCategory] = useState(categories.all); // maybe something like this for if user wants to search for categories or whateva
+  const [category, setCategory] = useState(categories.all);
 
   const [filterPredicates, setFilterPredicates] = useState({
     eventsInFuture: {
@@ -266,7 +266,7 @@ export default function Search() {
 
       <Text>Results</Text>
 
-      {(category == "all" || category == "events") && (
+      {(category == categories.all || category == categories.events) && (
         <>
           <Text>Events</Text>
           <ScrollView
@@ -367,7 +367,7 @@ export default function Search() {
         </>
       )}
 
-      {(category == "all" || category == "accounts") && (
+      {(category == categories.all || category == categories.accounts) && (
         <>
           <Text>Accounts</Text>
           <Text>Some Accounts should be here???</Text>
