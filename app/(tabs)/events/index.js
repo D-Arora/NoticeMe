@@ -5,13 +5,14 @@ import {
   Pressable,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import StyledButton from "../../../components/StyledButton";
 import { StickerText } from "../../../components/StickerText";
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, Ionicons } from "@expo/vector-icons";
 import { CreateEventModal } from "../../../components/CreateEventModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { CreateEventModal } from "./CreateEventModal";
@@ -19,6 +20,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const EVENTS_STORE_KEY = "@events";
 
 export const defaultEvents = [
+  {
+    title: "Yesterday's event",
+    image: "https://pbs.twimg.com/media/GYIsHsVbQAAElEQ?format=png&name=medium",
+    start: dayjs().add(-1, "day").set("hour", 10).set("minute", 0).toDate(),
+    end: dayjs().add(-1, "day").set("hour", 10).set("minute", 30).toDate(),
+    color: "cyan",
+    latitude: -33.85652154,
+    longitude: 151.215339612,
+    location: "Sydney Opera House, Sydney",
+  },
   {
     title: "Meeting",
     image: "https://pbs.twimg.com/media/Gatqoa5aoAA1tqA?format=jpg&name=medium",
@@ -116,12 +127,34 @@ export const defaultEvents = [
 ];
 
 export default function Events() {
+  const navigation = useNavigation();
   const router = useRouter();
   const [events, setEvents] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const pushEvent = (newEvent) => {
     setEvents([...events, newEvent]);
   };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => {
+            AsyncStorage.clear();
+            setEvents(defaultEvents);
+          }}
+          style={{
+            paddingLeft: 10,
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Text>Clear AsyncStorage</Text>
+          <Ionicons name="trash" size={32} color="red" />
+        </TouchableOpacity>
+      ),
+    });
+  });
 
   useEffect(() => {
     const getEventsFromAsyncStorage = async () => {
@@ -151,31 +184,33 @@ export default function Events() {
   return (
     <View style={styles.container}>
       <StickerText text="Event Details" fontFamily="Regular" fontSize={40} />
-      <View style={{ gap: 10 }}>
-        {events.map((x, index) => (
-          <StyledButton
-            key={index}
-            title={x.title}
-            colour={x.color}
-            shadowColour={["black", "green", "red", "blue"][index % 4]}
-            onPress={() =>
-              router.push({
-                pathname: "events/event",
-                params: {
-                  title: x.title,
-                  image: x.image,
-                  start: x.start,
-                  end: x.end,
-                  color: x.color,
-                  latitude: x.latitude,
-                  longitude: x.longitude,
-                  location: x.location,
-                },
-              })
-            }
-          />
-        ))}
-      </View>
+      <ScrollView>
+        <View style={{ gap: 10 }}>
+          {events.map((x, index) => (
+            <StyledButton
+              key={index}
+              title={x.title}
+              colour={x.color}
+              shadowColour={["black", "green", "red", "blue"][index % 4]}
+              onPress={() =>
+                router.push({
+                  pathname: "events/event",
+                  params: {
+                    title: x.title,
+                    image: x.image,
+                    start: x.start,
+                    end: x.end,
+                    color: x.color,
+                    latitude: x.latitude,
+                    longitude: x.longitude,
+                    location: x.location,
+                  },
+                })
+              }
+            />
+          ))}
+        </View>
+      </ScrollView>
       <CreateEventModal
         isVisible={isModalVisible}
         setIsVisible={setIsModalVisible}
