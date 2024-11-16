@@ -172,7 +172,9 @@ export default function Search() {
           onPress={() => setHideContraints(!hideContraints)}
         >
           <FontAwesome name="sliders" size={24} color="black" />
-          <Text>show extra filters / sorting methods</Text>
+          <Text>{`${
+            hideContraints ? "show" : "hide"
+          } extra filters / sorting methods`}</Text>
         </Pressable>
       </View>
       {!hideContraints && (
