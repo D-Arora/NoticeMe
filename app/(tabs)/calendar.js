@@ -53,7 +53,7 @@ export default function Calendar() {
       setEvents(parsedEvents);
     }
   };
-  
+
   useEffect(() => {
     getEventsFromAsyncStorage();
   }, []);
