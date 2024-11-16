@@ -101,6 +101,16 @@ export const defaultEvents = [
     location: "Museum of Contemporary Art, Sydney",
   },
   {
+    title: "Hello what the sigma??!!!",
+    image: "https://pbs.twimg.com/media/GYIr_pKagAAMekb?format=jpg&name=medium",
+    start: dayjs().add(1, "day").set("hour", 12).set("minute", 30).toDate(),
+    end: dayjs().add(1, "day").set("hour", 13).set("minute", 45).toDate(),
+    color: "blue",
+    latitude: -33.8611,
+    longitude: 151.2106,
+    location: "Museum of Contemporary Art, Sydney",
+  },
+  {
     title: "Visit Art Gallery",
     start: dayjs().add(2, "day").set("hour", 14).set("minute", 0).toDate(),
     end: dayjs().add(2, "day").set("hour", 15).set("minute", 30).toDate(),

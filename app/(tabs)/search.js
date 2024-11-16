@@ -23,13 +23,17 @@ export default function Search() {
       isEnabled: false,
       predicateFn: (e) => new Date(e.end) > new Date(),
     },
-    EventsWithEinTitle: {
+    EventsWithSinTitle: {
       isEnabled: false,
-      predicateFn: (e) => e.title.toLowerCase().includes("e"),
+      predicateFn: (e) => e.title.toLowerCase().includes("s"),
     },
     EventsWithADefinedColour: {
       isEnabled: false,
       predicateFn: (e) => !!e.color,
+    },
+    EventsWithAImage: {
+      isEnabled: false,
+      predicateFn: (e) => !!e.image,
     },
   });
 
@@ -84,10 +88,19 @@ export default function Search() {
         onChangeText={(x) => setSearchInput(x)}
       />
 
-      <View style={{ flexDirection: "row", gap: 10 }}>
+      <View
+        style={{
+          flexDirection: "row",
+          gap: 10,
+          width: "100%",
+          flexWrap: "wrap",
+          padding: 10,
+        }}
+      >
         {Object.entries(filterPredicates).map(
-          ([predicateKey, { isEnabled, predicateFn }]) => (
+          ([predicateKey, { isEnabled }], index) => (
             <Pressable
+              key={index}
               style={{
                 shadowColor: "#64CEC2",
                 shadowOffset: { width: 0, height: 5 },
