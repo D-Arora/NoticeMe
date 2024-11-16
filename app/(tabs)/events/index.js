@@ -164,7 +164,7 @@ export default function Events() {
         </TouchableOpacity>
       ),
     });
-  });
+  }, []);
 
   useEffect(() => {
     const getEventsFromAsyncStorage = async () => {
