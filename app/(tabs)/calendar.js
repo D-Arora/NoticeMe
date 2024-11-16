@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
-import React, { useEffect, useRef, useState } from "react";
-import { useRouter } from "expo-router";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useFocusEffect, useRouter } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import {
   Pressable,
@@ -36,27 +36,39 @@ export default function Calendar() {
   const [date, setDate] = useState(new Date());
   const [events, setEvents] = useState([]);
 
+  const getEventsFromAsyncStorage = async () => {
+    const storedEvents = await AsyncStorage.getItem(EVENTS_STORE_KEY);
+    if (!storedEvents) {
+      setEvents(defaultEvents);
+      await AsyncStorage.setItem(
+        EVENTS_STORE_KEY,
+        JSON.stringify(defaultEvents)
+      );
+    } else {
+      const parsedEvents = JSON.parse(storedEvents).map((event) => ({
+        ...event,
+        start: new Date(event.start),
+        end: new Date(event.end),
+      }));
+      setEvents(parsedEvents);
+    }
+  };
+  
   useEffect(() => {
-    const getEventsFromAsyncStorage = async () => {
-      const storedEvents = await AsyncStorage.getItem(EVENTS_STORE_KEY);
-      if (!storedEvents) {
-        setEvents(defaultEvents);
-        await AsyncStorage.setItem(
-          EVENTS_STORE_KEY,
-          JSON.stringify(defaultEvents)
-        );
-      } else {
-        const parsedEvents = JSON.parse(storedEvents).map((event) => ({
-          ...event,
-          start: new Date(event.start),
-          end: new Date(event.end),
-        }));
-        setEvents(parsedEvents);
-      }
-    };
-
     getEventsFromAsyncStorage();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      // Invoked whenever the route is focused. (incase asyncstorage has changed)
+      getEventsFromAsyncStorage();
+
+      // Return function is invoked whenever the route gets out of focus.
+      return () => {
+        console.log("This route is now unfocused.");
+      };
+    }, [])
+  );
 
   useEffect(() => {
     setCalendarHeight(bigCalendarConatiner.current.clientHeight);

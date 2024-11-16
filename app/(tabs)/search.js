@@ -1,5 +1,6 @@
+import { useFocusEffect } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -38,24 +39,37 @@ export default function Search() {
   });
 
   const [filterdEvents, setFilteredEvents] = useState([]);
+
+  const getEventsFromAsyncStorage = async () => {
+    const storedEvents = await AsyncStorage.getItem(EVENTS_STORE_KEY);
+    if (!storedEvents) {
+      setEvents(defaultEvents);
+      await AsyncStorage.setItem(
+        EVENTS_STORE_KEY,
+        JSON.stringify(defaultEvents)
+      );
+    } else {
+      setEvents(JSON.parse(storedEvents));
+    }
+
+    setFilteredEvents(events);
+  };
+
   useEffect(() => {
-    const getEventsFromAsyncStorage = async () => {
-      const storedEvents = await AsyncStorage.getItem(EVENTS_STORE_KEY);
-      if (!storedEvents) {
-        setEvents(defaultEvents);
-        await AsyncStorage.setItem(
-          EVENTS_STORE_KEY,
-          JSON.stringify(defaultEvents)
-        );
-      } else {
-        setEvents(JSON.parse(storedEvents));
-      }
-
-      setFilteredEvents(events);
-    };
-
     getEventsFromAsyncStorage();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      // Invoked whenever the route is focused. (incase asyncstorage has changed)
+      getEventsFromAsyncStorage();
+
+      // Return function is invoked whenever the route gets out of focus.
+      return () => {
+        console.log("This route is now unfocused.");
+      };
+    }, [])
+  );
 
   useEffect(() => {
     if (searchInput == "") {
