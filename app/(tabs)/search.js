@@ -11,13 +11,14 @@ import {
 } from "react-native";
 import { defaultEvents, EVENTS_STORE_KEY } from "./events";
 import { defaultUsers } from "./profile";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome } from "@expo/vector-icons";
 
 export default function Search() {
   const navigation = useNavigation();
   const [events, setEvents] = useState([]);
   const [users, setUsers] = useState([]);
   const [searchInput, setSearchInput] = useState("");
+  const [hideContraints, setHideContraints] = useState(true);
 
   const categories = {
     all: "all",
@@ -159,159 +160,175 @@ export default function Search() {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>Search Screen</Text>
-      <TextInput
-        placeholder="Search"
-        defaultValue={""}
-        onChangeText={(x) => setSearchInput(x)}
-      />
-      <Text>Categories!!!!!!!!!!!!!</Text>
-      <View
-        style={{
-          flexDirection: "row",
-          gap: 10,
-          width: "100%",
-          flexWrap: "wrap",
-          padding: 10,
-        }}
-      >
-        {Object.values(categories).map((x, index) => (
-          <Pressable
-            key={index}
+      <View stlye={{ flexDirection: "row", gap: 10 }}>
+        <TextInput
+          style={{ backgroundColor: "white" }}
+          placeholder="Search"
+          defaultValue={""}
+          onChangeText={(x) => setSearchInput(x)}
+        />
+        <Pressable
+          style={{ flexDirection: "row", gap: 10 }}
+          onPress={() => setHideContraints(!hideContraints)}
+        >
+          <FontAwesome name="sliders" size={24} color="black" />
+          <Text>show extra filters / sorting methods</Text>
+        </Pressable>
+      </View>
+      {!hideContraints && (
+        <>
+          <Text>Categories!!!!!!!!!!!!!</Text>
+          <View
             style={{
-              shadowColor: "#64CEC2",
-              shadowOffset: { width: 0, height: 5 },
-              shadowOpacity: 1,
-              shadowRadius: 0,
-              elevation: 6,
-              backgroundColor: x !== category ? "#F7F7F7" : "purple",
-              borderRadius: 28,
+              flexDirection: "row",
+              gap: 10,
+              width: "100%",
+              flexWrap: "wrap",
               padding: 10,
-              justifyContent: "center",
             }}
-            onPress={() => setCategory(x)}
           >
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Text numberOfLines={1}>{x}</Text>
-            </View>
-          </Pressable>
-        ))}
-      </View>
-
-      <Text>Filtering!!!</Text>
-      <View
-        style={{
-          flexDirection: "row",
-          gap: 10,
-          width: "100%",
-          flexWrap: "wrap",
-          padding: 10,
-        }}
-      >
-        {Object.entries(filterPredicates)
-          .filter(
-            ([_, val]) =>
-              category == categories.all || val.categories.includes(category)
-          )
-          .map(([predicateKey, { isEnabled }], index) => (
-            <Pressable
-              key={index}
-              style={{
-                shadowColor: "#64CEC2",
-                shadowOffset: { width: 0, height: 5 },
-                shadowOpacity: 1,
-                shadowRadius: 0,
-                elevation: 6,
-                backgroundColor: !isEnabled ? "#F7F7F7" : "red",
-                borderRadius: 28,
-                padding: 10,
-                justifyContent: "center",
-              }}
-              onPress={() =>
-                setFilterPredicates((prev) => ({
-                  ...prev,
-                  [predicateKey]: {
-                    ...prev[predicateKey],
-                    isEnabled: !filterPredicates[predicateKey].isEnabled,
-                  },
-                }))
-              }
-            >
-              <View
+            {Object.values(categories).map((x, index) => (
+              <Pressable
+                key={index}
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
+                  shadowColor: "#64CEC2",
+                  shadowOffset: { width: 0, height: 5 },
+                  shadowOpacity: 1,
+                  shadowRadius: 0,
+                  elevation: 6,
+                  backgroundColor: x !== category ? "#F7F7F7" : "purple",
+                  borderRadius: 28,
+                  padding: 10,
+                  justifyContent: "center",
                 }}
+                onPress={() => setCategory(x)}
               >
-                <Text numberOfLines={1}>{predicateKey}</Text>
-              </View>
-            </Pressable>
-          ))}
-      </View>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text numberOfLines={1}>{x}</Text>
+                </View>
+              </Pressable>
+            ))}
+          </View>
 
-      <Text>SOrting one at a time!!</Text>
-      <View
-        style={{
-          flexDirection: "row",
-          gap: 10,
-          width: "100%",
-          flexWrap: "wrap",
-          padding: 10,
-        }}
-      >
-        {Object.entries(sortComparators)
-          .filter(
-            ([_, val]) =>
-              category == categories.all || val.categories.includes(category)
-          )
-          .map(([comparatorKey, { isEnabled }], index) => (
-            <Pressable
-              key={index}
-              style={{
-                shadowColor: "#64CEC2",
-                shadowOffset: { width: 0, height: 5 },
-                shadowOpacity: 1,
-                shadowRadius: 0,
-                elevation: 6,
-                backgroundColor: !isEnabled ? "#F7F7F7" : "blue",
-                borderRadius: 28,
-                padding: 10,
-                justifyContent: "center",
-              }}
-              onPress={() =>
-                setSortComparators((prev) => {
-                  const newComparators = Object.fromEntries(
-                    Object.entries(prev).map(([key, value]) => [
-                      key,
-                      {
-                        ...value,
-                        isEnabled:
-                          key === comparatorKey ? !value.isEnabled : false,
+          <Text>Filtering!!!</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 10,
+              width: "100%",
+              flexWrap: "wrap",
+              padding: 10,
+            }}
+          >
+            {Object.entries(filterPredicates)
+              .filter(
+                ([_, val]) =>
+                  category == categories.all ||
+                  val.categories.includes(category)
+              )
+              .map(([predicateKey, { isEnabled }], index) => (
+                <Pressable
+                  key={index}
+                  style={{
+                    shadowColor: "#64CEC2",
+                    shadowOffset: { width: 0, height: 5 },
+                    shadowOpacity: 1,
+                    shadowRadius: 0,
+                    elevation: 6,
+                    backgroundColor: !isEnabled ? "#F7F7F7" : "red",
+                    borderRadius: 28,
+                    padding: 10,
+                    justifyContent: "center",
+                  }}
+                  onPress={() =>
+                    setFilterPredicates((prev) => ({
+                      ...prev,
+                      [predicateKey]: {
+                        ...prev[predicateKey],
+                        isEnabled: !filterPredicates[predicateKey].isEnabled,
                       },
-                    ])
-                  );
-                  return newComparators;
-                })
-              }
-            >
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <Text numberOfLines={1}>{comparatorKey}</Text>
-              </View>
-            </Pressable>
-          ))}
-      </View>
+                    }))
+                  }
+                >
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text numberOfLines={1}>{predicateKey}</Text>
+                  </View>
+                </Pressable>
+              ))}
+          </View>
+
+          <Text>SOrting one at a time!!</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 10,
+              width: "100%",
+              flexWrap: "wrap",
+              padding: 10,
+            }}
+          >
+            {Object.entries(sortComparators)
+              .filter(
+                ([_, val]) =>
+                  category == categories.all ||
+                  val.categories.includes(category)
+              )
+              .map(([comparatorKey, { isEnabled }], index) => (
+                <Pressable
+                  key={index}
+                  style={{
+                    shadowColor: "#64CEC2",
+                    shadowOffset: { width: 0, height: 5 },
+                    shadowOpacity: 1,
+                    shadowRadius: 0,
+                    elevation: 6,
+                    backgroundColor: !isEnabled ? "#F7F7F7" : "blue",
+                    borderRadius: 28,
+                    padding: 10,
+                    justifyContent: "center",
+                  }}
+                  onPress={() =>
+                    setSortComparators((prev) => {
+                      const newComparators = Object.fromEntries(
+                        Object.entries(prev).map(([key, value]) => [
+                          key,
+                          {
+                            ...value,
+                            isEnabled:
+                              key === comparatorKey ? !value.isEnabled : false,
+                          },
+                        ])
+                      );
+                      return newComparators;
+                    })
+                  }
+                >
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text numberOfLines={1}>{comparatorKey}</Text>
+                  </View>
+                </Pressable>
+              ))}
+          </View>
+        </>
+      )}
 
       <Text>Results</Text>
 
@@ -490,7 +507,11 @@ export default function Search() {
                           alignItems: "center",
                         }}
                       >
-                        <Ionicons name="time" size={24} color="#006D62" />
+                        <Ionicons
+                          name="information-circle-outline"
+                          size={24}
+                          color="#006D62"
+                        />
                         <Text style={{ color: "#006D62" }} numberOfLines={1}>
                           {!params.description
                             ? "undefined description"
@@ -505,11 +526,7 @@ export default function Search() {
                           alignItems: "center",
                         }}
                       >
-                        <Ionicons
-                          name="location-sharp"
-                          size={24}
-                          color="#006D62"
-                        />
+                        <Ionicons name="book" size={24} color="#006D62" />
                         <Text style={{ color: "#006D62" }} numberOfLines={1}>
                           {!params.year ? "undefined year" : params.year}
                         </Text>
