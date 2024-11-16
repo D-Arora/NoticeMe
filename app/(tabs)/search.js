@@ -143,8 +143,8 @@ export default function Search() {
     );
 
     if (searchInput !== "") {
-      updatedUsers = updatedUsers.filter((event) =>
-        event.title.toLowerCase().includes(searchInput.toLowerCase())
+      updatedUsers = updatedUsers.filter((user) =>
+        user.name.toLowerCase().includes(searchInput.toLowerCase())
       );
     }
 
