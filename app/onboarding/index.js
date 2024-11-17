@@ -23,11 +23,11 @@ export default function Index() {
 
   return (
     <ImageBackground source={require("../../assets/images/BackgroundGradient.png")} style={styles.container}>
-      <Text>Welcome to</Text>
+      <Text style={styles.body}>Welcome to</Text>
       <Logo width={250} height={200} />
       <Title width={230} height={100} />
 
-      <Text style={styles.subheading}>To start, please enter your zID</Text>
+      <Text style={styles.body}>To start, please enter your zID</Text>
       <View style={styles.inputContainer}>
         {Array(7)
           .fill(null)
@@ -98,6 +98,11 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: 30
-  }
+  }, 
+  body: {
+    fontSize: 16,
+    color: colours.light.text,
+    fontFamily: "Regular"
+  },
 });
 
