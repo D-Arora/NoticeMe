@@ -16,7 +16,6 @@ const StyledButton = ({
   const handlePress = () => {
     if (colourChange) {
       setIsClicked(!isClicked);
-      // change the title to the alternative colour
     }
     onPress && onPress(); // Call the provided onPress function if it exists
   };
@@ -45,7 +44,7 @@ const StyledButton = ({
         ]}
       >
         <Text style={{color: textColour ? textColour : "white",
-        fontSize: textSize ? textSize : 16}}>{title}</Text>
+        fontSize: textSize ? textSize : 16, fontFamily: 'Regular'}}>{title}</Text>
       </View>
     </TouchableOpacity>
   );

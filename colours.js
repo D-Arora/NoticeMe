@@ -7,17 +7,12 @@ const lightTheme = {
   error: '#ff3c65',
   // Other light theme colors
 };
-
-const tagColours = ['#782f4e', '#DB5B41', '#FEA73C', '#097C86', '#3A3461'];
   
 const darkTheme = {
 
 };
 
-// const darkTheme = {};
-
 export default {
   light: lightTheme,
   dark: darkTheme,
-  tagColours: tagColours
 };

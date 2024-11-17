@@ -44,23 +44,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 15,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     backgroundColor: colours.light.secondary,
     borderRadius: 30,
     width: 100,
   },
   activeStepBox: {
-    backgroundColor: colours.light.primary, // Highlight color for active step
+    backgroundColor: colours.light.primary,
   },
   stepNumber: {
     fontSize: 24,
     fontWeight: 'bold',
+    fontFamily: 'Regular',
     color: 'white',
     textAlign: 'center',
   },
   stepText: {
     fontSize: 14,
     color: 'white',
+    fontFamily: 'Regular',
     textAlign: 'center',
   },
   line: {

@@ -12,7 +12,10 @@ const Tag = ({title, colour, clickable}) => {
   }
 
   return (
-    <TouchableOpacity onPress={handlePress} style={[styles.button, {backgroundColor: colour, borderColor: selected ? 'white' : 'transparent', borderWidth: selected ? 3 : 0}]}>
+    <TouchableOpacity onPress={handlePress} 
+      style={[styles.button, 
+      {backgroundColor: selected ? colours.light.secondary : colour, 
+      opacity: selected ? 1 : 0.8, borderColor: colours.light.primary, borderWidth: selected ? 3 : 0}]}>
       <Text style={styles.buttonText}>{title}</Text>
     </TouchableOpacity>
   );
@@ -26,6 +29,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '30%',
     margin: 5,
+    marginVertical: 7
   },
   buttonText: {
     color: 'white',

@@ -13,12 +13,10 @@ export default function OnboardingInterests() {
   const router = useRouter();
   const navigation = useNavigation();
 
-  const randomColour = () => colours.tagColours[Math.floor(Math.random() * 5)];
-
   const interestList = ['Free Food', 'Engineering', 'UX Design', 'Reading', 'Fitness', 'Bouldering', 'Music', 'Networking', 'Mentorship', 'Ice Skating', 'Arts', 'Fashion'];
   const generateInterests = interestList.map((interest) => {
     return (
-      <Tag title={interest} colour={randomColour()} clickable={true}></Tag>
+      <Tag title={interest} colour={colours.light.text} clickable={true}></Tag>
     )
   });
 
@@ -41,11 +39,14 @@ export default function OnboardingInterests() {
           />
         </TouchableOpacity>
       </View>
-      <View>
+      <View style={styles.contentContainer}>
+      <Text style={styles.header}>Select your interests ✨</Text>
         <StepBar activeStep={2}></StepBar>
-          <Text style={styles.header}> Select your interests</Text>
-          <Text>Select up to 4 interests</Text>
-          <View style={styles.interestContainer}>{generateInterests}</View>
+        <Text style={styles.body}>Select up to 4 interests</Text>
+        <View style={styles.interestContainer}>
+          {generateInterests}
+        </View>
+        <View style={styles.buttonContainer}>
           <StyledButton 
           onPress={completeOnboarding}
           title="Sign Up"
@@ -53,6 +54,7 @@ export default function OnboardingInterests() {
           shadowColour={colours.light.primary}
           colourChange={false}>
           </StyledButton>
+        </View>
       </View>
     </ImageBackground>
   );
@@ -70,5 +72,15 @@ const styles = StyleSheet.create({
   headerContainer: {
     justifyContent: 'flex-start',
     marginBottom: 20,
-  }
+  },
+  contentContainer: {
+    flex: 1,
+    justifyContent: "flex-start", 
+  }, 
+  body: {
+    fontSize: 14,
+    color: colours.light.text,
+    fontFamily: "Regular",
+    margin: 6
+  },
 });
