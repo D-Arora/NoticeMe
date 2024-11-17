@@ -1,23 +1,31 @@
 import React, { useState } from 'react';
-import { View, Button, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import colours from "../colours";
 
-const Tag = ({title, colour}) => {
+const Tag = ({title, colour, clickable}) => {
+  const [selected, setSelected] = useState(false);
+
+  const handlePress = () => {
+    if (clickable) {
+      setSelected(!selected);
+    }
+  }
 
   return (
-    <View style={[styles.button, {backgroundColor: colour}]}>
+    <TouchableOpacity onPress={handlePress} style={[styles.button, {backgroundColor: colour, borderColor: selected ? 'white' : 'transparent', borderWidth: selected ? 3 : 0}]}>
       <Text style={styles.buttonText}>{title}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    paddingVertical: 6,
+    paddingVertical: 8,
     paddingHorizontal: 10,
     borderRadius: 30,
     alignItems: 'center',
     width: '30%',
+    margin: 5,
   },
   buttonText: {
     color: 'white',

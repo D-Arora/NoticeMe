@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Button, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import colours from "../colours";
 
 const StyledButton = ({
@@ -8,6 +8,8 @@ const StyledButton = ({
   colour,
   shadowColour,
   colourChange,
+  textColour,
+  textSize
 }) => {
   const [isClicked, setIsClicked] = useState(false);
 
@@ -42,30 +44,20 @@ const StyledButton = ({
           }, // Toggle color based on isClicked state
         ]}
       >
-        <Text style={styles.buttonText}>{title}</Text>
+        <Text style={{color: textColour ? textColour : "white",
+        fontSize: textSize ? textSize : 16}}>{title}</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  shadowContainer: {
-    shadowColor: colours.light.primary,
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    elevation: 6,
-  },
   button: {
     paddingVertical: 12,
     paddingHorizontal: 22,
     borderRadius: 30,
     alignItems: "center",
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-  },
+  }
 });
 
 export default StyledButton;
