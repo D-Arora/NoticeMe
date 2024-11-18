@@ -4,6 +4,7 @@
     "slug": "NoticeMe",
     "version": "1.0.0",
     "orientation": "portrait",
+    "newArchEnabled": true,
     "icon": "./assets/noticeme.png",
     "userInterfaceStyle": "light",
     "scheme": "notice-me",

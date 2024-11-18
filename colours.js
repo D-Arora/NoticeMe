@@ -4,6 +4,8 @@ const lightTheme = {
   primaryPurple: "#8A3FC3",
   text: "#006e62",
   textLight: "#00b192",
+  buttonGreen: "#3fc3ad",
+  highlightGreen: "#A0D8D1",
   // Other light theme colors
 };
 
