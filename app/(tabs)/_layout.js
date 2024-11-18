@@ -123,7 +123,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="profile/index"
         options={{
           title: "Profile",
           tabBarIcon: ({ color }) => (
@@ -136,6 +136,18 @@ export default function TabsLayout() {
               <ProfileIcon width={32} height={32} fill={color} />
             </View>
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile/followers"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="profile/editProfile"
+        options={{
+          href: null,
         }}
       />
     </Tabs>
