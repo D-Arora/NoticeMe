@@ -10,61 +10,65 @@ export const getImageDominantColor = async (imageUri) => {
     const manipResult = await manipulateAsync(
       resolvedUri,
       [{ resize: { width: 10, height: 10 } }],
-      { format: SaveFormat.JPEG, base64: true }
+      { format: SaveFormat.PNG, base64: true }
     );
 
     const binaryString = atob(manipResult.base64);
+    const bytes = new Uint8Array(binaryString.length);
 
-    const colorHistogram = extractColorHistogram(binaryString);
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
 
-    const dominantColor = findDominantColor(colorHistogram);
+    let dataStart = 0;
+    for (let i = 0; i < bytes.length - 4; i++) {
+      if (
+        bytes[i] === 0x49 &&
+        bytes[i + 1] === 0x44 &&
+        bytes[i + 2] === 0x41 &&
+        bytes[i + 3] === 0x54
+      ) {
+        dataStart = i + 8;
+        break;
+      }
+    }
 
-    console.log("Extracted color:", dominantColor);
-    return dominantColor || "#6200ee";
+    const colorCounts = {};
+    for (let i = dataStart; i < bytes.length; i += 4) {
+      const r = bytes[i];
+      const g = bytes[i + 1];
+      const b = bytes[i + 2];
+      const a = bytes[i + 3];
+
+      if (a > 0) {
+        const key = `${r},${g},${b}`;
+        console.log("r", r);
+        colorCounts[key] = (colorCounts[key] || 0) + 1;
+      }
+    }
+
+    let dominantColor = null;
+    let maxCount = 0;
+
+    for (const [color, count] of Object.entries(colorCounts)) {
+      if (count > maxCount) {
+        maxCount = count;
+        dominantColor = color;
+      }
+    }
+
+    if (dominantColor) {
+      const [r, g, b] = dominantColor.split(",").map(Number);
+      const hexColor = `#${((1 << 24) + (r << 16) + (g << 8) + b)
+        .toString(16)
+        .slice(1)}`;
+      console.log("Extracted color:", hexColor);
+      return hexColor;
+    }
+
+    throw new Error("No dominant color found.");
   } catch (error) {
     console.error("Error in getImageDominantColor:", error);
     return "#6200ee";
   }
 };
-
-function extractColorHistogram(binaryString) {
-  const byteArray = new Uint8Array(binaryString.length);
-  for (let i = 0; i < binaryString.length; i++) {
-    byteArray[i] = binaryString.charCodeAt(i);
-  }
-
-  const colorCounts = {};
-  let dataStart = 0;
-
-  dataStart = byteArray.indexOf(0xff, 2);
-
-  for (let i = dataStart; i < byteArray.length; i += 3) {
-    const r = byteArray[i];
-    const g = byteArray[i + 1];
-    const b = byteArray[i + 2];
-
-    const colorKey = `${r},${g},${b}`;
-    colorCounts[colorKey] = (colorCounts[colorKey] || 0) + 1;
-  }
-
-  return colorCounts;
-}
-
-function findDominantColor(colorHistogram) {
-  let dominantColor = null;
-  let maxCount = 0;
-
-  for (const [color, count] of Object.entries(colorHistogram)) {
-    if (count > maxCount) {
-      maxCount = count;
-      dominantColor = color;
-    }
-  }
-
-  if (dominantColor) {
-    const [r, g, b] = dominantColor.split(",").map(Number);
-    return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
-  }
-
-  return null;
-}
