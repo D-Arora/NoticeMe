@@ -46,7 +46,7 @@ export default function TabsLayout() {
         tabBarStyle: {
           shadowOpacity: 0,
           borderTopWidth: 3,
-          borderTopColor: colours.light.primaryGreen,
+          borderColor: colours.light.highlightGreen,
           height: 64,
           paddingTop: 2,
           paddingBottom: Platform.select({
@@ -65,7 +65,7 @@ export default function TabsLayout() {
         headerTitleAlign: "center",
         headerStyle: {
           borderBottomWidth: 3,
-          borderBottomColor: colours.light.primaryGreen,
+          borderColor: colours.light.highlightGreen,
           height: Platform.select({
             ios: 64,
             android: 86,
