@@ -14,6 +14,8 @@ export const getImageDominantColor = async (imageUri) => {
     );
 
     const binaryString = atob(manipResult.base64);
+    console.log(binaryString);
+
     const bytes = new Uint8Array(binaryString.length);
 
     for (let i = 0; i < binaryString.length; i++) {
@@ -42,7 +44,7 @@ export const getImageDominantColor = async (imageUri) => {
 
       if (a > 0) {
         const key = `${r},${g},${b}`;
-        console.log("r", r);
+        // console.log("r", r);
         colorCounts[key] = (colorCounts[key] || 0) + 1;
       }
     }
@@ -56,6 +58,8 @@ export const getImageDominantColor = async (imageUri) => {
         dominantColor = color;
       }
     }
+
+    console.log(dominantColor);
 
     if (dominantColor) {
       const [r, g, b] = dominantColor.split(",").map(Number);
