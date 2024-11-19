@@ -1,0 +1,37 @@
+[
+  {
+    "eventName": "University Sports Day",
+    "societyName": "Sports Society",
+    "date": "2024-11-25",
+    "location": "University Sports Field",
+    "imageSource": "https://fastly.picsum.photos/id/517/4000/5000.jpg?hmac=Lu1exqxDmr2gx5DNDDXJzTWXRDjFo8AUtawPwyzxaos"
+  },
+  {
+    "eventName": "Coding Bootcamp",
+    "societyName": "Tech Society",
+    "date": "2024-12-10",
+    "location": "Room 101, Tech Building",
+    "imageSource": "https://fastly.picsum.photos/id/849/4000/5000.jpg?hmac=YhtUz7TFc1Qc0u0cahhg7VawfN2j7Bn690EdO1jXStY"
+  },
+  {
+    "eventName": "Art Exhibition",
+    "societyName": "Art Society",
+    "date": "2024-11-30",
+    "location": "Gallery 101",
+    "imageSource": "https://fastly.picsum.photos/id/605/4000/5000.jpg?hmac=8aIjz3AqHys6rzFSCQ71XuzlpTc1pgnq1E76K_KtgoA"
+  },
+  {
+    "eventName": "Book Club Meetup",
+    "societyName": "Literature Society",
+    "date": "2024-12-05",
+    "location": "Library Conference Room",
+    "imageSource": "https://fastly.picsum.photos/id/139/4000/5000.jpg?hmac=1TZHKavbCEWaRBNAcRSgXhzdp_z1K6FaKWcV0m5CLnE"
+  },
+  {
+    "eventName": "Community Volunteering",
+    "societyName": "Volunteer Society",
+    "date": "2024-12-01",
+    "location": "Community Center",
+    "imageSource": "https://fastly.picsum.photos/id/766/4000/5000.jpg?hmac=U6oumtypjQBEJZ8aGr8b74PWuuMLrrA689-K7DPxZUg"
+  }
+]

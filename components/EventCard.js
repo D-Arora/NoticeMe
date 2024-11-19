@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import colours from "../colours";
 import { getImageDominantColor } from "../helpers/averageColour";
-import DefaultImage from "../assets/images/mesh-898.png";
+import DefaultImage from "../assets/images/mesh-898.png"; // Default fallback image
 
 const EventCard = ({ eventName, societyName, date, location, imageSource }) => {
   const [backgroundColor, setBackgroundColor] = useState(
@@ -12,14 +12,7 @@ const EventCard = ({ eventName, societyName, date, location, imageSource }) => {
   useEffect(() => {
     const extractColor = async () => {
       try {
-        let uri;
-        if (imageSource?.uri) {
-          uri = imageSource.uri;
-        } else {
-          uri = Image.resolveAssetSource(imageSource || DefaultImage).uri;
-        }
-
-        console.log("URI: " + uri);
+        let uri = imageSource || Image.resolveAssetSource(DefaultImage).uri;
 
         const dominantColor = await getImageDominantColor(uri);
         console.log(dominantColor);
@@ -27,12 +20,12 @@ const EventCard = ({ eventName, societyName, date, location, imageSource }) => {
         setBackgroundColor(dominantColor);
       } catch (error) {
         console.error("Error extracting color:", error);
-        setBackgroundColor(colours.light.primaryPurple);
+        setBackgroundColor(colours.light.primaryPurple); // Fallback color
       }
     };
 
     extractColor();
-  }, [imageSource]);
+  }, [imageSource]); // Only run if imageSource changes
 
   return (
     <View style={styles.cardContainer}>
@@ -42,10 +35,13 @@ const EventCard = ({ eventName, societyName, date, location, imageSource }) => {
       {/* Main Card View */}
       <View style={styles.card}>
         {/* Image */}
-        <Image source={imageSource || DefaultImage} style={styles.image} />
+        <Image
+          source={{ uri: imageSource || DefaultImage }}
+          style={styles.image}
+        />
         {/* Text Section */}
         <View style={[styles.textContainer, { backgroundColor }]}>
-          <Text style={styles.title}>{`${societyName} - ${eventName}`}</Text>
+          <Text style={styles.title}>{`${eventName}`}</Text>
           <Text style={styles.subtitle}>{`${date} | ${location}`}</Text>
         </View>
       </View>
@@ -85,8 +81,9 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     position: "relative",
+    height: 110,
     top: -40,
-    padding: 16,
+    paddingBottom: 20,
     paddingTop: 50,
     borderRadius: 16,
     borderColor: "white",
@@ -95,18 +92,18 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "Bold",
-    fontSize: 18,
+    fontSize: 16,
     color: "white",
     marginBottom: 4,
-    flexShrink: 1,
     textAlign: "center",
+    lineHeight: 18,
   },
   subtitle: {
     fontFamily: "Regular",
-    fontSize: 16,
+    fontSize: 14,
     color: "white",
-    flexShrink: 1,
     textAlign: "center",
+    lineHeight: 16,
   },
 });
 
