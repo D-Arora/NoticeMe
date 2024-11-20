@@ -132,54 +132,6 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="calendar"
-        options={{
-          title: "Calendar",
-          tabBarIcon: ({ color }) => (
-            <View
-              style={[
-                styles.iconContainer,
-                color === "#8A3FC3" && styles.activeIcon,
-              ]}
-            >
-              <CalendarIcon width={32} height={32} fill={color} />
-            </View>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="search"
-        options={{
-          title: "Search",
-          tabBarIcon: ({ color }) => (
-            <View
-              style={[
-                styles.iconContainer,
-                color === "#8A3FC3" && styles.activeIcon,
-              ]}
-            >
-              <SearchIcon width={32} height={32} fill={color} />
-            </View>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="activity"
-        options={{
-          title: "Activity",
-          tabBarIcon: ({ color }) => (
-            <View
-              style={[
-                styles.iconContainer,
-                color === "#8A3FC3" && styles.activeIcon,
-              ]}
-            >
-              <ActivityIcon width={32} height={32} fill={color} />
-            </View>
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="profile/index"
         options={{
           title: "Profile",

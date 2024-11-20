@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import colours from "../colours";
 
 const StyledButton = ({
@@ -12,47 +12,36 @@ const StyledButton = ({
   textSize,
 }) => {
   const [isClicked, setIsClicked] = useState(false);
-  const [buttonLayout, setButtonLayout] = useState(null);
 
   const handlePress = () => {
     if (colourChange) {
       setIsClicked(!isClicked);
     }
-    onPress && onPress();
-  };
-
-  const handleLayout = (e) => {
-    const { width, height } = e.nativeEvent.layout;
-    setButtonLayout({ width, height });
+    onPress && onPress(); // Call the provided onPress function if it exists
   };
 
   return (
-    <TouchableOpacity onPress={handlePress} style={styles.shadowContainer}>
-      {/* Pseudo Shadow */}
-      {buttonLayout && (
-        <View
-          style={[
-            styles.buttonShadow,
-            {
-              width: buttonLayout.width,
-              height: buttonLayout.height,
-              top: 3,
-            },
-          ]}
-        />
-      )}
-
-      {/* Button */}
+    <TouchableOpacity
+      onPress={handlePress}
+      style={{
+        shadowColor: !shadowColour ? colours.light.primary : shadowColour,
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 1,
+        shadowRadius: 0,
+        elevation: 6,
+      }}
+    >
       <View
         style={[
           styles.button,
           {
             backgroundColor: isClicked
               ? colours.light.text
-              : colours.light.primaryPurple,
-          },
+              : !colour
+              ? colours.light.secondary
+              : colour,
+          }, // Toggle color based on isClicked state
         ]}
-        onLayout={handleLayout}
       >
         <Text
           style={{
@@ -69,9 +58,6 @@ const StyledButton = ({
 };
 
 const styles = StyleSheet.create({
-  shadowContainer: {
-    position: "relative",
-  },
   button: {
     paddingVertical: 12,
     paddingHorizontal: 22,
