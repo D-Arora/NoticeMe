@@ -80,11 +80,12 @@ const styles = StyleSheet.create({
   },
   nameText: {
     fontSize: 13,
-    fontWeight: 'bold',
+    fontFamily: "Bold",
   },
   membersText: {
     fontSize: 12,
     color: "gray",
+    fontFamily: "Regular",
   },
 });
 

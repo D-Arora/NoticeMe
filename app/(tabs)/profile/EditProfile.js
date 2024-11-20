@@ -8,16 +8,30 @@ import colours from "../../../colours.js";
 import StyledButton from "../../../components/StyledButton.js";
 import { TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function EditProfile() {
   const navigation = useNavigation();
   const params = useLocalSearchParams();
-  const [name, onChangeText] = React.useState("Anna Wang"); // name
-  const [bio, onChangeMultiText] = React.useState(
-    "Hey there !! My name is Anna and I am a third year Mechatronic Engineering and Science student passionate about upskilling and improving myself."
-  ); // bio
+  const [name, onChangeText] = React.useState(""); // name
+  const [bio, onChangeMultiText] = React.useState(""); // bio
   const [selectedYear, setSelectedYear] = React.useState(params.year || ""); // selected year
   const [selectedFaculties, setSelectedFaculties] = React.useState([]); // selected faculties
+
+  useEffect(() => {
+    const loadProfileData = async () => {
+      try {
+        const profileData = await AsyncStorage.getItem("profileData");
+        const parsedData = JSON.parse(profileData);
+        onChangeText(parsedData.name);
+        onChangeMultiText(parsedData.description);
+      } catch (e) {
+        console.error("Error retrieving user data", e);
+      }
+    };
+
+    loadProfileData();
+  }, []);
 
   const itemsYear = [
     { label: "1st Year", value: "1st" },
