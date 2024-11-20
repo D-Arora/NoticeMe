@@ -14,6 +14,7 @@ import { useLocalSearchParams } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import dayjs from "dayjs";
 
 import Map from "../../../components/Map"; // will auto choose native or web
 import { MaterialIcons } from "@expo/vector-icons";
@@ -60,6 +61,11 @@ export default function MapPage() {
 
     setRegionLocation(location);
   }, [params.location, params.latitude, params.longitude]);
+
+  const formatEventTime = (start) => {
+    const startDate = dayjs(start);
+    return `${startDate.format("HH:mm")} | ${startDate.format("ddd, MMM Do")}`;
+  };
 
   const openExternalMaps = () => {
     const url = Platform.select({
@@ -141,7 +147,9 @@ export default function MapPage() {
                 >
                   <Ionicons name="time" size={24} color="#006D62" />
                   <Text style={{ color: "#006D62" }} numberOfLines={1}>
-                    {!params.start ? "undefined start" : params.start}
+                    {!params.start
+                      ? "undefined start"
+                      : formatEventTime(params.start)}
                   </Text>
                 </View>
                 <View

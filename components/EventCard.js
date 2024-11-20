@@ -69,7 +69,7 @@ const EventCard = ({
       description: description,
       longitude: longitude?.toString(),
       latitude: latitude?.toString(),
-      image: imageSource,
+      imageSource: imageSource,
       color: backgroundColor,
     };
 
@@ -82,7 +82,7 @@ const EventCard = ({
   };
 
   useEffect(() => {
-    console.log("EventCard rendered with id:", id, "and name:", eventName);
+    console.log("EventCard rendered with id:", id, "and image:", imageSource);
   }, [id, eventName]);
 
   return (

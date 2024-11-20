@@ -65,9 +65,9 @@ export default function Event() {
           <Image
             style={styles.image}
             source={
-              !event.image
+              !event.imageSource
                 ? require("../../../assets/images/mesh-898.png")
-                : { uri: event.image }
+                : { uri: event.imageSource }
             }
           />
         </View>

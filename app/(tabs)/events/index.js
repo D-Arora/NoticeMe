@@ -38,7 +38,7 @@ export default function Events() {
   const loadEvents = async () => {
     try {
       const storedEvents = await AsyncStorage.getItem(EVENTS_STORE_KEY);
-      if (storedEvents) {
+      if (true) {
         let eventsList = JSON.parse(storedEvents);
         eventsList = eventsList.sort(
           (a, b) => new Date(a.start) - new Date(b.start)

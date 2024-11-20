@@ -10,12 +10,16 @@ export default function FloatingButton({
   onPress,
   shadowColor = colours.light.highlightGreen,
   buttonColor = colours.light.buttonGreen,
+  padding,
 }) {
   return (
     <TouchableOpacity style={[styles.button]} onPress={onPress}>
       <View style={[styles.shadow, { backgroundColor: shadowColor }]} />
       <IconComponent
-        style={[styles.icon, { backgroundColor: buttonColor }]}
+        style={[
+          styles.icon,
+          { backgroundColor: buttonColor, padding: padding },
+        ]}
         name={iconName}
         size={iconSize}
         color={iconColor}

@@ -14,12 +14,18 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { defaultEvents, EVENTS_STORE_KEY } from "./events";
 import { defaultUsers } from "./profile";
-import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import {
+  Ionicons,
+  FontAwesome,
+  Feather,
+  FontAwesome6,
+} from "@expo/vector-icons";
 import FloatingButton from "../../components/FloatingButton";
 import sampleEvents from "./events/sampleEvents.json";
 import { MaterialIcons } from "@expo/vector-icons";
+import dayjs from "dayjs";
+import colours from "../../colours";
 
 const societies = [
   {
@@ -71,7 +77,7 @@ export default function Search() {
   const [events, setEvents] = useState([]);
   const [users, setUsers] = useState(defaultUsers);
   const [searchInput, setSearchInput] = useState("");
-  const [hideContraints, setHideContraints] = useState(true);
+  const [hideConstraints, setHideConstraints] = useState(true);
 
   useEffect(() => {
     navigation.setOptions({
@@ -153,26 +159,20 @@ export default function Search() {
     // Todo other comparators
   });
 
-  const [filterdEvents, setFilteredEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [filteredSocieties, setFilteredSocieties] = useState([]);
 
   const getEventsFromAsyncStorage = async () => {
-    // const storedEvents = await AsyncStorage.getItem(EVENTS_STORE_KEY);
-    // if (!storedEvents) {
-    //   setEvents(defaultEvents);
-    //   setFilteredEvents(defaultEvents);
-    //   await AsyncStorage.setItem(
-    //     EVENTS_STORE_KEY,
-    //     JSON.stringify(defaultEvents)
-    //   );
-    // } else {
-    //   setEvents(JSON.parse(storedEvents));
-    //   setFilteredEvents(JSON.parse(storedEvents));
-    // }
-
-    setEvents(sampleEvents);
-    setFilteredEvents(sampleEvents);
+    const storedEvents = await AsyncStorage.getItem("@events");
+    if (!storedEvents) {
+      setEvents(sampleEvents);
+      setFilteredEvents(sampleEvents);
+      await AsyncStorage.setItem("@events", JSON.stringify(sampleEvents));
+    } else {
+      setEvents(JSON.parse(storedEvents));
+      setFilteredEvents(JSON.parse(storedEvents));
+    }
   };
 
   useEffect(() => {
@@ -264,6 +264,11 @@ export default function Search() {
     setFilteredSocieties(updatedSocieties);
   }, [searchInput, filterPredicates, sortComparators]);
 
+  const formatEventTime = (start) => {
+    const startDate = dayjs(start);
+    return `${startDate.format("HH:mm")} | ${startDate.format("ddd, MMM Do")}`;
+  };
+
   return (
     <View
       style={{
@@ -328,9 +333,9 @@ export default function Search() {
             // flexGrow: 1
             // flexShrink: 1
           }}
-          onPress={() => setHideContraints(!hideContraints)}
+          onPress={() => setHideConstraints(!hideConstraints)}
         >
-          <FontAwesome name="sliders" size={24} color="white" />
+          <FontAwesome6 name="sliders" size={20} color="white" />
         </Pressable>
       </View>
 
@@ -381,16 +386,17 @@ export default function Search() {
       </View>
 
       <FloatingButton
-        IconComponent={FontAwesome}
+        IconComponent={FontAwesome6}
         iconName="sliders"
-        iconSize={40}
+        iconSize={32}
         iconColor="white"
-        onPress={() => setHideContraints(!hideContraints)}
+        onPress={() => setHideConstraints(!hideConstraints)}
         shadowColor="white"
         buttonColor="#64CEC2"
+        padding={12}
       />
 
-      {!hideContraints && (
+      {!hideConstraints && (
         <View
           style={{
             // position: 'absolute',
@@ -565,13 +571,13 @@ export default function Search() {
           <View
             style={{
               width: "100%",
-              paddingLeft: 20,
+              paddingHorizontal: 20,
               paddingTop: 10,
               flexShrink: 1,
             }}
           >
             <Text
-              style={{ fontFamily: "Bold", fontSize: 28, color: "#005A6D" }}
+              style={{ fontFamily: "Bold", fontSize: 24, color: "#005A6D" }}
             >
               Events
             </Text>
@@ -581,12 +587,12 @@ export default function Search() {
                 display: "flex",
                 flexDirection: "column",
                 gap: 50,
-                padding: 10,
+                paddingVertical: 10,
                 width: "100%",
               }}
             >
               <View style={{ gap: 10, width: "100%" }}>
-                {filterdEvents.map((params, index) => (
+                {filteredEvents.map((params, index) => (
                   <Pressable
                     key={index}
                     onPress={() => navigation.navigate("events/event", params)}
@@ -603,11 +609,6 @@ export default function Search() {
                         // marginRight: 10,
                         width: "100%",
                         gap: 10,
-                        shadowColor: !params.colour ? "grey" : params.colour,
-                        shadowOffset: { width: 0, height: 5 },
-                        shadowOpacity: 1,
-                        shadowRadius: 0,
-                        elevation: 6,
                         padding: 10,
                       }}
                     >
@@ -620,12 +621,18 @@ export default function Search() {
                             : { uri: params.imageSource }
                         }
                       />
-                      <View style={{ overflow: "scroll", flexShrink: 1 }}>
+                      <View
+                        style={{
+                          gap: 10,
+                          overflow: "scroll",
+                          flexShrink: 1,
+                        }}
+                      >
                         <Text
                           style={{
                             color: "#006D62",
                             fontFamily: "Bold",
-                            fontSize: 30,
+                            fontSize: 20,
                           }}
                           numberOfLines={1}
                         >
@@ -643,7 +650,9 @@ export default function Search() {
                         >
                           <Ionicons name="time" size={24} color="#006D62" />
                           <Text style={{ color: "#006D62" }} numberOfLines={1}>
-                            {!params.start ? "undefined start" : params.start}
+                            {!params.start
+                              ? "undefined start"
+                              : formatEventTime(params.start)}
                           </Text>
                         </View>
                         <View
@@ -663,7 +672,6 @@ export default function Search() {
                             {!params.location
                               ? "undefined location"
                               : params.location}
-                            {`\n ${params.latitude + " , " + params.longitude}`}
                           </Text>
                         </View>
                       </View>
@@ -685,7 +693,7 @@ export default function Search() {
             }}
           >
             <Text
-              style={{ fontFamily: "Bold", fontSize: 28, color: "#005A6D" }}
+              style={{ fontFamily: "Bold", fontSize: 24, color: "#005A6D" }}
             >
               Accounts
             </Text>
@@ -697,7 +705,6 @@ export default function Search() {
                 flexDirection:
                   category == categories.accounts ? "column" : "row",
 
-                gap: 50,
                 padding: 10,
                 width: "100%",
                 minHeight: 140,
@@ -706,7 +713,6 @@ export default function Search() {
               <View
                 style={{
                   gap: 10,
-                  padding: 10,
                   width: "100%",
                   flexDirection: "row",
                   flexWrap: category == categories.accounts ? "wrap" : "nowrap",
@@ -734,7 +740,18 @@ export default function Search() {
                             : { uri: params.image }
                         }
                       />
-                      <Text numberOfLines={1}>{params.name}</Text>
+                      <Text
+                        style={{
+                          fontFamily: "Bold",
+                          lineHeight: 16,
+                          fontSize: 16,
+                          color: colours.light.text,
+                          marginTop: 10,
+                        }}
+                        numberOfLines={1}
+                      >
+                        {params.name}
+                      </Text>
                     </View>
                   </Pressable>
                 ))}
@@ -754,7 +771,7 @@ export default function Search() {
             }}
           >
             <Text
-              style={{ fontFamily: "Bold", fontSize: 28, color: "#005A6D" }}
+              style={{ fontFamily: "Bold", fontSize: 24, color: "#005A6D" }}
             >
               Societies
             </Text>
@@ -764,7 +781,6 @@ export default function Search() {
                 display: "flex",
                 flexDirection:
                   category == categories.societies ? "column" : "row",
-                gap: 50,
                 padding: 10,
                 width: "100%",
                 minHeight: 140,
@@ -793,7 +809,18 @@ export default function Search() {
                           : { uri: params.image }
                       }
                     />
-                    <Text numberOfLines={1}>{params.name}</Text>
+                    <Text
+                      style={{
+                        fontFamily: "Bold",
+                        lineHeight: 16,
+                        fontSize: 16,
+                        color: colours.light.text,
+                        marginTop: 10,
+                      }}
+                      numberOfLines={1}
+                    >
+                      {params.name}
+                    </Text>
                   </View>
                 ))}
               </View>
