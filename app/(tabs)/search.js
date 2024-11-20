@@ -1,4 +1,8 @@
-import { useNavigation, useFocusEffect } from "expo-router";
+import {
+  useNavigation,
+  useFocusEffect,
+  useLocalSearchParams,
+} from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -8,13 +12,14 @@ import {
   Image,
   Pressable,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import { defaultEvents, EVENTS_STORE_KEY } from "./events";
 import { defaultUsers } from "./profile";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import FloatingButton from "../../components/FloatingButton";
-import sampleEvents from './events/sampleEvents.json';
-
+import sampleEvents from "./events/sampleEvents.json";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const societies = [
   {
@@ -62,10 +67,24 @@ const societies = [
 
 export default function Search() {
   const navigation = useNavigation();
+  const params = useLocalSearchParams();
   const [events, setEvents] = useState([]);
   const [users, setUsers] = useState(defaultUsers);
   const [searchInput, setSearchInput] = useState("");
   const [hideContraints, setHideContraints] = useState(true);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ paddingLeft: 10 }}
+        >
+          <MaterialIcons name="arrow-back" size={32} color="#006e62" />
+        </TouchableOpacity>
+      ),
+    });
+  });
 
   const categories = {
     all: "All",
@@ -260,7 +279,7 @@ export default function Search() {
           width: "100%",
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: 'space-evenly',
+          justifyContent: "space-evenly",
           paddingLeft: 10,
           paddingRight: 10,
           paddingTop: 6,
@@ -275,7 +294,7 @@ export default function Search() {
             borderRadius: 999,
             paddingLeft: 14,
             flexGrow: 1,
-            flexShrink: 1
+            flexShrink: 1,
           }}
         >
           <FontAwesome name="search" size={24} color="white" />
@@ -325,7 +344,11 @@ export default function Search() {
         }}
       >
         {Object.values(categories).map((x, index) => (
-          <Pressable key={index} style={{ flexGrow: 1 }} onPress={() => setCategory(x)}>
+          <Pressable
+            key={index}
+            style={{ flexGrow: 1 }}
+            onPress={() => setCategory(x)}
+          >
             <View
               style={{
                 borderTopRightRadius: 28,
@@ -380,7 +403,7 @@ export default function Search() {
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 1,
             shadowRadius: 0,
-            backgroundColor: 'white'
+            backgroundColor: "white",
           }}
         >
           {/* <Text>Categories</Text>
@@ -606,7 +629,9 @@ export default function Search() {
                           }}
                           numberOfLines={1}
                         >
-                          {!params.eventName ? "undefined title" : params.eventName}
+                          {!params.eventName
+                            ? "undefined title"
+                            : params.eventName}
                         </Text>
                         <View
                           style={{
@@ -669,7 +694,8 @@ export default function Search() {
               style={{
                 display: "flex",
                 // flexDirection: "column",
-                flexDirection: category == categories.accounts ? "column" : "row",
+                flexDirection:
+                  category == categories.accounts ? "column" : "row",
 
                 gap: 50,
                 padding: 10,
@@ -723,7 +749,7 @@ export default function Search() {
               width: "100%",
               paddingLeft: 20,
               paddingTop: 10,
-              // 
+              //
               // flexShrink: 1,
             }}
           >
@@ -736,7 +762,8 @@ export default function Search() {
               horizontal={true}
               style={{
                 display: "flex",
-                flexDirection: category == categories.societies ? "column" : "row",
+                flexDirection:
+                  category == categories.societies ? "column" : "row",
                 gap: 50,
                 padding: 10,
                 width: "100%",
@@ -753,7 +780,10 @@ export default function Search() {
                 }}
               >
                 {filteredSocieties.map((params, index) => (
-                  <View key={index} style={{ alignItems: "center", width: 120 }}>
+                  <View
+                    key={index}
+                    style={{ alignItems: "center", width: 120 }}
+                  >
                     <Image
                       style={{ width: 100, height: 100, borderRadius: 9999 }}
                       resizeMode="cover"

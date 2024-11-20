@@ -21,6 +21,7 @@ import FollowersButton from "../../../components/FollowersButton";
 import ProfileInterface from "../../../components/ProfileInterface";
 import CommentCard from "../../../components/CommentCard";
 import { TouchableOpacity } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const defaultProfile = {
   name: "Anna Wang",
@@ -220,6 +221,19 @@ export default function Profile() {
           comments: params.comments ? JSON.parse(params.comments) : [],
         }
   );
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ paddingLeft: 10 }}
+        >
+          <MaterialIcons name="arrow-back" size={32} color="#006e62" />
+        </TouchableOpacity>
+      ),
+    });
+  });
 
   useEffect(() => {
     console.log(params);
