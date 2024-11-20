@@ -385,7 +385,7 @@ export default function Calendar() {
     }
     return (
       <TouchableOpacity
-        {...touchableOpacityProps}
+        // {...touchableOpacityProps}
         style={[
           conditionalStyles,
           ...touchableOpacityProps.style,
@@ -520,9 +520,7 @@ export default function Calendar() {
       // TODO navigate to event page with the event information!
       router.push({
         pathname: "events/event",
-        params: {
-          title: event.title,
-        },
+        params: event,
       });
     }
   });

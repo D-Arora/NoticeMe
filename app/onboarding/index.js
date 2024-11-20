@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { TextInput, ImageBackground, View, Text, StyleSheet } from "react-native";
+import {
+  TextInput,
+  ImageBackground,
+  View,
+  Text,
+  StyleSheet,
+} from "react-native";
 import { useRouter } from "expo-router";
 import StyledButton from "../../components/StyledButton";
 import colours from "../../colours";
@@ -22,7 +28,10 @@ export default function Index() {
   };
 
   return (
-    <ImageBackground source={require("../../assets/images/BackgroundGradient.png")} style={styles.container}>
+    <ImageBackground
+      source={require("../../assets/images/BackgroundGradient.png")}
+      style={styles.container}
+    >
       <Text style={styles.body}>Welcome to</Text>
       <Logo width={250} height={200} />
       <Title width={230} height={100} />
@@ -38,14 +47,16 @@ export default function Index() {
           ))}
       </View>
 
-      <TextInput
-        style={styles.hiddenInput}
-        value={input}
-        keyboardType="numeric"
-        maxLength={7}
-        onChangeText={handleInputChange}
-        autoFocus
-      />
+        <TextInput
+          style={styles.hiddenInput}
+          value={input}
+          keyboardType="numeric"
+          maxLength={7}
+          returnKeyType="done"
+          onSubmitEditing={goToNextScreen}
+          onChangeText={handleInputChange}
+          autoFocus
+        />
 
       <View style={styles.buttonContainer}>
         <StyledButton
@@ -65,7 +76,8 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    paddingTop: 40,
+    // justifyContent: "center",
     alignItems: "center",
   },
   inputContainer: {
@@ -97,12 +109,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   buttonContainer: {
-    marginTop: 30
-  }, 
+    marginTop: 30,
+  },
   body: {
     fontSize: 16,
     color: colours.light.text,
-    fontFamily: "Regular"
+    fontFamily: "Regular",
   },
 });
-
