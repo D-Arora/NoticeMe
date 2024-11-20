@@ -86,7 +86,7 @@ export default function Activity() {
             width={15}
             style={{ position: "absolute", left: 158 }}
           />
-          <Text style={{ fontSize: 16, color: colours.light.text }}>
+          <Text style={{ fontSize: 16, color: colours.light.text, fontFamily: "Regular"}}>
             Pending Requests ({pendingRequests.length})
           </Text>
           <TouchableOpacity onPress={togglePendingRequests}>
@@ -162,6 +162,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: colours.light.text,
     marginBottom: 10,
+    fontFamily: "Bold",
   },
   alertContainer: {
     display: "flex",

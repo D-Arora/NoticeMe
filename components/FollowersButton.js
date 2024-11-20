@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   button: {
-    paddingVertical: 10,
+    paddingVertical: 8,
     paddingHorizontal: 18,
     borderRadius: 20,
     alignItems: "center",
@@ -31,10 +31,12 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 16,
     color: colours.light.text,
+    fontFamily: "Regular",
   },
   numberText: {
-    fontSize: 25,
+    fontSize: 28,
     color: colours.light.text,
+    fontFamily: "Regular",
   },
 });
 

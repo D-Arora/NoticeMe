@@ -15,6 +15,7 @@ import DropDown from "../../components/Dropdown";
 import colours from "../../colours";
 import { useRouter, useNavigation } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function OnboardingDetails() {
   const router = useRouter();
@@ -25,6 +26,17 @@ export default function OnboardingDetails() {
   const [description, setDescription] = useState("");
   const [degree, setDegree] = useState(null);
 
+  // save to storage
+  const storeProfile = async () => {
+    const profileData = { name, degree, description };
+    try {
+      await AsyncStorage.setItem("profileData", JSON.stringify(profileData));
+      console.log("Profile saved successfully!");
+    } catch (e) {
+      console.error("Error saving user data", e);
+    }
+  };
+  
   const goToNextScreen = () => {
     // Validate all input fields
     if (!name.trim()) {
@@ -42,6 +54,8 @@ export default function OnboardingDetails() {
       );
       return;
     }
+
+    storeProfile();
 
     // Proceed if all fields are valid
     router.push("/onboarding/onboarding_interests");

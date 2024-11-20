@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
+    fontFamily: "Regular",
   },
   profilePicture: {
     width: 70,
@@ -58,7 +59,14 @@ const styles = StyleSheet.create({
   },
   nameText: {
     fontSize: 13,
-    fontWeight: "bold",
+    color: colours.light.text,
+    fontFamily: "Bold",
+    marginBottom: 2
+  },
+  membersText: {
+    fontSize: 12,
+    color: colours.light.text,
+    fontFamily: "Regular",
   },
 });
 

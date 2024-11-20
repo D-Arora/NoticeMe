@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -22,6 +22,8 @@ import ProfileInterface from "../../../components/ProfileInterface";
 import CommentCard from "../../../components/CommentCard";
 import { TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import StyledButton from "../../../components/StyledButton.js"
 
 const defaultProfile = {
   name: "Anna Wang",
@@ -208,13 +210,31 @@ export const defaultUsers = [
 ];
 
 export default function Profile() {
-  const router = useRouter();
   const navigation = useNavigation();
+  const router = useRouter();
   const params = useLocalSearchParams();
 
+  const [user, setUser] = useState(defaultProfile);
+
+  const previousParamsRef = useRef(params); // useRef to store previous params
+
   useEffect(() => {
-    console.log("Params:", params); // This will log the entire params object
-  }, [params]);
+    const loadProfileData = async () => {
+      try {
+        const profileData = await AsyncStorage.getItem("profileData");
+        const parsedData = JSON.parse(profileData);
+        setUser((prevUser) => ({
+          ...prevUser,
+          name: parsedData?.name || prevUser.name,
+          description: parsedData?.description || prevUser.description,
+        }));
+      } catch (e) {
+        console.error("Error retrieving user data", e);
+      }
+    };
+
+    loadProfileData();
+  }, []);
 
   // Safe parsing function for JSON
   const safeParse = (value) => {
@@ -226,98 +246,83 @@ export default function Profile() {
     }
   };
 
-  const [user, setUser] = useState(
-    Object.keys(params).length === 0
-      ? defaultProfile
-      : {
-          ...params,
-          faculties: safeParse(params.faculties),
-          societies: safeParse(params.societies),
-          comments: safeParse(params.comments),
-        }
-  );
-
   useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{ paddingLeft: 10 }}
-        >
-          <MaterialIcons name="arrow-back" size={32} color="#006e62" />
-        </TouchableOpacity>
-      ),
-    });
-  });
+    // Avoid unnecessary updates by checking if params have actually changed
+    if (JSON.stringify(params) !== JSON.stringify(previousParamsRef.current)) {
+      previousParamsRef.current = params;
+      setUser((prevUser) => {
+        const facultyColorMapping = {
+          Medicine: "#FF5733",
+          Engineering: "#0087FF",
+          ADA: "#8A3FC3",
+          Law: "#C71585",
+        };
+        
+        let updatedFaculties = prevUser.faculties;
+        let updatedYear = prevUser.year;
 
-  useEffect(() => {
-    setUser((prevUser) => {
-      const facultyColorMapping = {
-        Medicine: "#FF5733",
-        Engineering: "#0087FF",
-        ADA: "#8A3FC3",
-        Law: "#C71585",
-      };
-      console.log("Year in params:", params.year);
-      console.log(params);
-      let updatedFaculties = prevUser.faculties;
-      let updatedYear = prevUser.year;
-
-      if (params.faculties) {
-        try {
-          // JSON string representing an array?
-          if (typeof params.faculties === "string") {
-            // parse it as a JSON string
-            try {
-              const parsedFaculties = JSON.parse(params.faculties);
-              if (Array.isArray(parsedFaculties)) {
-                // successfully parsed and it's an array
-                updatedFaculties = parsedFaculties.map((faculty) => ({
-                  name: faculty.trim(),
-                  colour: facultyColorMapping[faculty.trim()] || "#CCCCCC",
-                }));
+        if (params.faculties) {
+          try {
+            // JSON string representing an array?
+            if (typeof params.faculties === "string") {
+              // parse it as a JSON string
+              try {
+                const parsedFaculties = JSON.parse(params.faculties);
+                if (Array.isArray(parsedFaculties)) {
+                  // successfully parsed and it's an array
+                  updatedFaculties = parsedFaculties.map((faculty) => ({
+                    name: faculty.trim(),
+                    colour: facultyColorMapping[faculty.trim()] || "#CCCCCC",
+                  }));
+                }
+              } catch (parseError) {
+                const facultiesArray = params.faculties
+                  .split(",")
+                  .map((faculty) => ({
+                    name: faculty.trim(),
+                    colour: facultyColorMapping[faculty.trim()] || "#CCCCCC",
+                  }));
+                updatedFaculties = facultiesArray;
               }
-            } catch (parseError) {
-              const facultiesArray = params.faculties
-                .split(",")
-                .map((faculty) => ({
-                  name: faculty.trim(),
-                  colour: facultyColorMapping[faculty.trim()] || "#CCCCCC",
-                }));
-              updatedFaculties = facultiesArray;
+            } else if (Array.isArray(params.faculties)) {
+              // If faculties is already an array
+              updatedFaculties = params.faculties.map((faculty) => ({
+                name: faculty.trim(),
+                colour: facultyColorMapping[faculty.trim()] || "#CCCCCC",
+              }));
+            } else {
+              updatedFaculties = [];
             }
-          } else if (Array.isArray(params.faculties)) {
-            // If faculties is already an array
-            updatedFaculties = params.faculties.map((faculty) => ({
-              name: faculty.trim(),
-              colour: facultyColorMapping[faculty.trim()] || "#CCCCCC",
-            }));
-          } else {
+          } catch (error) {
+            console.error("Error processing faculties:", error); // parsing or handling errors
             updatedFaculties = [];
           }
-        } catch (error) {
-          console.error("Error processing faculties:", error); // parsing or handling errors
-          updatedFaculties = [];
         }
-      }
-      // console.log(params.get("year"));
-      if (params.year) {
-        updatedYear = params.year; // Update year if provided in params
-      }
-      // console.log(JSON.parse(params.get("year")));
-      return {
-        ...prevUser,
-        ...params,
-        faculties: updatedFaculties,
-        societies: params.societies
-          ? JSON.parse(params.societies)
-          : prevUser.societies,
-        comments: params.comments
-          ? JSON.parse(params.comments)
-          : prevUser.comments,
-      };
-    });
+
+        if (params.year) {
+          updatedYear = params.year; // Update year if provided in params
+        }
+
+        return {
+          ...prevUser,
+          ...params,
+          faculties: updatedFaculties,
+          societies: params.societies
+            ? JSON.parse(params.societies)
+            : prevUser.societies,
+          comments: params.comments
+            ? JSON.parse(params.comments)
+            : prevUser.comments,
+        };
+      });
+    }
   }, [params]);
+
+  const logout = () => {
+    // Clear user data
+    AsyncStorage.removeItem("profileData");
+    router.push("/onboarding");
+  };
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -350,6 +355,7 @@ export default function Profile() {
                     fontSize: 30,
                     color: "white",
                     justifyContent: "center",
+                    fontFamily: "Regular",
                   }}
                 >
                   {user.name}
@@ -383,8 +389,6 @@ export default function Profile() {
           <Text style={styles.description}>{user.description}</Text>
           <View style={styles.TagContainer}>
             <Tag title="2nd Year" colour="#FD7A02" />
-            {/* <Tag title="Engineering" colour="#0087FF" />
-            <Tag title="Neuroscience" colour="#8A3FC3" /> */}
             {user.faculties &&
               user.faculties.map((faculty, index) => (
                 <Tag key={index} title={faculty.name} colour={faculty.colour} />
@@ -398,24 +402,17 @@ export default function Profile() {
         <Text style={styles.heading1}>Societies</Text>
         {user.societies &&
           user.societies.map((x, index) => (
-            <ProfileInterface
-              key={index}
-              name={x.name}
-              members={x.members}
-              role={x.role}
-            />
-          ))}
-        <Text style={styles.heading1}>Recently Commented</Text>
-        {user.comments &&
-          user.comments.map((x, index) => (
-            <CommentCard
-              key={index}
-              name={x.name}
-              time={x.time}
-              comment={x.comment}
-            />
+            <ProfileInterface key={index} {...x} />
           ))}
       </View>
+      <StyledButton 
+          onPress={logout} 
+          title="Logout" 
+          shadowColour={colours.light.primary} 
+          colour={colours.light.secondary}
+          textColour={"white"}
+          style={styles.logoutButton}
+          ></StyledButton>
     </ScrollView>
   );
 }
@@ -465,6 +462,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 24,
     color: "white",
+    fontFamily: "Regular",
   },
   bottomContainer: {
     padding: 20,
@@ -473,5 +471,12 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: colours.light.text,
     marginBottom: 10,
+    fontFamily: "Bold",
   },
+  logoutButton: {
+    position: 'absolute',
+    right: 0,
+    top: -20,
+    zIndex: 999,
+  }
 });
