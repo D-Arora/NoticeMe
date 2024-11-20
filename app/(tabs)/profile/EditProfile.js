@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     height: 58,
     paddingVertical: 5,
     paddingHorizontal: 18,
-    borderRadius: 30,
+    borderRadius: 20,
     backgroundColor: "#F7F7F7",
   },
   textInput: {
