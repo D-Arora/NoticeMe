@@ -114,6 +114,24 @@ export default function TabsLayout() {
           }}
         />
       ))}
+      <Tabs.Screen
+        name="events/map"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="events/event"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="events/createEvent"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }
