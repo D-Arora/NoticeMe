@@ -26,7 +26,7 @@
     "location": "Room 101, Tech Building",
     "colour": "#474c60",
     "imageSource": "https://fastly.picsum.photos/id/5/4000/5000.jpg?hmac=mQTgJvIah8XHf998mX-riwieROrlDM5GaJqMfQxl2So",
-    "description": "Unlock your potential at our Coding Bootcamp! 💻🚀 Whether you're a beginner or an expert, we’ve got something for you! Let's code together! 🔧",
+    "description": "Unlock your potential at our Coding Bootcamp! 💻🚀 Whether you're a beginner or an expert, we've got something for you! Let's code together! 🔧",
     "tags": ["coding", "technology", "education", "tech skills"],
     "comments": []
   },
@@ -40,10 +40,10 @@
     "location": "Gallery 101",
     "colour": "#272727",
     "imageSource": "https://fastly.picsum.photos/id/952/4000/5000.jpg?hmac=iScDCKsz5995DlMjnoGqxTqww7hSvRc4eYu4DF2ApxE",
-    "description": "Explore the creativity of our talented artists 🎨✨ A space to discover new perspectives and be inspired! Don’t miss this cultural experience! 🖼️",
+    "description": "Explore the creativity of our talented artists 🎨✨ A space to discover new perspectives and be inspired! Don't miss this cultural experience! 🖼️",
     "tags": ["art", "culture", "exhibition", "creativity"],
     "comments": [
-      "Can’t wait to see the new works this year! 😍",
+      "Can't wait to see the new works this year! 😍",
       "Is there a theme for the exhibition? 🤔"
     ]
   },
@@ -57,7 +57,7 @@
     "location": "The Grounds of the City, Sydney",
     "colour": "#2f3124",
     "imageSource": "https://fastly.picsum.photos/id/367/4000/5000.jpg?hmac=jXGfNhbjZ9zVqYrZMM8ZpdR5KXcRKBdPwhpGNun8EHU",
-    "description": "Join us for a cozy evening of book discussions and lively conversation! 📚☕ Let’s dive into our latest read and share our thoughts! 📖💬",
+    "description": "Join us for a cozy evening of book discussions and lively conversation! 📚☕ Let's dive into our latest read and share our thoughts! 📖💬",
     "tags": ["books", "literature", "discussion", "community"],
     "comments": []
   },
@@ -71,7 +71,7 @@
     "location": "The Grounds of the City, Sydney",
     "colour": "#492620",
     "imageSource": "https://fastly.picsum.photos/id/766/4000/5000.jpg?hmac=U6oumtypjQBEJZ8aGr8b74PWuuMLrrA689-K7DPxZUg",
-    "description": "Coffee lovers unite! ☕ Come grab your favorite brew and chat with fellow coffee aficionados ☕👥 Let’s fuel up for the day ahead! ☀️",
+    "description": "Coffee lovers unite! ☕ Come grab your favorite brew and chat with fellow coffee aficionados ☕👥 Let's fuel up for the day ahead! ☀️",
     "tags": ["coffee", "social", "morning", "chill"],
     "comments": ["Can we try a new type of coffee this time? ☕🤔"]
   },
@@ -99,7 +99,7 @@
     "location": "Sydney Botanic Gardens",
     "colour": "#415f7b",
     "imageSource": "https://fastly.picsum.photos/id/562/4000/5000.jpg?hmac=0xif22hq1VFOZd5kPUKyDQn8E8YkDoKE-kwikeMSPzI",
-    "description": "Let’s go green 🌱🌍 Join us for an interactive workshop where we’ll explore sustainability and eco-friendly living 🌿♻️",
+    "description": "Let's go green 🌱🌍 Join us for an interactive workshop where we'll explore sustainability and eco-friendly living 🌿♻️",
     "tags": ["environment", "sustainability", "workshop", "green"],
     "comments": []
   },
@@ -113,7 +113,7 @@
     "location": "Barangaroo Reserve, Sydney",
     "colour": "#d87a1a",
     "imageSource": "https://fastly.picsum.photos/id/171/4000/5000.jpg?hmac=_Wa9TfCuUNCIeJgT3oKp-WGGxKRvulpR2CEcs6x9dC8",
-    "description": "Pitch your ideas, meet inspiring entrepreneurs, and connect with potential investors 💡🚀 Let’s make business magic happen! 💼🌟",
+    "description": "Pitch your ideas, meet inspiring entrepreneurs, and connect with potential investors 💡🚀 Let's make business magic happen! 💼🌟",
     "tags": ["entrepreneurship", "startups", "networking", "business"],
     "comments": []
   },
@@ -127,7 +127,7 @@
     "location": "The Ritz Cinema, Randwick",
     "colour": "#793c44",
     "imageSource": "https://fastly.picsum.photos/id/104/4000/5000.jpg?hmac=YvLtTklLNJp0BSYEMKiBJx9uLx1YJVDDXayBtLt8-y8",
-    "description": "Lights, camera, action! 🍿🎬 Join us for a screening of a critically acclaimed film at the Ritz Cinema 🎥🎞️ Let’s enjoy the magic of movies together! 🎬",
+    "description": "Lights, camera, action! 🍿🎬 Join us for a screening of a critically acclaimed film at the Ritz Cinema 🎥🎞️ Let's enjoy the magic of movies together! 🎬",
     "tags": ["film", "cinema", "movie", "screening"],
     "comments": []
   },
@@ -140,8 +140,8 @@
     "longitude": 151.2093,
     "location": "University Lawn",
     "colour": "#4caf50",
-    "imageSource": "https://fastly.picsum.photos/id/347/4000/5000.jpg?hmac=DJ5ngvXBdfXrxcdwLVw9jlbz8Xbr19Uq_3nINndjQ8M",
-    "description": "Join us for a relaxing yoga session to unwind and refresh your body and mind 🌿🧘‍♀️ Whether you’re a beginner or a pro, come find your inner peace! 🌸🧘",
+    "imageSource": "https://fastly.picsum.photos/id/940/4000/5000.jpg?hmac=58GdKX80K5Rmr7oURxTuRmXtRRnZwUEiXVrsF9nSOVc",
+    "description": "Join us for a relaxing yoga session to unwind and refresh your body and mind 🌿🧘‍♀️ Whether you're a beginner or a pro, come find your inner peace! 🌸🧘",
     "tags": ["yoga", "wellness", "relaxation", "self-care"],
     "comments": []
   },
@@ -153,8 +153,8 @@
     "latitude": -33.8743,
     "longitude": 151.2034,
     "location": "Convention Center, Darling Harbour",
-    "colour": "#009688",
-    "imageSource": "https://fastly.picsum.photos/id/829/4000/5000.jpg?hmac=RaB3_1gDNO76wePTlZQtZoab_cU6VxXaNY0yqHzgd7g",
+    "colour": "#67280c",
+    "imageSource": "https://fastly.picsum.photos/id/625/4000/5000.jpg?hmac=VgjqAgbG2xk7N98VTXXGVnzTGrqWGW2jDQbhn-9k2S8",
     "description": "Kickstart your career by meeting top employers and learning about exciting job opportunities 💼👩‍💼 Connect with professionals from various industries and boost your future! 🚀",
     "tags": ["career", "networking", "job opportunities", "employment"],
     "comments": []
