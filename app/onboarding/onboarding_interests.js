@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from 'react';
 import {
   View,
   Text,
@@ -6,6 +7,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Platform,
+  Alert
 } from "react-native";
 import StyledButton from "../../components/StyledButton";
 import Tag from "../../components/Tag";
@@ -19,6 +21,8 @@ import { useNavigation } from "expo-router";
 export default function OnboardingInterests() {
   const router = useRouter();
   const navigation = useNavigation();
+
+  const [selectedInterests, setSelectedInterests] = useState([]);
 
   const interestList = [
     "Free Food",
@@ -34,20 +38,48 @@ export default function OnboardingInterests() {
     "Arts",
     "Fashion",
   ];
+
+  const toggleInterest = (interest) => {
+    if (selectedInterests.includes(interest)) {
+      // Remove the interest if already selected
+      setSelectedInterests((prev) =>
+        prev.filter((item) => item !== interest)
+      );
+    } else if (selectedInterests.length < 4) {
+      // Add the interest if below the limit
+      setSelectedInterests((prev) => [...prev, interest]);
+    } else {
+      Alert.alert("Maximum of 4 interests can be selected.");
+    }
+  };
+
   const generateInterests = interestList.map((interest, index) => {
+    const isSelected = selectedInterests.includes(interest);
+
     return (
       <Tag
         key={index}
         title={interest}
-        colour={colours.light.text}
+        colour={isSelected ? colours.light.secondary : colours.light.text}
         clickable={true}
-      ></Tag>
+        disabled={selectedInterests.length == 4}
+        onPress={() => toggleInterest(interest)}
+      />
     );
   });
 
   const completeOnboarding = async () => {
-    await AsyncStorage.setItem("hasCompletedOnboarding", "true");
-    router.push("/(tabs)/events");
+    if (selectedInterests.length > 0) {
+      await AsyncStorage.setItem("hasCompletedOnboarding", "true");
+      // Store the selected interests for future use
+      await AsyncStorage.setItem(
+        "selectedInterests",
+        JSON.stringify(selectedInterests)
+      );
+      router.push("/(tabs)/events");
+    } else {
+      Alert.alert("Please select at least one interest to proceed.");
+    }
   };
 
   return (
@@ -75,21 +107,29 @@ export default function OnboardingInterests() {
       <View style={styles.contentContainer}>
         <Text style={styles.header}>Select your interests ✨</Text>
         <StepBar activeStep={2}></StepBar>
-        <Text style={styles.body}>Select up to 4 interests</Text>
+        <Text style={styles.body}>
+          Select up to 4 interests ({selectedInterests.length}/4)
+        </Text>
         <View style={styles.interestContainer}>{generateInterests}</View>
         <View style={styles.buttonContainer}>
           <StyledButton
             onPress={completeOnboarding}
             title="Sign Up"
-            colour={colours.light.secondary}
+            colour={
+              selectedInterests.length > 0
+                ? colours.light.secondary
+                : "#CCCCCC" // Disabled colour
+            }
             shadowColour={colours.light.primary}
             colourChange={false}
-          ></StyledButton>
+            disabled={selectedInterests.length === 0} // Disable button if no interests selected
+          />
         </View>
       </View>
     </ImageBackground>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },

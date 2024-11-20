@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   ImageBackground,
   StyleSheet,
@@ -6,6 +6,7 @@ import {
   View,
   TouchableOpacity,
   Platform,
+  Alert
 } from "react-native";
 import StyledButton from "../../components/StyledButton";
 import InputBox from "../../components/InputBox";
@@ -18,11 +19,35 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 export default function OnboardingDetails() {
   const router = useRouter();
   const navigation = useNavigation();
+
+  // State to track input values
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [degree, setDegree] = useState(null);
+
   const goToNextScreen = () => {
+    // Validate all input fields
+    if (!name.trim()) {
+      Alert.alert("Validation Error", "Please enter your name.");
+      return;
+    }
+    if (!degree) {
+      Alert.alert("Validation Error", "Please select your degree.");
+      return;
+    }
+    if (!description.trim()) {
+      Alert.alert(
+        "Validation Error",
+        "Please provide a short description of yourself."
+      );
+      return;
+    }
+
+    // Proceed if all fields are valid
     router.push("/onboarding/onboarding_interests");
   };
 
-  // degree types
+  // Degree options
   const itemsFaculty = [
     { label: "Engineering", value: "Eng" },
     { label: "Medicine & Health", value: "Med" },
@@ -31,10 +56,6 @@ export default function OnboardingDetails() {
     { label: "Science", value: "Sci" },
     { label: "Business", value: "Bus" },
   ];
-
-  const handleSelect = (value) => {
-    console.log("Selected item:", value);
-  };
 
   return (
     <ImageBackground
@@ -69,20 +90,25 @@ export default function OnboardingDetails() {
           length="100%"
           multiline={false}
           placeholder="Samantha Wright"
+          value={name}
+          onChange={setName}
         />
         <Text style={styles.subheading}>Degree</Text>
         <DropDown
-        items={itemsFaculty}
-        placeholder="Faculty"
-        onSelect={handleSelect}
-        dropdownStyle={{ marginVertical: 10 }}
-        placeholderStyle={{ color: "#006D62", fontWeight: "bold" }}
-        selectedTextStyle={{ color: "#00B192" }}></DropDown>
+          items={itemsFaculty}
+          placeholder="Faculty"
+          onSelect={(value) => setDegree(value)}
+          dropdownStyle={{ marginVertical: 10 }}
+          placeholderStyle={{ color: "#006D62", fontWeight: "bold" }}
+          selectedTextStyle={{ color: "#00B192" }}
+        />
         <Text style={styles.subheading}>Short Description of Yourself</Text>
         <InputBox
           length="100%"
           multiline={true}
           placeholder="I'm a passionate software engineer, with a strong background in computer science."
+          value={description}
+          onChange={setDescription}
         />
       </View>
       <View style={styles.buttonContainer}>

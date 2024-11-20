@@ -2,20 +2,15 @@ import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import colours from '../colours';
 
-const InputBox = ({ length, placeholder, type, multiline }) => {
-  const [text, onChangeText] = React.useState('');
-
+const InputBox = ({ length, placeholder, type, multiline, value, onChange }) => {
   return (
     <View style={{ width: length, marginBottom: 20 }}>
       <View style={styles.shadowContainer}>
         <View style={styles.inputContainer}>
           <TextInput
-            style={[
-              styles.input,
-              multiline && { height: 100 }, // Adjust height for multiline input
-            ]}
-            onChangeText={onChangeText}
-            value={text}
+            style={[styles.input, multiline && { height: 100 }]}
+            onChangeText={onChange}
+            value={value}
             placeholder={placeholder}
             inputMode={type}
             multiline={multiline}
