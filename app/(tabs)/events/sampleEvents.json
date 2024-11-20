@@ -1,5 +1,6 @@
 [
   {
+    "id": "1",
     "eventName": "University Sports Day",
     "societyName": "Sports Society",
     "start": "2024-11-25T09:00:00",
@@ -17,6 +18,7 @@
     ]
   },
   {
+    "id": "2",
     "eventName": "Coding Bootcamp",
     "societyName": "Tech Society",
     "start": "2024-12-10T10:00:00",
@@ -31,6 +33,7 @@
     "comments": []
   },
   {
+    "id": "3",
     "eventName": "Art Exhibition",
     "societyName": "Art Society",
     "start": "2024-11-23T15:00:00",
@@ -48,6 +51,7 @@
     ]
   },
   {
+    "id": "4",
     "eventName": "Book Club Meetup",
     "societyName": "Literature Society",
     "start": "2024-12-05T17:00:00",
@@ -62,6 +66,7 @@
     "comments": []
   },
   {
+    "id": "5",
     "eventName": "Coffee Club",
     "societyName": "Coffee Society",
     "start": "2024-11-24T08:00:00",
@@ -76,6 +81,7 @@
     "comments": ["Can we try a new type of coffee this time? ☕🤔"]
   },
   {
+    "id": "6",
     "eventName": "Music Fest",
     "societyName": "Music Society",
     "start": "2024-12-08T14:00:00",
@@ -90,6 +96,7 @@
     "comments": []
   },
   {
+    "id": "7",
     "eventName": "Environmental Workshop",
     "societyName": "Green Society",
     "start": "2024-11-28T10:00:00",
@@ -104,6 +111,7 @@
     "comments": []
   },
   {
+    "id": "8",
     "eventName": "Startup Pitch Night",
     "societyName": "Entrepreneurship Society",
     "start": "2024-11-29T18:00:00",
@@ -118,6 +126,7 @@
     "comments": []
   },
   {
+    "id": "9",
     "eventName": "Film Screening",
     "societyName": "Cinema Society",
     "start": "2024-12-06T19:00:00",
@@ -132,6 +141,7 @@
     "comments": []
   },
   {
+    "id": "10",
     "eventName": "Yoga and Wellness",
     "societyName": "Wellness Society",
     "start": "2024-12-02T07:00:00",
@@ -146,6 +156,7 @@
     "comments": []
   },
   {
+    "id": "11",
     "eventName": "Career Fair",
     "societyName": "Careers Society",
     "start": "2024-12-12T10:00:00",

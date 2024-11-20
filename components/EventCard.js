@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Text, Image } from "react-native";
 import colours from "../colours";
 import { getImageDominantColor } from "../helpers/averageColour";
 import DefaultImage from "../assets/images/mesh-898.png";
-import dayjs from "dayjs"; // Import dayjs
+import dayjs from "dayjs";
 
-// Import custom plugin for suffix
 import advancedFormat from "dayjs/plugin/advancedFormat";
 dayjs.extend(advancedFormat);
 
-// Helper function to format the date with day suffix and short month name
 const formatDate = (dateString) => {
   const date = dayjs(dateString);
 
-  // Format date with day suffix and short month name (e.g., "25th Nov")
   return date.format("Do MMM");
 };
 
@@ -36,8 +33,6 @@ const EventCard = ({
 
         const dominantColor = colour || (await getImageDominantColor(uri));
 
-        // console.log(dominantColor);
-
         setBackgroundColor(dominantColor);
       } catch (error) {
         console.error("Error extracting color:", error);
@@ -48,11 +43,10 @@ const EventCard = ({
     extractColor();
   }, [imageSource]);
 
-  // Format the start date
   const formattedDate = formatDate(start);
 
   return (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity style={styles.cardContainer}>
       {/* Pseudoshadow */}
       <View style={styles.shadow} />
 
@@ -71,7 +65,7 @@ const EventCard = ({
           >{`${formattedDate} | ${location}`}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
