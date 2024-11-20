@@ -129,7 +129,7 @@ export default function MapPage() {
                   style={{ color: "#006D62", fontFamily: "Bold", fontSize: 30 }}
                   numberOfLines={1}
                 >
-                  {!params.title ? "undefined title" : params.title}
+                  {!params.eventName ? "undefined title" : params.eventName}
                 </Text>
                 <View
                   style={{
@@ -203,7 +203,7 @@ export default function MapPage() {
                   >
                     <Text
                       numberOfLines={1}
-                    >{`Event Page "${params.title}"`}</Text>
+                    >{`Event Page "${params.eventName}"`}</Text>
                   </View>
                 </Pressable>
               </View>
