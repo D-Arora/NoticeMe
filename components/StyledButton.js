@@ -2,7 +2,15 @@ import React, { useState } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import colours from "../colours";
 
-const StyledButton = ({ onPress, title, colourChange }) => {
+const StyledButton = ({
+  onPress,
+  title,
+  colour,
+  shadowColour,
+  colourChange,
+  textColour,
+  textSize
+}) => {
   const [isClicked, setIsClicked] = useState(false);
   const [buttonLayout, setButtonLayout] = useState(null);
 

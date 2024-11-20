@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import colours from "../colours";
 
-const CommentCard = ({ onPress, name, time, comment }) => {
+const CommentCard = ({ onPress, name, time, comment, description }) => {
   return (
     <View onPress={onPress} style={styles.shadowContainer}>
       <View style={styles.cardContainer}>
@@ -16,6 +16,7 @@ const CommentCard = ({ onPress, name, time, comment }) => {
           </View>
           <View>
             <Text style={styles.commentText}>{comment}</Text>
+            <Text style={styles.descriptionText}>{description}</Text>
           </View>
         </View>
       </View>
@@ -34,10 +35,11 @@ const styles = StyleSheet.create({
   cardContainer: {
     paddingVertical: 5,
     paddingHorizontal: 18,
-    borderRadius: 30,
-    alignItems: "center",
+    borderRadius: 20,
+    alignItems: 'center',
     backgroundColor: "white",
-    flexDirection: "row",
+    flexDirection: 'row',
+    marginBottom: 20,
   },
   cardThumbnail: {
     flex: 1,
@@ -50,15 +52,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   smallText: {
-    fontSize: 12,
-    color: colours.light.text,
+    fontSize: 10,
+    color: colours.light.text
   },
   commentText: {
-    fontSize: 20,
+    fontSize: 14,
     color: colours.light.text,
     marginTop: 10,
     marginBottom: 10,
   },
+  descriptionText: {
+    fontSize: 16,
+    color: colours.light.text,
+    marginBottom: 10,
+    fontWeight: 'bold',
+  }
 });
 
 export default CommentCard;

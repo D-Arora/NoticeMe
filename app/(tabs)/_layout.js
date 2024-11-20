@@ -77,7 +77,11 @@ export default function TabsLayout() {
             onPress={() => navigation.goBack()}
             style={styles.backButton}
           >
-            <MaterialIcons name="arrow-back" size={32} color="#006D62" />
+            <MaterialIcons
+              name="arrow-back"
+              size={32}
+              color={colours.light.text}
+            />
           </TouchableOpacity>
         ),
       }}
