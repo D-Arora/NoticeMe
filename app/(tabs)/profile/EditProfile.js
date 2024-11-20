@@ -1,14 +1,13 @@
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native";
 import CustomDropdown from "../../../components/Dropdown.js";
 import MultiSelectDropdown from "../../../components/Multiselect.js";
 import React, { useState } from "react";
 import { useNavigation } from "expo-router";
 import { useLocalSearchParams } from "expo-router";
 import colours from "../../../colours.js";
-import { ScrollView } from "react-native-web";
 import StyledButton from "../../../components/StyledButton.js";
 
-export default function editProfile() {
+export default function EditProfile() {
   const navigation = useNavigation();
   const params = useLocalSearchParams();
   const [text, onChangeText] = React.useState("Text");

@@ -32,7 +32,7 @@ const tabScreens = [
   { name: "calendar", label: "Calendar", Icon: CalendarIcon },
   { name: "search", label: "Search", Icon: SearchIcon },
   { name: "activity", label: "Activity", Icon: ActivityIcon },
-  { name: "profile", label: "Profile", Icon: ProfileIcon },
+  // { name: "profile", label: "Profile", Icon: ProfileIcon },
 ];
 
 export default function TabsLayout() {
@@ -154,7 +154,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile/editProfile"
+        name="profile/EditProfile"
         options={{
           href: null,
         }}
