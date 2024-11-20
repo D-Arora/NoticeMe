@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     flex: 1,
     ...Platform.select({
       ios: {
-        marginTop: -70,
+        marginTop: -30,
       },
     }),
   },

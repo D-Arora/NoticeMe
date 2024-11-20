@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import StyledButton from "../../components/StyledButton";
 import Tag from "../../components/Tag";
@@ -54,7 +55,12 @@ export default function OnboardingInterests() {
       source={require("../../assets/images/BackgroundGradient.png")}
       style={styles.container}
     >
-      <View style={styles.headerContainer}>
+      <View
+        style={[
+          styles.headerContainer,
+          { marginTop: Platform.select({ ios: 60 }) },
+        ]}
+      >
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={styles.backButton}
@@ -86,7 +92,7 @@ export default function OnboardingInterests() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20},
+  container: { flex: 1, padding: 20 },
   header: {
     fontSize: 30,
     marginTop: 10,

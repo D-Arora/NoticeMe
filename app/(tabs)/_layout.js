@@ -67,7 +67,7 @@ export default function TabsLayout() {
           borderBottomWidth: 3,
           borderColor: colours.light.highlightGreen,
           height: Platform.select({
-            ios: 64,
+            ios: 100,
             android: 86,
           }),
         },
@@ -117,7 +117,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="events/map"
         options={{
-          href: "/events",
+          href: null,
           title: "Events",
           tabBarIcon: ({ color }) => (
             <View

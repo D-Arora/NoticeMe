@@ -5,6 +5,7 @@ import {
   View,
   Text,
   StyleSheet,
+  Platform,
 } from "react-native";
 import { useRouter } from "expo-router";
 import StyledButton from "../../components/StyledButton";
@@ -32,7 +33,9 @@ export default function Index() {
       source={require("../../assets/images/BackgroundGradient.png")}
       style={styles.container}
     >
-      <Text style={styles.body}>Welcome to</Text>
+      <Text style={[styles.body, { marginTop: Platform.select({ ios: 60 }) }]}>
+        Welcome to
+      </Text>
       <Logo width={250} height={200} />
       <Title width={230} height={100} />
 
@@ -47,16 +50,16 @@ export default function Index() {
           ))}
       </View>
 
-        <TextInput
-          style={styles.hiddenInput}
-          value={input}
-          keyboardType="numeric"
-          maxLength={7}
-          returnKeyType="done"
-          onSubmitEditing={goToNextScreen}
-          onChangeText={handleInputChange}
-          autoFocus
-        />
+      <TextInput
+        style={styles.hiddenInput}
+        value={input}
+        keyboardType="numeric"
+        maxLength={7}
+        returnKeyType="done"
+        onSubmitEditing={goToNextScreen}
+        onChangeText={handleInputChange}
+        autoFocus
+      />
 
       <View style={styles.buttonContainer}>
         <StyledButton
