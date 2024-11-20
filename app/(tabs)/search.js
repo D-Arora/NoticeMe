@@ -14,10 +14,54 @@ import { defaultUsers } from "./profile";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import FloatingButton from "../../components/FloatingButton";
 
+const societies = [
+  {
+    name: "Philosophy Society",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNuw7THu9nrgpXMPttSnrESPDlo2-MI8wmfg&s",
+  },
+  {
+    name: "SciSoc",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbCnPWYNEqVFCE3Obzi0Ldspkk1HXNymd60w&s",
+  },
+  {
+    name: "KanyeWest Appreciation Society",
+  },
+  {
+    name: "DigiSoc",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQScoEboj1AsujUnGMDQde6Zm4-iy8Ab-T6_A&s",
+  },
+  {
+    name: "WanderSoc",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvR0kVD5KdpFU23P28nDl6o6DGy74lIApVNw&s",
+  },
+  {
+    name: "Medical Science Society",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSraPpqjDYqxK-Vkv17RH3hZt8tGmnI7HKvRw&s",
+  },
+  {
+    name: "Table Top Games Society",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrcYnLB8XNhe6qQDyifLMsksW36Ox6zUAoCw&s",
+  },
+  {
+    name: "Design Society",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4-VWN_sJFoeNQGYKln4qp086gw5zf-ghvrA&s",
+  },
+  {
+    name: "Tetris Soc",
+  },
+];
+
 export default function Search() {
   const navigation = useNavigation();
   const [events, setEvents] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState(defaultUsers);
   const [searchInput, setSearchInput] = useState("");
   const [hideContraints, setHideContraints] = useState(true);
 
@@ -27,50 +71,6 @@ export default function Search() {
     accounts: "Accounts",
     societies: "Societies",
   };
-
-  const societies = [
-    {
-      name: "Philosophy Society",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNuw7THu9nrgpXMPttSnrESPDlo2-MI8wmfg&s",
-    },
-    {
-      name: "SciSoc",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbCnPWYNEqVFCE3Obzi0Ldspkk1HXNymd60w&s",
-    },
-    {
-      name: "KanyeWest Appreciation Society",
-    },
-    {
-      name: "DigiSoc",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQScoEboj1AsujUnGMDQde6Zm4-iy8Ab-T6_A&s",
-    },
-    {
-      name: "WanderSoc",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvR0kVD5KdpFU23P28nDl6o6DGy74lIApVNw&s",
-    },
-    {
-      name: "Medical Science Society",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSraPpqjDYqxK-Vkv17RH3hZt8tGmnI7HKvRw&s",
-    },
-    {
-      name: "Table Top Games Society",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrcYnLB8XNhe6qQDyifLMsksW36Ox6zUAoCw&s",
-    },
-    {
-      name: "Design Society",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4-VWN_sJFoeNQGYKln4qp086gw5zf-ghvrA&s",
-    },
-    {
-      name: "Tetris Soc",
-    },
-  ];
 
   const [category, setCategory] = useState(categories.all);
 
@@ -189,7 +189,7 @@ export default function Search() {
       });
 
     setFilteredEvents(updatedEvents);
-  }, [searchInput, filterPredicates, sortComparators, events]);
+  }, [searchInput, filterPredicates, sortComparators]);
 
   useEffect(() => {
     let updatedUsers = users.filter((user) =>
@@ -207,13 +207,13 @@ export default function Search() {
 
     Object.values(sortComparators)
       .filter((x) => x.isEnabled)
-      .filter((x) => x.categories.includes(categories.societies))
+      .filter((x) => x.categories.includes(categories.accounts))
       .forEach(({ comparatorFn }) => {
         updatedUsers.sort(comparatorFn);
       });
 
     setFilteredUsers(updatedUsers);
-  }, [searchInput, filterPredicates, sortComparators, users]);
+  }, [searchInput, filterPredicates, sortComparators]);
 
   useEffect(() => {
     let updatedSocieties = societies.filter((user) =>
@@ -237,7 +237,7 @@ export default function Search() {
       });
 
     setFilteredSocieties(updatedSocieties);
-  }, [searchInput, filterPredicates, sortComparators, societies]);
+  }, [searchInput, filterPredicates, sortComparators]);
 
   return (
     <View
@@ -254,9 +254,11 @@ export default function Search() {
           width: "100%",
           flexDirection: "row",
           alignItems: "center",
+          justifyContent: 'space-evenly',
           paddingLeft: 10,
           paddingRight: 10,
           paddingTop: 6,
+          // overflow: 'visible'
         }}
       >
         <View
@@ -267,6 +269,7 @@ export default function Search() {
             borderRadius: 999,
             paddingLeft: 14,
             flexGrow: 1,
+            flexShrink: 1
           }}
         >
           <FontAwesome name="search" size={24} color="white" />
@@ -278,6 +281,7 @@ export default function Search() {
               fontSize: 16,
               borderRadius: 999,
               flexGrow: 1,
+              // flexShrink: 1
             }}
             placeholder="Search"
             placeholderTextColor="white"
@@ -288,7 +292,7 @@ export default function Search() {
         <Pressable
           style={{
             flexDirection: "row",
-            gap: 10,
+            // gap: 10,
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: "#006D62",
@@ -296,6 +300,8 @@ export default function Search() {
             height: 40,
             borderRadius: 20,
             padding: 10,
+            // flexGrow: 1
+            // flexShrink: 1
           }}
           onPress={() => setHideContraints(!hideContraints)}
         >
@@ -312,8 +318,8 @@ export default function Search() {
           flexDirection: "row",
         }}
       >
-        {Object.values(categories).map((x) => (
-          <Pressable style={{ flexGrow: 1 }} onPress={() => setCategory(x)}>
+        {Object.values(categories).map((x, index) => (
+          <Pressable key={index} style={{ flexGrow: 1 }} onPress={() => setCategory(x)}>
             <View
               style={{
                 borderTopRightRadius: 28,
@@ -323,6 +329,7 @@ export default function Search() {
                 shadowColor: "#64CEC2",
                 shadowOffset: { width: 0, height: -4 },
                 shadowOpacity: 1,
+                shadowRadius: 0,
                 borderLeftWidth: 1,
                 borderRightWidth: 1,
                 borderLeftColor: "#64CEC2",
@@ -358,15 +365,16 @@ export default function Search() {
         <View
           style={{
             // position: 'absolute',
-            borderRadius: 28,
+            borderBottomEndRadius: 28,
+            borderBottomStartRadius: 28,
             padding: 10,
             zIndex: 1,
             width: "100%",
             shadowColor: "#64CEC2",
-            shadowOffset: { width: 0, height: 5 },
+            shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 1,
             shadowRadius: 0,
-            // backgroundColor: 'white'
+            backgroundColor: 'white'
           }}
         >
           {/* <Text>Categories</Text>
@@ -429,7 +437,7 @@ export default function Search() {
                   key={index}
                   style={{
                     shadowColor: "#64CEC2",
-                    shadowOffset: { width: 0, height: 2 },
+                    shadowOffset: { width: 0, height: 3 },
                     shadowOpacity: 1,
                     shadowRadius: 0,
                     elevation: 6,
@@ -482,7 +490,7 @@ export default function Search() {
                   key={index}
                   style={{
                     shadowColor: "#64CEC2",
-                    shadowOffset: { width: 0, height: 2 },
+                    shadowOffset: { width: 0, height: 3 },
                     shadowOpacity: 1,
                     shadowRadius: 0,
                     elevation: 6,
@@ -654,7 +662,9 @@ export default function Search() {
               horizontal={true}
               style={{
                 display: "flex",
-                flexDirection: "column",
+                // flexDirection: "column",
+                flexDirection: category == categories.accounts ? "column" : "row",
+
                 gap: 50,
                 padding: 10,
                 width: "100%",
@@ -707,6 +717,7 @@ export default function Search() {
               width: "100%",
               paddingLeft: 20,
               paddingTop: 10,
+              // 
               // flexShrink: 1,
             }}
           >
@@ -719,7 +730,7 @@ export default function Search() {
               horizontal={true}
               style={{
                 display: "flex",
-                flexDirection: "column",
+                flexDirection: category == categories.societies ? "column" : "row",
                 gap: 50,
                 padding: 10,
                 width: "100%",
@@ -735,8 +746,8 @@ export default function Search() {
                   width: "100%",
                 }}
               >
-                {filteredSocieties.map((params) => (
-                  <View style={{ alignItems: "center", width: 120 }}>
+                {filteredSocieties.map((params, index) => (
+                  <View key={index} style={{ alignItems: "center", width: 120 }}>
                     <Image
                       style={{ width: 100, height: 100, borderRadius: 9999 }}
                       resizeMode="cover"
