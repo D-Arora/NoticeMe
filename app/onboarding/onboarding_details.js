@@ -10,6 +10,7 @@ import {
 import StyledButton from "../../components/StyledButton";
 import InputBox from "../../components/InputBox";
 import StepBar from "../../components/StepBar";
+import DropDown from "../../components/Dropdown";
 import colours from "../../colours";
 import { useRouter, useNavigation } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -19,6 +20,20 @@ export default function OnboardingDetails() {
   const navigation = useNavigation();
   const goToNextScreen = () => {
     router.push("/onboarding/onboarding_interests");
+  };
+
+  // degree types
+  const itemsFaculty = [
+    { label: "Engineering", value: "Eng" },
+    { label: "Medicine & Health", value: "Med" },
+    { label: "Arts, Design & Architecture", value: "ADA" },
+    { label: "Law & Justice", value: "Law" },
+    { label: "Science", value: "Sci" },
+    { label: "Business", value: "Bus" },
+  ];
+
+  const handleSelect = (value) => {
+    console.log("Selected item:", value);
   };
 
   return (
@@ -56,6 +71,13 @@ export default function OnboardingDetails() {
           placeholder="Samantha Wright"
         />
         <Text style={styles.subheading}>Degree</Text>
+        <DropDown
+        items={itemsFaculty}
+        placeholder="Faculty"
+        onSelect={handleSelect}
+        dropdownStyle={{ marginVertical: 10 }}
+        placeholderStyle={{ color: "#006D62", fontWeight: "bold" }}
+        selectedTextStyle={{ color: "#00B192" }}></DropDown>
         <Text style={styles.subheading}>Short Description of Yourself</Text>
         <InputBox
           length="100%"

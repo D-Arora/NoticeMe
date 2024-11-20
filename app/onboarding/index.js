@@ -16,6 +16,7 @@ import Title from "../../assets/images/NoticeMe.svg";
 export default function Index() {
   const router = useRouter();
   const [input, setInput] = useState("");
+  const isButtonDisabled = input.length !== 7;
 
   const handleInputChange = (text) => {
     // Limit input to 7 characters (zID length)
@@ -25,7 +26,9 @@ export default function Index() {
   };
 
   const goToNextScreen = () => {
-    router.push("/onboarding/onboarding_details");
+    if (input.length === 7) {
+      router.push("/onboarding/onboarding_details");
+    }
   };
 
   return (
@@ -65,11 +68,12 @@ export default function Index() {
         <StyledButton
           onPress={goToNextScreen}
           title="Login with zID"
-          colour="#FFFFFF"
+          colour={isButtonDisabled ? "#CCCCCC" : "#FFFFFF"}
           shadowColour={colours.light.primary}
           colourChange={false}
           textColour={colours.light.text}
           textSize={25}
+          disabled={isButtonDisabled}
         />
       </View>
     </ImageBackground>
