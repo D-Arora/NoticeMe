@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import colours from "../colours";
 
 const StyledButton = ({
@@ -12,51 +12,75 @@ const StyledButton = ({
   textSize
 }) => {
   const [isClicked, setIsClicked] = useState(false);
+  const [buttonLayout, setButtonLayout] = useState(null);
 
   const handlePress = () => {
     if (colourChange) {
       setIsClicked(!isClicked);
     }
-    onPress && onPress(); // Call the provided onPress function if it exists
+    onPress && onPress();
+  };
+
+  const handleLayout = (e) => {
+    const { width, height } = e.nativeEvent.layout;
+    setButtonLayout({ width, height });
   };
 
   return (
-    <TouchableOpacity
-      onPress={handlePress}
-      style={{
-        shadowColor: !shadowColour ? colours.light.primary : shadowColour,
-        shadowOffset: { width: 0, height: 5 },
-        shadowOpacity: 1,
-        shadowRadius: 0,
-        elevation: 6,
-      }}
-    >
+    <TouchableOpacity onPress={handlePress} style={styles.shadowContainer}>
+      {/* Pseudo Shadow */}
+      {buttonLayout && (
+        <View
+          style={[
+            styles.buttonShadow,
+            {
+              width: buttonLayout.width,
+              height: buttonLayout.height,
+              top: 3,
+            },
+          ]}
+        />
+      )}
+
+      {/* Button */}
       <View
         style={[
           styles.button,
           {
             backgroundColor: isClicked
               ? colours.light.text
-              : !colour
-              ? colours.light.secondary
-              : colour,
-          }, // Toggle color based on isClicked state
+              : colours.light.primaryPurple,
+          },
         ]}
+        onLayout={handleLayout}
       >
-        <Text style={{color: textColour ? textColour : "white",
-        fontSize: textSize ? textSize : 16, fontFamily: 'Regular'}}>{title}</Text>
+        <Text style={styles.buttonText}>{title}</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
+  shadowContainer: {
+    position: "relative",
+  },
   button: {
     paddingVertical: 12,
     paddingHorizontal: 22,
     borderRadius: 30,
     alignItems: "center",
-  }
+    marginVertical: 12,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+  },
+  buttonShadow: {
+    position: "absolute",
+    backgroundColor: colours.light.primaryGreen,
+    borderRadius: 30,
+    marginVertical: 12,
+  },
 });
 
 export default StyledButton;
