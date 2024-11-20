@@ -280,8 +280,8 @@ export default function Profile() {
             {/* <Tag title="Engineering" colour="#0087FF" />
             <Tag title="Neuroscience" colour="#8A3FC3" /> */}
             {user.faculties &&
-              user.faculties.map((x) => (
-                <Tag title={x.name} colour={x.colour} />
+              user.faculties.map((x, index) => (
+                <Tag key={index} title={x.name} colour={x.colour} />
               ))}
           </View>
         </View>

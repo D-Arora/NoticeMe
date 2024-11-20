@@ -86,7 +86,7 @@ export default function OnboardingInterests() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
+  container: { flex: 1, padding: 20},
   header: {
     fontSize: 30,
     marginTop: 10,

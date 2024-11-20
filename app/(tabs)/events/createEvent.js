@@ -9,12 +9,12 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import MapView, { Marker } from "react-native-maps";
 import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import StyledButton from "../../../components/StyledButton";
 import colours from "../../../colours";
 import DefaultImage from "../../../assets/images/mesh-898.png";
+import { MiniMap } from "../../../components/MiniMap";
 
 const EVENTS_STORE_KEY = "@events";
 
@@ -178,7 +178,7 @@ export default function createEvent() {
         onCancel={hideEndTimePicker}
       />
 
-      <MapView
+      {/* <MapView
         style={styles.map}
         initialRegion={{
           latitude: location.latitude,
@@ -189,7 +189,8 @@ export default function createEvent() {
         onPress={(e) => setLocation(e.nativeEvent.coordinate)}
       >
         <Marker coordinate={location} />
-      </MapView>
+      </MapView> */}
+      <MiniMap location={location} onPress={(e) => setLocation(e.nativeEvent.coordinate)} />
 
       <StyledButton title="Pick Event Image" onPress={pickImage} />
       <Image
