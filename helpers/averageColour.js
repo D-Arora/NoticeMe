@@ -1,31 +1,24 @@
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import { Asset } from "expo-asset";
 
-// Helper function to calculate brightness of a color
 const getBrightness = (r, g, b) => {
-  // Convert RGB to linear scale (0-1)
   const R = r / 255;
   const G = g / 255;
   const B = b / 255;
 
-  // Calculate luminance (brightness)
   return 0.2126 * R + 0.7152 * G + 0.0722 * B;
 };
 
-// Darken the color if it's too bright
 const darkenColor = (r, g, b) => {
   const brightness = getBrightness(r, g, b);
 
-  // If the color is too bright (brightness > 0.75), darken it
   if (brightness > 0.75) {
-    // Darken by reducing the RGB values, factor less than 1 makes the color darker
-    const darkenFactor = 0.7; // You can adjust this factor for more or less darkness
+    const darkenFactor = 0.7;
     r = Math.floor(r * darkenFactor);
     g = Math.floor(g * darkenFactor);
     b = Math.floor(b * darkenFactor);
   }
 
-  // Return the modified color as hex
   return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
 };
 
@@ -87,13 +80,13 @@ export const getImageDominantColor = async (imageUri) => {
     if (dominantColor) {
       const [r, g, b] = dominantColor.split(",").map(Number);
       const hexColor = darkenColor(r, g, b);
-      console.log("Extracted color:", hexColor);
+      // console.log("Extracted color:", hexColor);
       return hexColor;
     }
 
     throw new Error("No dominant color found.");
   } catch (error) {
     console.error("Error in getImageDominantColor:", error);
-    return "#6200ee"; // Default fallback color
+    return "#6200ee";
   }
 };

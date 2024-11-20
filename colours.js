@@ -1,4 +1,3 @@
-// colors.js
 const lightTheme = {
   primaryGreen: "#64CEC2",
   primaryPurple: "#8A3FC3",
@@ -6,7 +5,6 @@ const lightTheme = {
   textLight: "#00b192",
   buttonGreen: "#3fc3ad",
   highlightGreen: "#A0D8D1",
-  // Other light theme colors
 };
 
 const darkTheme = {};

@@ -4,19 +4,18 @@ import colours from "../colours";
 
 const StyledButton = ({ onPress, title, colourChange }) => {
   const [isClicked, setIsClicked] = useState(false);
-  const [buttonLayout, setButtonLayout] = useState(null); // To store the button's layout
+  const [buttonLayout, setButtonLayout] = useState(null);
 
   const handlePress = () => {
     if (colourChange) {
       setIsClicked(!isClicked);
-      // change the title to the alternative colour
     }
-    onPress && onPress(); // Call the provided onPress function if it exists
+    onPress && onPress();
   };
 
   const handleLayout = (e) => {
     const { width, height } = e.nativeEvent.layout;
-    setButtonLayout({ width, height }); // Set the button's width and height
+    setButtonLayout({ width, height });
   };
 
   return (
@@ -29,7 +28,7 @@ const StyledButton = ({ onPress, title, colourChange }) => {
             {
               width: buttonLayout.width,
               height: buttonLayout.height,
-              top: 3, // Adjust position of the shadow
+              top: 3,
             },
           ]}
         />
@@ -45,7 +44,7 @@ const StyledButton = ({ onPress, title, colourChange }) => {
               : colours.light.primaryPurple,
           },
         ]}
-        onLayout={handleLayout} // Measure button size on layout
+        onLayout={handleLayout}
       >
         <Text style={styles.buttonText}>{title}</Text>
       </View>
@@ -55,7 +54,7 @@ const StyledButton = ({ onPress, title, colourChange }) => {
 
 const styles = StyleSheet.create({
   shadowContainer: {
-    position: "relative", // Ensure container positions elements correctly
+    position: "relative",
   },
   button: {
     paddingVertical: 12,
@@ -68,9 +67,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   buttonShadow: {
-    position: "absolute", // Position the shadow beneath the button
-    backgroundColor: colours.light.primaryGreen, // Shadow color
-    borderRadius: 30, // Same as button's border radius
+    position: "absolute",
+    backgroundColor: colours.light.primaryGreen,
+    borderRadius: 30,
   },
 });
 

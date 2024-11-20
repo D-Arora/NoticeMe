@@ -2,9 +2,29 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import colours from "../colours";
 import { getImageDominantColor } from "../helpers/averageColour";
-import DefaultImage from "../assets/images/mesh-898.png"; // Default fallback image
+import DefaultImage from "../assets/images/mesh-898.png";
+import dayjs from "dayjs"; // Import dayjs
 
-const EventCard = ({ eventName, societyName, date, location, imageSource }) => {
+// Import custom plugin for suffix
+import advancedFormat from "dayjs/plugin/advancedFormat";
+dayjs.extend(advancedFormat);
+
+// Helper function to format the date with day suffix and short month name
+const formatDate = (dateString) => {
+  const date = dayjs(dateString);
+
+  // Format date with day suffix and short month name (e.g., "25th Nov")
+  return date.format("Do MMM");
+};
+
+const EventCard = ({
+  eventName,
+  societyName,
+  colour,
+  start,
+  location,
+  imageSource,
+}) => {
   const [backgroundColor, setBackgroundColor] = useState(
     colours.light.primaryPurple
   );
@@ -14,18 +34,22 @@ const EventCard = ({ eventName, societyName, date, location, imageSource }) => {
       try {
         let uri = imageSource || Image.resolveAssetSource(DefaultImage).uri;
 
-        const dominantColor = await getImageDominantColor(uri);
-        console.log(dominantColor);
+        const dominantColor = colour || (await getImageDominantColor(uri));
+
+        // console.log(dominantColor);
 
         setBackgroundColor(dominantColor);
       } catch (error) {
         console.error("Error extracting color:", error);
-        setBackgroundColor(colours.light.primaryPurple); // Fallback color
+        setBackgroundColor(colours.light.primaryPurple);
       }
     };
 
     extractColor();
-  }, [imageSource]); // Only run if imageSource changes
+  }, [imageSource]);
+
+  // Format the start date
+  const formattedDate = formatDate(start);
 
   return (
     <View style={styles.cardContainer}>
@@ -42,7 +66,9 @@ const EventCard = ({ eventName, societyName, date, location, imageSource }) => {
         {/* Text Section */}
         <View style={[styles.textContainer, { backgroundColor }]}>
           <Text style={styles.title}>{`${eventName}`}</Text>
-          <Text style={styles.subtitle}>{`${date} | ${location}`}</Text>
+          <Text
+            style={styles.subtitle}
+          >{`${formattedDate} | ${location}`}</Text>
         </View>
       </View>
     </View>

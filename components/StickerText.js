@@ -1,4 +1,3 @@
-// components/StickerText.js
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 
@@ -8,8 +7,8 @@ const StickerText = ({
   fontFamily = "Regular",
   textColor = "#006D62",
   shadowColor = "#00bfae",
-  alignment = "center", // Alignment prop
-  shadowOffset = 2, // New shadowOffset prop with default value of 3
+  alignment = "center",
+  shadowOffset = 2,
 }) => {
   return (
     <View style={[styles.textContainer, { alignItems: alignment }]}>
@@ -43,9 +42,7 @@ const styles = StyleSheet.create({
   textContainer: {
     position: "relative",
   },
-  mainText: {
-    // Additional styling if needed
-  },
+  mainText: {},
   textShadow: {
     position: "absolute",
   },

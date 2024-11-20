@@ -3,13 +3,13 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import colours from "../colours";
 
 export default function FloatingButton({
-  IconComponent, // Icon component (e.g., Entypo from @expo/vector-icons)
-  iconName, // Name of the icon
-  iconSize = 40, // Default icon size
-  iconColor = "white", // Default icon color
-  onPress, // Function triggered on button press
-  shadowColor = colours.light.highlightGreen, // Shadow background color
-  buttonColor = colours.light.buttonGreen, // Button background color
+  IconComponent,
+  iconName,
+  iconSize = 40,
+  iconColor = "white",
+  onPress,
+  shadowColor = colours.light.highlightGreen,
+  buttonColor = colours.light.buttonGreen,
 }) {
   return (
     <TouchableOpacity style={[styles.button]} onPress={onPress}>
