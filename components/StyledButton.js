@@ -9,7 +9,7 @@ const StyledButton = ({
   shadowColour,
   colourChange,
   textColour,
-  textSize
+  textSize,
 }) => {
   const [isClicked, setIsClicked] = useState(false);
 
@@ -43,8 +43,15 @@ const StyledButton = ({
           }, // Toggle color based on isClicked state
         ]}
       >
-        <Text style={{color: textColour ? textColour : "white",
-        fontSize: textSize ? textSize : 16, fontFamily: 'Regular'}}>{title}</Text>
+        <Text
+          style={{
+            color: textColour ? textColour : "white",
+            fontSize: textSize ? textSize : 16,
+            fontFamily: "Regular",
+          }}
+        >
+          {title}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -56,7 +63,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 22,
     borderRadius: 30,
     alignItems: "center",
-  }
+  },
 });
 
 export default StyledButton;

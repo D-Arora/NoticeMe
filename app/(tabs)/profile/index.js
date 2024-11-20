@@ -7,14 +7,20 @@ import {
   ImageBackground,
   Image,
 } from "react-native";
-import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
-import ProfileBackground from "../../assets/ProfileBackgroundGradient.svg";
-import EditProfile from "../../assets/icons/EditProfile.svg";
-import Tag from "../../components/Tag";
-import colours from "../../colours.js";
-import FollowersButton from "../../components/FollowersButton";
-import ProfileInterface from "../../components/ProfileInterface";
-import CommentCard from "../../components/CommentCard";
+import {
+  useFocusEffect,
+  useLocalSearchParams,
+  useRouter,
+  useNavigation,
+} from "expo-router";
+import ProfileBackground from "../../../assets/ProfileBackgroundGradient.svg";
+import EditProfile from "../../../assets/icons/EditProfile.svg";
+import Tag from "../../../components/Tag";
+import colours from "../../../colours.js";
+import FollowersButton from "../../../components/FollowersButton";
+import ProfileInterface from "../../../components/ProfileInterface";
+import CommentCard from "../../../components/CommentCard";
+import { TouchableOpacity } from "react-native";
 
 const defaultProfile = {
   name: "Anna Wang",
@@ -202,6 +208,7 @@ export const defaultUsers = [
 
 export default function Profile() {
   const router = useRouter();
+  const navigation = useNavigation();
   const params = useLocalSearchParams();
   const [user, setUser] = useState(
     Object.keys(params).length === 0
@@ -241,7 +248,7 @@ export default function Profile() {
                 resizeMode="cover"
                 source={
                   !user.image
-                    ? require("../../assets/adaptive-icon.png")
+                    ? require("../../../assets/adaptive-icon.png")
                     : { uri: user.image }
                 }
               />
@@ -263,14 +270,29 @@ export default function Profile() {
                 >
                   {user.name}
                 </Text>
-                <EditProfile
-                  width="25px"
-                  onPress={() => router.push("/EditProfile")}
-                />
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("profile/editProfile", params)
+                  }
+                >
+                  <EditProfile width="25px" />
+                </TouchableOpacity>
               </View>
               <View style={styles.followersContainer}>
-                <FollowersButton title="Followers" users={user.followers} />
-                <FollowersButton title="Following" users={user.following} />
+                <FollowersButton
+                  title="Followers"
+                  users={user.followers}
+                  onPress={() =>
+                    navigation.navigate("profile/followers", params)
+                  }
+                />
+                <FollowersButton
+                  title="Following"
+                  users={user.following}
+                  onPress={() =>
+                    navigation.navigate("profile/following", params)
+                  }
+                />
               </View>
             </View>
           </View>

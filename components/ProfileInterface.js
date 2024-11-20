@@ -6,15 +6,14 @@ import StyledButton from './StyledButton';
 const ProfileInterface = ({ onPress, name, members, role }) => {
   return (
     <View onPress={onPress} style={styles.boxContainer}>
-        <View style={styles.profilePicture}>
-        </View>
-        <View style={styles.profileInfo}>
-            <Text style={styles.nameText}>{name}</Text>
-            <Text style={styles.membersText}>{members}</Text>
-        </View>
-        <View>
-            <StyledButton title={role}></StyledButton>
-        </View>
+      <View style={styles.profilePicture}></View>
+      <View style={styles.profileInfo}>
+        <Text style={styles.nameText}>{name}</Text>
+        <Text style={styles.membersText}>{members}</Text>
+      </View>
+      <View>
+        <StyledButton title={role}></StyledButton>
+      </View>
     </View>
   );
 };
