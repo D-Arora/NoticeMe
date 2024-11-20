@@ -31,7 +31,7 @@ const MultiSelectDropdown = ({
         placeholderStyle={[styles.placeholderText, placeholderStyle]}
         selectedTextStyle={[styles.selectedText, selectedTextStyle]}
         itemTextStyle={[styles.itemText, itemTextStyle]}
-        itemContainerStyle={[styles.itemContainer, itemContainerStyle]}
+        // itemContainerStyle={[styles.itemContainer, itemContainerStyle]}
         style={styles.multiSelect}
       />
     </View>
@@ -68,9 +68,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "medium",
   },
-  itemContainer: {
-    borderColor: "#F7F7F7",
-  },
+  // itemContainer: {
+  //   borderColor: "#F7F7F7",
+  // },
 });
 
 export default MultiSelectDropdown;

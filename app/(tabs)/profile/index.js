@@ -54,7 +54,11 @@ export default function Profile() {
                 users={123}
                 onPress={() => navigation.navigate("profile/followers", params)}
               />
-              <FollowersButton title="Following" users={2078} />
+              <FollowersButton
+                title="Following"
+                users={2078}
+                onPress={() => navigation.navigate("profile/following", params)}
+              />
             </View>
           </View>
         </View>

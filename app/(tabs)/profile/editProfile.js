@@ -1,12 +1,16 @@
 import { View, Text, StyleSheet, TextInput } from "react-native";
-import CustomDropdown from "../../../components/dropdown.js";
-import MultiSelectDropdown from "../../../components/multiselect.js";
+import CustomDropdown from "../../../components/Dropdown.js";
+import MultiSelectDropdown from "../../../components/Multiselect.js";
 import React, { useState } from "react";
+import { useNavigation } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import colours from "../../../colours.js";
 import { ScrollView } from "react-native-web";
 import StyledButton from "../../../components/StyledButton.js";
 
 export default function editProfile() {
+  const navigation = useNavigation();
+  const params = useLocalSearchParams();
   const [text, onChangeText] = React.useState("Text");
   const [value, onChangeMultiText] = React.useState("Multiline Placeholder");
 
@@ -30,6 +34,10 @@ export default function editProfile() {
 
   const handleSelect = (value) => {
     console.log("Selected item:", value);
+  };
+
+  const goBackToProfile = () => {
+    navigation.navigate("profile/index", params);
   };
 
   return (
@@ -79,7 +87,13 @@ export default function editProfile() {
           </View>
         </View>
         <View>
-          <StyledButton></StyledButton>
+          <StyledButton
+            onPress={goBackToProfile}
+            title="Save Changes"
+            colourChange={false}
+            textColour={colours.light.text}
+            textSize={25}
+          />
         </View>
       </View>
     </ScrollView>
