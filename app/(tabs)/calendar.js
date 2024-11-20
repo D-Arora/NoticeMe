@@ -24,6 +24,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import StyledButton from "../../components/StyledButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { defaultEvents, EVENTS_STORE_KEY } from "./events";
+import sampleEvents from './events/sampleEvents.json';
 
 const tabHeight = 40;
 
@@ -37,21 +38,27 @@ export default function Calendar() {
   const [events, setEvents] = useState([]);
 
   const getEventsFromAsyncStorage = async () => {
-    const storedEvents = await AsyncStorage.getItem(EVENTS_STORE_KEY);
-    if (!storedEvents) {
-      setEvents(defaultEvents);
-      await AsyncStorage.setItem(
-        EVENTS_STORE_KEY,
-        JSON.stringify(defaultEvents)
-      );
-    } else {
-      const parsedEvents = JSON.parse(storedEvents).map((event) => ({
-        ...event,
-        start: new Date(event.start),
-        end: new Date(event.end),
-      }));
-      setEvents(parsedEvents);
-    }
+    // const storedEvents = await AsyncStorage.getItem(EVENTS_STORE_KEY);
+    // if (!storedEvents) {
+    //   setEvents(defaultEvents);
+    //   await AsyncStorage.setItem(
+    //     EVENTS_STORE_KEY,
+    //     JSON.stringify(defaultEvents)
+    //   );
+    // } else {
+    //   const parsedEvents = JSON.parse(storedEvents).map((event) => ({
+    //     ...event,
+    //     start: new Date(event.start),
+    //     end: new Date(event.end),
+    //   }));
+    //   setEvents(parsedEvents);
+    // }
+
+    setEvents(sampleEvents.map(event => ({
+      ...event,
+      start: new Date(event.start),
+      end: new Date(event.end)
+    })))
   };
 
   useEffect(() => {
@@ -412,12 +419,12 @@ export default function Calendar() {
         {
           // dayjs(event.end).diff(event.start, 'minute') < 32 ? (
           //   <Text style={[{ color: 'black' }]}>
-          //     {event.title},
+          //     {event.eventName},
           //     <Text style={[{ color: 'black' }]}>{dayjs(event.start).format('HH:mm')}</Text>
           //   </Text>
           // ) : (
           //   <>
-          //     <Text style={[{ color: 'black' }]}>{event.title}</Text>
+          //     <Text style={[{ color: 'black' }]}>{event.eventName}</Text>
           //     <Text style={[{ color: 'black' }]}>
           //       {/* {formatStartEnd(event.start, event.end, 'HH:mm')} */}
           //       {event.start.toDateString()}
@@ -432,7 +439,7 @@ export default function Calendar() {
               style={{ fontSize: 10, color: "#006D62", fontFamily: "Regular" }}
               numberOfLines={1}
             >
-              {event.title}
+              {event.eventName}
             </Text>
           </>
         ) : mode == "week" ? (
@@ -442,13 +449,13 @@ export default function Calendar() {
                 style={{ fontSize: 10, color: "#006D62", fontFamily: "Bold" }}
                 numberOfLines={1}
               >
-                {event.title}
+                {event.eventName}
               </Text>
             ) : (
               <Text
                 style={{ fontSize: 10, color: "#006D62", fontFamily: "Bold" }}
               >
-                {event.title}
+                {event.eventName}
               </Text>
             )}
           </>
@@ -459,13 +466,13 @@ export default function Calendar() {
                 style={{ fontSize: 10, color: "#006D62", fontFamily: "Bold" }}
                 numberOfLines={1}
               >
-                {event.title}
+                {event.eventName}
               </Text>
             ) : (
               <Text
                 style={{ fontSize: 10, color: "#006D62", fontFamily: "Bold" }}
               >
-                {event.title}
+                {event.eventName}
               </Text>
             )}
           </>
@@ -474,7 +481,7 @@ export default function Calendar() {
             <Text
               style={{ fontSize: 14, color: "#006D62", fontFamily: "Bold" }}
             >
-              {event.title}
+              {event.eventName}
             </Text>
             <Text
               style={{ fontSize: 10, color: "#006D62", fontFamily: "Regular" }}
@@ -595,7 +602,7 @@ export default function Calendar() {
             if (event.color) {
               return { backgroundColor: event.color };
             }
-            // const backgroundColor = event.title.match(/Meeting/) ? 'red' : 'blue'
+            // const backgroundColor = event.eventName.match(/Meeting/) ? 'red' : 'blue'
             // return { backgroundColor }
           }}
           // moreLabel="+{moreCount}"
@@ -646,8 +653,16 @@ const styles = StyleSheet.create({
     // backgroundColor: "#00D262",
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
-    borderTopWidth: 3,
-    borderTopColor: "#64CEC2",
+    // borderTopWidth: 3,
+    // borderTopColor: "#64CEC2",
+    shadowColor: "#64CEC2",
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderLeftColor: "#64CEC2",
+    borderRightColor: "#64CEC2",
   },
   buttonText: {
     fontWeight: 700,
@@ -667,7 +682,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 5,
-    gap: 1,
+    // gap: 1,
     // padding: 10,
     height: tabHeight,
   },

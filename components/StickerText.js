@@ -1,60 +1,51 @@
-// components/stickerText.js
 import React from "react";
-import { Dimensions, Platform } from "react-native";
-import Svg, { Text } from "react-native-svg";
-
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
+import { Text, View, StyleSheet } from "react-native";
 
 const StickerText = ({
-  text,
-  font = "System",
-  fontSize = 20,
-  textColor = "#000000",
-  stroke = "#000000",
-  strokeWidth = 2,
-  x = SCREEN_WIDTH / 2,
-  y = 50,
-  rotation = 0,
-  textAnchor = "middle",
+  text = "placeholder text...",
+  fontSize = 30,
+  fontFamily = "Regular",
+  textColor = "#006D62",
+  shadowColor = "#00bfae",
+  alignment = "center",
+  shadowOffset = 2,
 }) => {
-  // Format the font family name correctly
-  const fontFamily = Platform.select({
-    ios: font,
-    android: font,
-  });
-
   return (
-    <Svg height={100} width={SCREEN_WIDTH}>
-      {/* Outline layer */}
+    <View style={[styles.textContainer, { alignItems: alignment }]}>
       <Text
-        x={x}
-        y={y}
-        fontSize={fontSize}
-        fontFamily={fontFamily}
-        fill="none"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        textAnchor={textAnchor}
-        rotation={rotation}
+        style={[
+          styles.textShadow,
+          {
+            fontSize,
+            fontFamily,
+            color: shadowColor,
+            textAlign: alignment,
+            top: shadowOffset,
+          },
+        ]}
       >
         {text}
       </Text>
-
-      {/* Text fill layer - rendered on top */}
       <Text
-        x={x}
-        y={y}
-        fontSize={fontSize}
-        fontFamily={fontFamily}
-        fill={textColor}
-        strokeWidth={0}
-        textAnchor={textAnchor}
-        rotation={rotation}
+        style={[
+          styles.mainText,
+          { fontSize, fontFamily, color: textColor, textAlign: alignment },
+        ]}
       >
         {text}
       </Text>
-    </Svg>
+    </View>
   );
 };
 
-export { StickerText };
+const styles = StyleSheet.create({
+  textContainer: {
+    position: "relative",
+  },
+  mainText: {},
+  textShadow: {
+    position: "absolute",
+  },
+});
+
+export default StickerText;

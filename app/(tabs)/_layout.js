@@ -1,15 +1,39 @@
+import React from "react";
 import { Tabs, useNavigation } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
-import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  Platform,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
+
 import colours from "../../colours";
-
-import Logo from "../../assets/noticeme.png";
-
+import StickerText from "../../components/StickerText";
+import Logo from "../../assets/icons/hat-logo.png";
 import EventsIcon from "../../assets/icons/events.svg";
-import CalendarIcon from "../../assets/icons/calendar.svg";
+import CalendarIcon from "../../assets/icons/calendar-simplified.svg";
 import SearchIcon from "../../assets/icons/search.svg";
 import ActivityIcon from "../../assets/icons/activity.svg";
 import ProfileIcon from "../../assets/icons/profile.svg";
+
+const Header = () => (
+  <View style={styles.headerTitleContainer}>
+    <Image source={Logo} style={styles.logo} />
+    <StickerText text="NoticeMe" fontFamily="Bold" />
+  </View>
+);
+
+const tabScreens = [
+  { name: "events/index", label: "Events", Icon: EventsIcon },
+  { name: "calendar", label: "Calendar", Icon: CalendarIcon },
+  { name: "search", label: "Search", Icon: SearchIcon },
+  { name: "activity", label: "Activity", Icon: ActivityIcon },
+  { name: "profile", label: "Profile", Icon: ProfileIcon },
+];
 
 export default function TabsLayout() {
   const navigation = useNavigation();
@@ -17,38 +41,37 @@ export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#8A3FC3",
-        tabBarInactiveTintColor: "#64CEC2",
+        tabBarActiveTintColor: colours.light.primaryPurple,
+        tabBarInactiveTintColor: colours.light.primaryGreen,
         tabBarStyle: {
-          // margin: 30,
           shadowOpacity: 0,
           borderTopWidth: 3,
-          borderTopColor: "#64CEC2",
+          borderColor: colours.light.highlightGreen,
           height: 64,
           paddingTop: 2,
-          paddingBottom: 6,
+          paddingBottom: Platform.select({
+            ios: 0,
+            android: 6,
+          }),
         },
+        tabBarButton: (props) => <TouchableOpacity {...props} />,
         tabBarLabelStyle: {
           fontFamily: "Bold",
           fontSize: 14,
-          textShadowColor: "#64CEC2",
+          textShadowColor: colours.light.primaryGreen,
           textShadowRadius: 0,
           textShadowOffset: { width: 0, height: 10 },
         },
         headerTitleAlign: "center",
         headerStyle: {
           borderBottomWidth: 3,
-          borderBottomColor: "#64CEC2",
+          borderColor: colours.light.highlightGreen,
+          height: Platform.select({
+            ios: 64,
+            android: 86,
+          }),
         },
-        headerTitle: () => (
-          <View style={styles.headerTitleContainer}>
-            <Image source={Logo} style={styles.logo} />
-            <View style={styles.headerTextContainer}>
-              <Text style={styles.headerTitleShadow}>NoticeMe</Text>
-              <Text style={styles.headerTitleText}>NoticeMe</Text>
-            </View>
-          </View>
-        ),
+        headerTitle: () => <Header />,
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.goBack()}
@@ -63,8 +86,36 @@ export default function TabsLayout() {
         ),
       }}
     >
+      {tabScreens.map(({ name, label, Icon }) => (
+        <Tabs.Screen
+          key={name}
+          name={name}
+          options={{
+            title: ({ focused }) => (
+              <Text
+                style={[
+                  styles.iconText,
+                  focused && { color: colours.light.primaryPurple },
+                ]}
+              >
+                {label}
+              </Text>
+            ),
+            tabBarIcon: ({ color }) => (
+              <View
+                style={[
+                  styles.iconContainer,
+                  color === colours.light.primaryPurple && styles.activeIcon,
+                ]}
+              >
+                <Icon width={32} height={32} fill={color} />
+              </View>
+            ),
+          }}
+        />
+      ))}
       <Tabs.Screen
-        name="events/index"
+        name="events/map"
         options={{
           href: "/events",
           title: "Events",
@@ -169,7 +220,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="events/map"
+        name="events/createEvent"
         options={{
           href: null,
         }}
@@ -182,48 +233,28 @@ const styles = StyleSheet.create({
   headerTitleContainer: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
   },
-
-  logo: {
-    width: 36,
-    height: 36,
-    marginRight: 10,
-  },
-
-  headerTextContainer: {
-    position: "relative",
-  },
-
-  headerTitleText: {
-    fontSize: 28,
-    fontFamily: "Bold",
-    color: colours.light.text,
-  },
-
-  headerTitleShadow: {
-    position: "absolute",
-    fontSize: 28,
-    fontFamily: "Bold",
-    color: "#64CEC2",
-    top: 3,
-  },
-
   backButton: {
-    paddingLeft: 10,
+    paddingLeft: 12,
   },
-
+  logo: {
+    width: 32,
+    height: 32,
+    marginRight: 5,
+    marginTop: 5,
+  },
   iconContainer: {
     justifyContent: "center",
-    // alignItems: "center",
-    // shadowColor: "#000", // Shadow color
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowOpacity: 0.3, // Shadow opacity
-    // shadowRadius: 4, // Shadow blur
-    // elevation: 5, // Shadow for Android
   },
-
   activeIcon: {
     strokeWidth: 2,
-    // stroke: "#64CEC2", // Outline color when active
+  },
+  iconText: {
+    fontSize: 14,
+    color: colours.light.primaryGreen,
+    fontFamily: "Bold",
   },
 });

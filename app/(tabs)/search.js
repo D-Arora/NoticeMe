@@ -13,6 +13,8 @@ import { defaultEvents, EVENTS_STORE_KEY } from "./events";
 import { defaultUsers } from "./profile";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import FloatingButton from "../../components/FloatingButton";
+import sampleEvents from './events/sampleEvents.json';
+
 
 const societies = [
   {
@@ -97,7 +99,7 @@ export default function Search() {
         categories.societies,
       ],
       isEnabled: false,
-      predicateFn: (e) => !!e.image,
+      predicateFn: (e) => !!e.imageSource,
     },
     // TODO otherpredicates that are actually useful
   });
@@ -117,8 +119,8 @@ export default function Search() {
       ],
       isEnabled: false,
       comparatorFn: (a, b) => {
-        if (a.title && b.title) {
-          return a.title.localeCompare(b.title, undefined, {
+        if (a.eventName && b.eventName) {
+          return a.eventName.localeCompare(b.eventName, undefined, {
             sensitivity: "base",
           });
         }
@@ -137,22 +139,26 @@ export default function Search() {
   const [filteredSocieties, setFilteredSocieties] = useState([]);
 
   const getEventsFromAsyncStorage = async () => {
-    const storedEvents = await AsyncStorage.getItem(EVENTS_STORE_KEY);
-    if (!storedEvents) {
-      setEvents(defaultEvents);
-      setFilteredEvents(defaultEvents);
-      await AsyncStorage.setItem(
-        EVENTS_STORE_KEY,
-        JSON.stringify(defaultEvents)
-      );
-    } else {
-      setEvents(JSON.parse(storedEvents));
-      setFilteredEvents(JSON.parse(storedEvents));
-    }
+    // const storedEvents = await AsyncStorage.getItem(EVENTS_STORE_KEY);
+    // if (!storedEvents) {
+    //   setEvents(defaultEvents);
+    //   setFilteredEvents(defaultEvents);
+    //   await AsyncStorage.setItem(
+    //     EVENTS_STORE_KEY,
+    //     JSON.stringify(defaultEvents)
+    //   );
+    // } else {
+    //   setEvents(JSON.parse(storedEvents));
+    //   setFilteredEvents(JSON.parse(storedEvents));
+    // }
+
+    setEvents(sampleEvents);
+    setFilteredEvents(sampleEvents);
   };
 
   useEffect(() => {
     getEventsFromAsyncStorage();
+
     setUsers(defaultUsers);
   }, []);
 
@@ -178,7 +184,7 @@ export default function Search() {
 
     if (searchInput !== "") {
       updatedEvents = updatedEvents.filter((event) =>
-        event.title.toLowerCase().includes(searchInput.toLowerCase())
+        event.eventName.toLowerCase().includes(searchInput.toLowerCase())
       );
     }
 
@@ -574,7 +580,7 @@ export default function Search() {
                         // marginRight: 10,
                         width: "100%",
                         gap: 10,
-                        shadowColor: !params.color ? "grey" : params.color,
+                        shadowColor: !params.colour ? "grey" : params.colour,
                         shadowOffset: { width: 0, height: 5 },
                         shadowOpacity: 1,
                         shadowRadius: 0,
@@ -586,9 +592,9 @@ export default function Search() {
                         style={{ width: 100, height: 100, borderRadius: 20 }}
                         resizeMode="cover"
                         source={
-                          !params.image
+                          !params.imageSource
                             ? require("../../assets/adaptive-icon.png")
-                            : { uri: params.image }
+                            : { uri: params.imageSource }
                         }
                       />
                       <View style={{ overflow: "scroll", flexShrink: 1 }}>
@@ -600,7 +606,7 @@ export default function Search() {
                           }}
                           numberOfLines={1}
                         >
-                          {!params.title ? "undefined title" : params.title}
+                          {!params.eventName ? "undefined title" : params.eventName}
                         </Text>
                         <View
                           style={{

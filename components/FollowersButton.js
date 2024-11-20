@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { View, Button, StyleSheet, TouchableOpacity, Text } from "react-native";
 import colours from "../colours";
 
-const FollowersButton = ({ onPress, title, users}) => {
-  
+const FollowersButton = ({ onPress, title, users }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.shadowContainer}>
       <View style={styles.button}>
@@ -16,7 +15,7 @@ const FollowersButton = ({ onPress, title, users}) => {
 
 const styles = StyleSheet.create({
   shadowContainer: {
-    shadowColor: colours.light.primary,
+    shadowColor: colours.light.primaryGreen,
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 1,
     shadowRadius: 0,
@@ -26,16 +25,16 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 18,
     borderRadius: 20,
-    alignItems: 'center',
-    backgroundColor: "white"
+    alignItems: "center",
+    backgroundColor: "white",
   },
   buttonText: {
     fontSize: 16,
-    color: colours.light.text
+    color: colours.light.text,
   },
   numberText: {
     fontSize: 25,
-    color: colours.light.text
+    color: colours.light.text,
   },
 });
 
