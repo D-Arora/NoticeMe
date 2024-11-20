@@ -1,6 +1,6 @@
-import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import colours from '../colours';
+import React from "react";
+import { StyleSheet, View, Text } from "react-native";
+import colours from "../colours";
 
 const StepBar = ({ activeStep }) => {
   return (
@@ -16,13 +16,13 @@ const StepBar = ({ activeStep }) => {
             <Text style={styles.stepNumber}>{step}</Text>
             <Text style={styles.stepText} numberOfLines={2}>
               {step === 1
-                ? 'Create Account'
+                ? "Create Account"
                 : step === 2
-                ? 'Select Interests'
-                : 'Signup Done'}
+                ? "Select Interests"
+                : "Signup Done"}
             </Text>
           </View>
-          {step !== 3 && <View style={styles.line}></View>} {/* No line after last step */}
+          {step !== 3 && <View style={styles.line}></View>}
         </View>
       ))}
     </View>
@@ -31,18 +31,18 @@ const StepBar = ({ activeStep }) => {
 
 const styles = StyleSheet.create({
   stepContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     marginBottom: 20,
   },
   stepGroup: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   stepBox: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 15,
     paddingHorizontal: 15,
     backgroundColor: colours.light.secondary,
@@ -54,16 +54,16 @@ const styles = StyleSheet.create({
   },
   stepNumber: {
     fontSize: 24,
-    fontWeight: 'bold',
-    fontFamily: 'Regular',
-    color: 'white',
-    textAlign: 'center',
+    fontWeight: "bold",
+    fontFamily: "Regular",
+    color: "white",
+    textAlign: "center",
   },
   stepText: {
     fontSize: 14,
-    color: 'white',
-    fontFamily: 'Regular',
-    textAlign: 'center',
+    color: "white",
+    fontFamily: "Regular",
+    textAlign: "center",
   },
   line: {
     width: 30,
@@ -73,5 +73,3 @@ const styles = StyleSheet.create({
 });
 
 export default StepBar;
-
-

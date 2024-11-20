@@ -70,7 +70,7 @@ export default function createEvent() {
       locationName,
       latitude: location.latitude,
       longitude: location.longitude,
-      location: `${location.latitude}, ${location.longitude}`,
+      location: locationName,
       imageSource,
       tags: [],
       comments: [],
