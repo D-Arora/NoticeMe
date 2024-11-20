@@ -12,8 +12,12 @@ import { MaterialIcons } from "@expo/vector-icons";
 export default function EditProfile() {
   const navigation = useNavigation();
   const params = useLocalSearchParams();
-  const [text, onChangeText] = React.useState("Text");
-  const [value, onChangeMultiText] = React.useState("Multiline Placeholder");
+  const [name, onChangeText] = React.useState("Anna Wang"); // name
+  const [bio, onChangeMultiText] = React.useState(
+    "Hey there !! My name is Anna and I am a third year Mechatronic Engineering and Science student passionate about upskilling and improving myself."
+  ); // bio
+  const [selectedYear, setSelectedYear] = React.useState(params.year || ""); // selected year
+  const [selectedFaculties, setSelectedFaculties] = React.useState([]); // selected faculties
 
   const itemsYear = [
     { label: "1st Year", value: "1st" },
@@ -25,12 +29,12 @@ export default function EditProfile() {
   ];
 
   const itemsFaculty = [
-    { label: "Engineering", value: "Eng" },
-    { label: "Medicine & Health", value: "Med" },
+    { label: "Engineering", value: "Engineering" },
+    { label: "Medicine & Health", value: "Medicine & Health" },
     { label: "Arts, Design & Architecture", value: "ADA" },
     { label: "Law & Justice", value: "Law" },
-    { label: "Science", value: "Sci" },
-    { label: "Business", value: "Bus" },
+    { label: "Science", value: "Science" },
+    { label: "Business", value: "Business" },
   ];
 
   useEffect(() => {
@@ -46,12 +50,25 @@ export default function EditProfile() {
     });
   });
 
-  const handleSelect = (value) => {
-    console.log("Selected item:", value);
+  const handleYearSelect = (value) => {
+    setSelectedYear(value);
+    // console.log(value);
+    // console.log(selectedYear);
+  };
+
+  const handleFacultiesSelect = (value) => {
+    setSelectedFaculties(value);
   };
 
   const goBackToProfile = () => {
-    navigation.navigate("profile/index", params);
+    const facultiesString = selectedFaculties.join(",");
+    const updatedProfile = {
+      name: name,
+      description: bio,
+      year: selectedYear,
+      faculties: facultiesString,
+    };
+    navigation.navigate("profile/index", { ...updatedProfile });
   };
 
   return (
@@ -64,7 +81,7 @@ export default function EditProfile() {
             <TextInput
               style={styles.input}
               onChangeText={onChangeText}
-              value={text}
+              value={name}
             />
           </View>
           <Text style={styles.heading2}>Bio</Text>
@@ -75,7 +92,7 @@ export default function EditProfile() {
               numberOfLines={4}
               maxLength={40}
               onChangeText={(text) => onChangeMultiText(text)}
-              value={value}
+              value={bio}
               style={styles.textInput}
             />
           </View>
@@ -85,14 +102,14 @@ export default function EditProfile() {
               <CustomDropdown
                 items={itemsYear}
                 placeholder="Year of Degree"
-                onSelect={handleSelect}
+                onSelect={handleYearSelect}
               />
             </View>
             <View style={styles.container}>
               <MultiSelectDropdown
                 items={itemsFaculty}
                 placeholder="Faculty"
-                onSelect={handleSelect}
+                onSelect={handleFacultiesSelect}
                 dropdownStyle={{ marginVertical: 10 }}
                 placeholderStyle={{ color: "#006D62", fontWeight: "bold" }}
                 selectedTextStyle={{ color: "#00B192" }}
