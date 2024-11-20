@@ -1,22 +1,37 @@
-import React, { useState } from "react";
-import { View, Button, StyleSheet, TouchableOpacity, Text } from "react-native";
+import React from "react";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import colours from "../colours";
 import StyledButton from "./StyledButton";
 
 const ProfileInterfaceUser = ({
   onPress,
+  onProfilePress, // Accept the onProfilePress prop
   name,
   members,
   role,
   isFollowing,
 }) => {
   return (
-    <View onPress={onPress} style={styles.boxContainer}>
-      <View style={styles.profilePicture}></View>
-      <View style={styles.profileInfo}>
-        <Text style={styles.nameText}>{name}</Text>
-        <Text style={styles.membersText}>{members}</Text>
-      </View>
+    <View style={styles.boxContainer}>
+      {/* The whole area, except for the StyledButton, will be clickable */}
+      <TouchableOpacity
+        onPress={onProfilePress} // Profile click handler
+        style={styles.profileContent}
+        activeOpacity={0.8} // Optional: adds a slight opacity change when clicked
+      >
+        {/* Profile Picture Section */}
+        <View style={styles.profilePictureContainer}>
+          <View style={styles.profilePicture}></View>
+        </View>
+
+        {/* Profile Info Section */}
+        <View style={styles.profileInfo}>
+          <Text style={styles.nameText}>{name}</Text>
+          <Text style={styles.membersText}>{members}</Text>
+        </View>
+      </TouchableOpacity>
+
+      {/* The StyledButton stays separate and does not trigger the profile navigation */}
       <View>
         <StyledButton
           onPress={onPress}
@@ -40,25 +55,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  shadowContainer: {
-    shadowColor: colours.light.primary,
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    elevation: 6,
-  },
-  button: {
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    borderRadius: 30,
+  profileContent: {
+    flexDirection: "row",
     alignItems: "center",
+    flex: 1, // Take up all available space except the button
   },
-  buttonText: {
-    fontSize: 16,
-  },
-  profilePicture: {
+  profilePictureContainer: {
     width: 70,
     height: 70,
+    borderRadius: 40,
+  },
+  profilePicture: {
+    width: "100%",
+    height: "100%",
     borderRadius: 40,
     borderWidth: 2,
     borderColor: colours.light.primary,
@@ -70,6 +79,10 @@ const styles = StyleSheet.create({
   nameText: {
     fontSize: 13,
     fontWeight: "bold",
+  },
+  membersText: {
+    fontSize: 12,
+    color: colours.light.secondary,
   },
 });
 

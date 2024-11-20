@@ -3,12 +3,18 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import colours from "../../../colours.js";
 import ProfileInterfaceUser from "../../../components/ProfileInterfaceUser.js";
 import ConfirmationModal from "../../../components/ConfirmationModal.js";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Following() {
+  const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [following, setFollowing] = useState({
+    "Ethan Chen": true,
+    "Sophia Martinez": true,
+    "Liam O'Connor": true,
+    "Emily Zhao": true,
     "Miriam Doyle": true, // True = "Following", false = "Not Following"
     "Melody Watts": true,
     "Deandre Zavala": true,
