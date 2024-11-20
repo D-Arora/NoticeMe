@@ -1,4 +1,5 @@
 import MapView, { Marker } from "react-native-maps";
+import { StyleSheet } from "react-native";
 
 export const MiniMap = ({ location, onPress }) => {
   return (
@@ -16,3 +17,11 @@ export const MiniMap = ({ location, onPress }) => {
     </MapView>
   );
 };
+
+const styles = StyleSheet.create({
+  map: {
+    height: 200,
+    marginBottom: 15,
+    borderRadius: 40,
+  },
+});

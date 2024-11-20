@@ -24,10 +24,15 @@ const EventCarousel = ({ cards }) => {
   const renderEventCard = ({ item }) => (
     <View style={styles.cardContainer}>
       <EventCard
+        id={item.id}
         eventName={item.eventName}
         societyName={item.societyName}
         start={item.start}
+        end={item.end}
+        longitude={item.longitude}
+        latitude={item.latitude}
         location={item.location}
+        description={item.description}
         imageSource={item.imageSource}
         colour={item.colour}
       />

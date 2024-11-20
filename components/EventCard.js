@@ -1,27 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Text, Image } from "react-native";
+import { useRouter } from "expo-router";
 import colours from "../colours";
 import { getImageDominantColor } from "../helpers/averageColour";
 import DefaultImage from "../assets/images/mesh-898.png";
 import dayjs from "dayjs";
-
 import advancedFormat from "dayjs/plugin/advancedFormat";
 dayjs.extend(advancedFormat);
 
 const formatDate = (dateString) => {
   const date = dayjs(dateString);
-
   return date.format("Do MMM");
 };
 
 const EventCard = ({
+  id,
   eventName,
   societyName,
   colour,
   start,
+  end,
+  description,
   location,
   imageSource,
+  longitude,
+  latitude,
 }) => {
+  const router = useRouter();
   const [backgroundColor, setBackgroundColor] = useState(
     colours.light.primaryPurple
   );
@@ -30,23 +35,62 @@ const EventCard = ({
     const extractColor = async () => {
       try {
         let uri = imageSource || Image.resolveAssetSource(DefaultImage).uri;
-
         const dominantColor = colour || (await getImageDominantColor(uri));
-
         setBackgroundColor(dominantColor);
       } catch (error) {
         console.error("Error extracting color:", error);
         setBackgroundColor(colours.light.primaryPurple);
       }
     };
-
     extractColor();
-  }, [imageSource]);
+  }, [imageSource, colour]);
 
   const formattedDate = formatDate(start);
 
+  const handlePress = () => {
+    // console.log("Card pressed with data:", {
+    //   id,
+    //   eventName,
+    //   start,
+    //   end,
+    //   location,
+    //   longitude,
+    //   latitude,
+    //   imageSource,
+    // });
+
+    const params = {
+      id: id?.toString(),
+      eventName: eventName,
+      societyName: societyName,
+      start: start?.toString(),
+      end: end?.toString(),
+      location: location,
+      description: description,
+      longitude: longitude?.toString(),
+      latitude: latitude?.toString(),
+      image: imageSource,
+      color: backgroundColor,
+    };
+
+    // console.log("Navigation params:", params);
+
+    router.push({
+      pathname: "/events/event",
+      params,
+    });
+  };
+
+  useEffect(() => {
+    console.log("EventCard rendered with id:", id, "and name:", eventName);
+  }, [id, eventName]);
+
   return (
-    <TouchableOpacity style={styles.cardContainer}>
+    <TouchableOpacity
+      style={styles.cardContainer}
+      onPress={handlePress}
+      testID={`event-card-${id}`}
+    >
       {/* Pseudoshadow */}
       <View style={styles.shadow} />
 

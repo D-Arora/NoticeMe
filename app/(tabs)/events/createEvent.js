@@ -15,6 +15,7 @@ import StyledButton from "../../../components/StyledButton";
 import colours from "../../../colours";
 import DefaultImage from "../../../assets/images/mesh-898.png";
 import { MiniMap } from "../../../components/MiniMap";
+import { randomUUID } from "expo-crypto";
 
 const EVENTS_STORE_KEY = "@events";
 
@@ -61,7 +62,7 @@ export default function createEvent() {
     }
 
     const newEvent = {
-      id: Date.now().toString(),
+      id: randomUUID(), // Use UUID for unique ID generation
       eventName,
       societyName,
       description,
@@ -81,7 +82,6 @@ export default function createEvent() {
       const events = storedEvents ? JSON.parse(storedEvents) : [];
       events.push(newEvent);
       await AsyncStorage.setItem(EVENTS_STORE_KEY, JSON.stringify(events));
-      //   console.log(JSON.parse(AsyncStorage.getItem(EVENTS_STORE_KEY)));
       router.back();
     } catch (error) {
       Alert.alert("Error", "Failed to save the event.");
@@ -178,19 +178,10 @@ export default function createEvent() {
         onCancel={hideEndTimePicker}
       />
 
-      {/* <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: location.latitude,
-          longitude: location.longitude,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.02,
-        }}
+      <MiniMap
+        location={location}
         onPress={(e) => setLocation(e.nativeEvent.coordinate)}
-      >
-        <Marker coordinate={location} />
-      </MapView> */}
-      <MiniMap location={location} onPress={(e) => setLocation(e.nativeEvent.coordinate)} />
+      />
 
       <StyledButton title="Pick Event Image" onPress={pickImage} />
       <Image
