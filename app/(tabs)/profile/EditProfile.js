@@ -1,11 +1,10 @@
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native";
 import CustomDropdown from "../../../components/Dropdown.js";
 import MultiSelectDropdown from "../../../components/Multiselect.js";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "expo-router";
 import { useLocalSearchParams } from "expo-router";
 import colours from "../../../colours.js";
-import { ScrollView } from "react-native-web";
 import StyledButton from "../../../components/StyledButton.js";
 import { TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";

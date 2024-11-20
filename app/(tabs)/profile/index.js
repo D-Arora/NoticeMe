@@ -286,7 +286,7 @@ export default function Profile() {
                 </Text>
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate("profile/editProfile", params)
+                    navigation.navigate("profile/EditProfile", params)
                   }
                 >
                   <EditProfile width="25px" />
