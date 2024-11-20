@@ -1,5 +1,11 @@
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from "react-native";
-import { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
+import { useState, useEffect } from "react";
 import CommentCard from "../../components/CommentCard";
 import PendingRequest from "../../components/PendingRequest";
 import colours from "../../colours.js";
@@ -7,8 +13,28 @@ import ArrowDown from "../../assets/icons/arrow-down.svg";
 import ArrowRight from "../../assets/icons/arrow-right.svg";
 import NotificationDot from "../../assets/icons/NotificationDot.svg";
 import AlertCard from "../../components/AlertCard";
+import { MaterialIcons } from "@expo/vector-icons";
+import {
+  useNavigation,
+  useFocusEffect,
+  useLocalSearchParams,
+} from "expo-router";
 
 export default function Activity() {
+  const navigation = useNavigation();
+  const params = useLocalSearchParams();
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ paddingLeft: 10 }}
+        >
+          <MaterialIcons name="arrow-back" size={32} color="#006e62" />
+        </TouchableOpacity>
+      ),
+    });
+  });
   const [showPendingRequests, setShowPendingRequests] = useState(false);
 
   const togglePendingRequests = () => {
@@ -25,20 +51,22 @@ export default function Activity() {
   // Remove request and show an alert
   const handleRemoveRequest = (id, action) => {
     const request = pendingRequests.find((request) => request.id === id);
-    setPendingRequests((requests) => requests.filter((request) => request.id !== id));
+    setPendingRequests((requests) =>
+      requests.filter((request) => request.id !== id)
+    );
 
     if (request) {
       showAlert(
         `${request.name}'s follow request has been ${action}.`,
-        action === 'accepted' ? 'success' : 'error'
+        action === "accepted" ? "success" : "error"
       );
     }
   };
 
   // Alert state for handling messages and visibility
   const [alertVisible, setAlertVisible] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [alertType, setAlertType] = useState('success');
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("success");
 
   // Function to handle showing alerts
   const showAlert = (message, type) => {
@@ -48,15 +76,25 @@ export default function Activity() {
   };
 
   return (
-    <ImageBackground source={require("../../assets/images/BackgroundGradient.png")} style={styles.background}>
+    <ImageBackground
+      source={require("../../assets/images/BackgroundGradient.png")}
+      style={styles.background}
+    >
       <View style={styles.container}>
         <View style={styles.pendingRequests}>
-          <NotificationDot width={15} style={{ position: 'absolute', left: 158 }} />
+          <NotificationDot
+            width={15}
+            style={{ position: "absolute", left: 158 }}
+          />
           <Text style={{ fontSize: 16, color: colours.light.text }}>
             Pending Requests ({pendingRequests.length})
           </Text>
           <TouchableOpacity onPress={togglePendingRequests}>
-            {showPendingRequests ? <ArrowDown width={30} /> : <ArrowRight width={30} />}
+            {showPendingRequests ? (
+              <ArrowDown width={30} />
+            ) : (
+              <ArrowRight width={30} />
+            )}
           </TouchableOpacity>
         </View>
 
@@ -66,8 +104,8 @@ export default function Activity() {
               key={request.id}
               name={request.name}
               members={request.members}
-              onAccept={() => handleRemoveRequest(request.id, 'accepted')}
-              onDecline={() => handleRemoveRequest(request.id, 'declined')}
+              onAccept={() => handleRemoveRequest(request.id, "accepted")}
+              onDecline={() => handleRemoveRequest(request.id, "declined")}
             />
           ))}
 
@@ -79,7 +117,10 @@ export default function Activity() {
             comment="Alvin Yang replied to your comment:"
             description="this is such an amazing opportunity!"
           />
-          <NotificationDot width={15} style={{ position: 'absolute', right: 0, top: 43 }} />
+          <NotificationDot
+            width={15}
+            style={{ position: "absolute", right: 0, top: 43 }}
+          />
           <CommentCard
             name="NeuroSoc x MedSciSoc BBQ"
             time="4 hours ago"
@@ -89,12 +130,12 @@ export default function Activity() {
         </View>
       </View>
       <AlertCard
-          message={alertMessage}
-          type={alertType}
-          visible={alertVisible}
-          onClose={() => setAlertVisible(false)}
-          style={styles.alertContainer}
-        />
+        message={alertMessage}
+        type={alertType}
+        visible={alertVisible}
+        onClose={() => setAlertVisible(false)}
+        style={styles.alertContainer}
+      />
     </ImageBackground>
   );
 }
@@ -109,9 +150,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   pendingRequests: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 10,
   },
   requestsList: {
@@ -123,7 +164,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   alertContainer: {
-    display: 'flex',
-    justifyContent: 'flex-end'
-  }
+    display: "flex",
+    justifyContent: "flex-end",
+  },
 });

@@ -1,6 +1,11 @@
 import dayjs from "dayjs";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useFocusEffect, useRouter } from "expo-router";
+import {
+  useFocusEffect,
+  useLocalSearchParams,
+  useNavigation,
+  useRouter,
+} from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import {
   Pressable,
@@ -24,18 +29,34 @@ import { Dropdown } from "react-native-element-dropdown";
 import StyledButton from "../../components/StyledButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { defaultEvents, EVENTS_STORE_KEY } from "./events";
-import sampleEvents from './events/sampleEvents.json';
+import sampleEvents from "./events/sampleEvents.json";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const tabHeight = 40;
 
 export default function Calendar() {
   const router = useRouter();
+  const navigation = useNavigation();
+  const params = useLocalSearchParams();
   const bigCalendarConatiner = useRef(null);
   const [calendarHeight, setCalendarHeight] = useState(500);
   const main = useRef(null);
   const [mode, setMode] = useState("schedule");
   const [date, setDate] = useState(new Date());
   const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ paddingLeft: 10 }}
+        >
+          <MaterialIcons name="arrow-back" size={32} color="#006e62" />
+        </TouchableOpacity>
+      ),
+    });
+  });
 
   const getEventsFromAsyncStorage = async () => {
     // const storedEvents = await AsyncStorage.getItem(EVENTS_STORE_KEY);
@@ -54,11 +75,13 @@ export default function Calendar() {
     //   setEvents(parsedEvents);
     // }
 
-    setEvents(sampleEvents.map(event => ({
-      ...event,
-      start: new Date(event.start),
-      end: new Date(event.end)
-    })))
+    setEvents(
+      sampleEvents.map((event) => ({
+        ...event,
+        start: new Date(event.start),
+        end: new Date(event.end),
+      }))
+    );
   };
 
   useEffect(() => {

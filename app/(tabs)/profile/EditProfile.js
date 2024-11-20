@@ -1,11 +1,13 @@
 import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native";
 import CustomDropdown from "../../../components/Dropdown.js";
 import MultiSelectDropdown from "../../../components/Multiselect.js";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigation } from "expo-router";
 import { useLocalSearchParams } from "expo-router";
 import colours from "../../../colours.js";
 import StyledButton from "../../../components/StyledButton.js";
+import { TouchableOpacity } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function EditProfile() {
   const navigation = useNavigation();
@@ -30,6 +32,19 @@ export default function EditProfile() {
     { label: "Science", value: "Sci" },
     { label: "Business", value: "Bus" },
   ];
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.navigate("profile/index", params)}
+          style={{ paddingLeft: 10 }}
+        >
+          <MaterialIcons name="arrow-back" size={32} color="#006e62" />
+        </TouchableOpacity>
+      ),
+    });
+  });
 
   const handleSelect = (value) => {
     console.log("Selected item:", value);

@@ -1,10 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import ProfileInterfaceUser from "../../../components/ProfileInterfaceUser";
 import ConfirmationModal from "../../../components/ConfirmationModal";
 import colours from "../../../colours.js";
+import { useNavigation } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
+import { TouchableOpacity } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function Followers() {
+  const navigation = useNavigation();
+  const params = useLocalSearchParams();
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.navigate("profile/index", params)}
+          style={{ paddingLeft: 10 }}
+        >
+          <MaterialIcons name="arrow-back" size={32} color="#006e62" />
+        </TouchableOpacity>
+      ),
+    });
+  });
   // Followers state: false = Follow, true = Following
   const [followers, setFollowers] = useState({
     "Miriam Doyle": true, // user is already being followed

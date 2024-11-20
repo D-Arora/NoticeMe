@@ -1,12 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import colours from "../../../colours.js";
 import ProfileInterfaceUser from "../../../components/ProfileInterfaceUser.js";
 import ConfirmationModal from "../../../components/ConfirmationModal.js";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
+import { TouchableOpacity } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function Following() {
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
+  const params = useLocalSearchParams();
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.navigate("profile/index", params)}
+          style={{ paddingLeft: 10 }}
+        >
+          <MaterialIcons name="arrow-back" size={32} color="#006e62" />
+        </TouchableOpacity>
+      ),
+    });
+  });
   const [modalVisible, setModalVisible] = useState(false);
 
   const [selectedUser, setSelectedUser] = useState(null);
