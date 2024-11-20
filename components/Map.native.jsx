@@ -42,7 +42,7 @@ export default function Map({ region, location }) {
               longitude: eventLocation.longitude,
             }}
             title={!params.location ? "location" : params.location}
-            description={`${!params.title ? "title" : params.title} @ ${
+            description={`${!params.eventName ? "title" : params.eventName} @ ${
               eventLocation.latitude + " , " + eventLocation.longitude
             }`}
           />
