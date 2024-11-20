@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 22,
     borderRadius: 30,
     alignItems: "center",
+    marginVertical: 12,
   },
   buttonText: {
     color: "white",
@@ -70,6 +71,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: colours.light.primaryGreen,
     borderRadius: 30,
+    marginVertical: 12,
   },
 });
 

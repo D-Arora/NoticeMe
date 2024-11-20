@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Text,
   View,
@@ -15,12 +15,14 @@ import EventCarousel from "../../../components/EventCarousel";
 import BackgroundImage from "../../../assets/images/mesh-898.png";
 import sampleEvents from "./sampleEvents.json";
 import colours from "../../../colours";
+import { useNavigation, useFocusEffect } from "expo-router";
 
 const EVENTS_STORE_KEY = "@events";
 
 export default function Events() {
   const [events, setEvents] = useState([]);
   const [scrollEnabled, setScrollEnabled] = useState(true);
+  const navigation = useNavigation();
 
   const isThisWeek = (date) => {
     const now = new Date();
@@ -33,30 +35,31 @@ export default function Events() {
   const thisWeekEvents = events.filter((event) => isThisWeek(event.start));
   const upcomingWeekEvents = events.filter((event) => !isThisWeek(event.start));
 
-  useEffect(() => {
-    const loadEvents = async () => {
-      try {
-        const storedEvents = await AsyncStorage.getItem(EVENTS_STORE_KEY);
-        if (storedEvents) {
-          let eventsList = JSON.parse(storedEvents);
-          // Sort events by the 'start' date
-          eventsList = eventsList.sort(
-            (a, b) => new Date(a.start) - new Date(b.start)
-          );
-          setEvents(eventsList);
-        } else {
-          // Sort sample events by the 'start' date
-          const sortedSampleEvents = sampleEvents.sort(
-            (a, b) => new Date(a.start) - new Date(b.start)
-          );
-          setEvents(sortedSampleEvents);
-        }
-      } catch (error) {
-        console.error("Failed to load events:", error);
+  const loadEvents = async () => {
+    try {
+      const storedEvents = await AsyncStorage.getItem(EVENTS_STORE_KEY);
+      if (storedEvents) {
+        let eventsList = JSON.parse(storedEvents);
+        eventsList = eventsList.sort(
+          (a, b) => new Date(a.start) - new Date(b.start)
+        );
+        setEvents(eventsList);
+      } else {
+        const sortedSampleEvents = sampleEvents.sort(
+          (a, b) => new Date(a.start) - new Date(b.start)
+        );
+        setEvents(sortedSampleEvents);
       }
-    };
-    loadEvents();
-  }, []);
+    } catch (error) {
+      console.error("Failed to load events:", error);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      loadEvents();
+    }, [])
+  );
 
   useEffect(() => {
     const saveEvents = async () => {
@@ -70,21 +73,7 @@ export default function Events() {
   }, [events]);
 
   const handleAddEvent = () => {
-    const newEvent = {
-      id: Date.now().toString(),
-      eventName: "New Event",
-      societyName: "New Society",
-      start: new Date().toISOString(),
-      end: new Date(new Date().getTime() + 2 * 60 * 60 * 1000).toISOString(),
-      latitude: 0,
-      longitude: 0,
-      location: "New Location",
-      imageSource:
-        "https://fastly.picsum.photos/id/913/4000/5000.jpg?hmac=SDdTPDjE8rfiEDr0fuaEBzOgZztJEKpdNhFHDiYZhTw",
-    };
-
-    setEvents([...events, newEvent]);
-    Alert.alert("Event Added", "A new event has been added.");
+    navigation.navigate("events/createEvent");
   };
 
   return (
