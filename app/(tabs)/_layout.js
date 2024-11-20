@@ -32,7 +32,7 @@ const tabScreens = [
   { name: "calendar", label: "Calendar", Icon: CalendarIcon },
   { name: "search", label: "Search", Icon: SearchIcon },
   { name: "activity", label: "Activity", Icon: ActivityIcon },
-  // { name: "profile", label: "Profile", Icon: ProfileIcon },
+  { name: "profile/index", label: "Profile", Icon: ProfileIcon },
 ];
 
 export default function TabsLayout() {
@@ -131,7 +131,7 @@ export default function TabsLayout() {
           ),
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="profile/index"
         options={{
           title: "Profile",
@@ -146,7 +146,7 @@ export default function TabsLayout() {
             </View>
           ),
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="profile/followers"
         options={{

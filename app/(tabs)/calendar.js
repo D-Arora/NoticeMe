@@ -9,28 +9,19 @@ import {
 import AntDesign from "@expo/vector-icons/AntDesign";
 import {
   Pressable,
-  SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  useWindowDimensions,
 } from "react-native";
 
-import {
-  Calendar as BigCalendar,
-  ICalendarEventBase,
-  Mode,
-} from "react-native-big-calendar";
-
-import { Dropdown } from "react-native-element-dropdown";
+import { Calendar as BigCalendar } from "react-native-big-calendar";
 
 import StyledButton from "../../components/StyledButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { defaultEvents, EVENTS_STORE_KEY } from "./events";
 import sampleEvents from "./events/sampleEvents.json";
 import { MaterialIcons } from "@expo/vector-icons";
+import colours from "../../colours";
 
 const tabHeight = 40;
 
@@ -38,7 +29,7 @@ export default function Calendar() {
   const router = useRouter();
   const navigation = useNavigation();
   const params = useLocalSearchParams();
-  const bigCalendarConatiner = useRef(null);
+  const bigCalendarContainer = useRef(null);
   const [calendarHeight, setCalendarHeight] = useState(500);
   const main = useRef(null);
   const [mode, setMode] = useState("schedule");
@@ -59,29 +50,18 @@ export default function Calendar() {
   });
 
   const getEventsFromAsyncStorage = async () => {
-    // const storedEvents = await AsyncStorage.getItem(EVENTS_STORE_KEY);
-    // if (!storedEvents) {
-    //   setEvents(defaultEvents);
-    //   await AsyncStorage.setItem(
-    //     EVENTS_STORE_KEY,
-    //     JSON.stringify(defaultEvents)
-    //   );
-    // } else {
-    //   const parsedEvents = JSON.parse(storedEvents).map((event) => ({
-    //     ...event,
-    //     start: new Date(event.start),
-    //     end: new Date(event.end),
-    //   }));
-    //   setEvents(parsedEvents);
-    // }
-
-    setEvents(
-      sampleEvents.map((event) => ({
+    const storedEvents = await AsyncStorage.getItem("@events");
+    if (!storedEvents) {
+      setEvents(sampleEvents);
+      await AsyncStorage.setItem("@events", JSON.stringify(sampleEvents));
+    } else {
+      const parsedEvents = JSON.parse(storedEvents).map((event) => ({
         ...event,
         start: new Date(event.start),
         end: new Date(event.end),
-      }))
-    );
+      }));
+      setEvents(parsedEvents);
+    }
   };
 
   useEffect(() => {
@@ -90,10 +70,8 @@ export default function Calendar() {
 
   useFocusEffect(
     useCallback(() => {
-      // Invoked whenever the route is focused. (incase asyncstorage has changed)
       getEventsFromAsyncStorage();
 
-      // Return function is invoked whenever the route gets out of focus.
       return () => {
         console.log("This route is now unfocused.");
       };
@@ -101,7 +79,7 @@ export default function Calendar() {
   );
 
   useEffect(() => {
-    setCalendarHeight(bigCalendarConatiner.current.clientHeight);
+    setCalendarHeight(bigCalendarContainer.current.clientHeight);
   }, [date]);
 
   function ViewButton({ label, setmode }) {
@@ -127,70 +105,6 @@ export default function Calendar() {
 
   function renderControlButtons() {
     switch (mode) {
-      // case "day":
-      //   const dates = [];
-      //   for (let i = 5; i > 0; i--) {
-      //     const prev = new Date(date.getTime() - 86400000 * i);
-      //     dates.unshift({ label: prev.toDateString(), value: prev });
-      //   }
-      //   dates.push({ label: date.toDateString(), value: date }); // Current day
-      //   for (let i = 1; i <= 5; i++) {
-      //     const next = new Date(date.getTime() + 86400000 * i);
-      //     dates.push({ label: next.toDateString(), value: next });
-      //   }
-      //   const today = new Date();
-      //   dates.unshift({
-      //     label: `Today ${today.toLocaleDateString()}`,
-      //     value: today,
-      //   });
-      //   return (
-      //     <>
-      //       <Pressable
-      //         style={{
-      //           flexDirection: "row",
-      //           alignItems: "center",
-      //           borderRadius: 28,
-      //           backgroundColor: "#F7F7F7",
-      //           padding: 15,
-      //           borderBottomWidth: 5,
-      //           borderColor: "#00B192",
-      //         }}
-      //         onPress={() => setDate(new Date(date.getTime() - 86400000))}
-      //       >
-      //         <AntDesign name="caretleft" size={24} color="#006D62" />
-      //         <Text style={{ color: "#006D62" }}>prev</Text>
-      //       </Pressable>
-      //       <Dropdown
-      //         style={styles.dropdown}
-      //         data={dates}
-      //         search={false}
-      //         maxHeight={400}
-      //         labelField="label"
-      //         valueField="value"
-      //         // placeholder="Select item"
-      //         // placeholder="your mother"
-      //         placeholder={`${date.toDateString()}`}
-      //         onChange={(item) => {
-      //           setDate(item.value);
-      //         }}
-      //       />
-      //       <Pressable
-      //         style={{
-      //           flexDirection: "row",
-      //           alignItems: "center",
-      //           borderRadius: 28,
-      //           backgroundColor: "#F7F7F7",
-      //           padding: 15,
-      //           borderBottomWidth: 5,
-      //           borderColor: "#00B192",
-      //         }}
-      //         onPress={() => setDate(new Date(date.getTime() + 86400000))}
-      //       >
-      //         <Text style={{ color: "#006D62" }}>next</Text>
-      //         <AntDesign name="caretright" size={24} color="#006D62" />
-      //       </Pressable>
-      //     </>
-      //   );
       case "day":
         return (
           <View
@@ -199,23 +113,21 @@ export default function Calendar() {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
-              paddingLeft: 20,
-              paddingRight: 20,
+              paddingHorizontal: 20,
+              paddingVertical: 5,
               width: "100%",
             }}
           >
             <Text
               style={{
                 color: "#006D62",
-                fontWeight: "bold",
-                fontSize: 24,
+                fontSize: 20,
                 fontFamily: "Bold",
               }}
             >
               {date.toLocaleString("default", {
                 month: "long",
                 year: "numeric",
-                // day: 'numeric'
               })}
             </Text>
             <View style={{ flexDirection: "row", gap: 20 }}>
@@ -231,7 +143,7 @@ export default function Calendar() {
                   )
                 }
               >
-                <AntDesign name="caretleft" size={24} color="#006D62" />
+                <AntDesign name="caretleft" size={20} color="#006D62" />
               </Pressable>
               <Pressable
                 style={{ height: 30 }}
@@ -245,7 +157,7 @@ export default function Calendar() {
                   )
                 }
               >
-                <AntDesign name="caretright" size={24} color="#006D62" />
+                <AntDesign name="caretright" size={20} color="#006D62" />
               </Pressable>
             </View>
           </View>
@@ -258,16 +170,15 @@ export default function Calendar() {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
-              paddingLeft: 20,
-              paddingRight: 20,
+              paddingHorizontal: 20,
+              paddingVertical: 5,
               width: "100%",
             }}
           >
             <Text
               style={{
                 color: "#006D62",
-                fontWeight: "bold",
-                fontSize: 24,
+                fontSize: 20,
                 fontFamily: "Bold",
               }}
             >
@@ -294,11 +205,6 @@ export default function Calendar() {
                 month: "short",
                 year: "numeric",
               })}
-              {/* {`  `}
-              {date.toLocaleString("default", {
-                month: "long",
-                year: "numeric",
-              })} */}
             </Text>
             <View style={{ flexDirection: "row", gap: 20 }}>
               <Pressable
@@ -313,7 +219,7 @@ export default function Calendar() {
                   )
                 }
               >
-                <AntDesign name="caretleft" size={24} color="#006D62" />
+                <AntDesign name="caretleft" size={20} color="#006D62" />
               </Pressable>
               <Pressable
                 style={{ height: 30 }}
@@ -327,7 +233,7 @@ export default function Calendar() {
                   )
                 }
               >
-                <AntDesign name="caretright" size={24} color="#006D62" />
+                <AntDesign name="caretright" size={20} color="#006D62" />
               </Pressable>
             </View>
           </View>
@@ -340,16 +246,15 @@ export default function Calendar() {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
-              paddingLeft: 20,
-              paddingRight: 20,
+              paddingHorizontal: 20,
+              paddingVertical: 5,
               width: "100%",
             }}
           >
             <Text
               style={{
                 color: "#006D62",
-                fontWeight: "bold",
-                fontSize: 24,
+                fontSize: 20,
                 fontFamily: "Bold",
               }}
             >
@@ -365,7 +270,7 @@ export default function Calendar() {
                   setDate(new Date(date.getFullYear(), date.getMonth() - 1, 1))
                 }
               >
-                <AntDesign name="caretleft" size={24} color="#006D62" />
+                <AntDesign name="caretleft" size={20} color="#006D62" />
               </Pressable>
               <Pressable
                 style={{ height: 30 }}
@@ -373,38 +278,13 @@ export default function Calendar() {
                   setDate(new Date(date.getFullYear(), date.getMonth() + 1, 1))
                 }
               >
-                <AntDesign name="caretright" size={24} color="#006D62" />
+                <AntDesign name="caretright" size={20} color="#006D62" />
               </Pressable>
             </View>
           </View>
         );
       default:
         return null;
-      // return (
-      //   <View
-      //     style={{
-      //       display: "flex",
-      //       alignItems: "center",
-      //       justifyContent: "center",
-      //       width: "100%",
-      //     }}
-      //   >
-      //     <Text
-      //       style={{
-      //         color: "#006D62",
-      //         fontWeight: "bold",
-      //         fontFamily: "Bold",
-      //         fontSize: 24,
-      //       }}
-      //     >
-      //       {date.toLocaleString("default", {
-      //         month: "long",
-      //         year: "numeric",
-      //       })}
-      //     </Text>
-      //     <View></View>
-      //   </View>
-      // );
     }
   }
 
@@ -415,7 +295,6 @@ export default function Calendar() {
     }
     return (
       <TouchableOpacity
-        // {...touchableOpacityProps}
         style={[
           conditionalStyles,
           ...touchableOpacityProps.style,
@@ -434,28 +313,11 @@ export default function Calendar() {
             alignItems: "center",
             justifyContent: "center",
             overflow: "overflow",
-            // height: 80,
           },
         ]}
         onPress={() => onPressEvent(event)}
       >
-        {
-          // dayjs(event.end).diff(event.start, 'minute') < 32 ? (
-          //   <Text style={[{ color: 'black' }]}>
-          //     {event.eventName},
-          //     <Text style={[{ color: 'black' }]}>{dayjs(event.start).format('HH:mm')}</Text>
-          //   </Text>
-          // ) : (
-          //   <>
-          //     <Text style={[{ color: 'black' }]}>{event.eventName}</Text>
-          //     <Text style={[{ color: 'black' }]}>
-          //       {/* {formatStartEnd(event.start, event.end, 'HH:mm')} */}
-          //       {event.start.toDateString()}
-          //     </Text>
-          //     {event.children && event.children}
-          //   </>
-          // )
-        }
+        {}
         {mode == "month" ? (
           <>
             <Text
@@ -542,12 +404,10 @@ export default function Calendar() {
   }, []);
 
   const onPressEvent = React.useCallback((event) => {
-    // console.log(e);
     if (mode == "month" || mode == "week") {
       setDate(new Date(event.start));
       setMode("day");
     } else {
-      // TODO navigate to event page with the event information!
       router.push({
         pathname: "events/event",
         params: event,
@@ -564,7 +424,6 @@ export default function Calendar() {
     }
   });
 
-  // if there is no space to display all events, go to the scedule view / or day view
   const onPressMoreLabel = React.useCallback((moreEvents) => {
     alert(JSON.stringify(moreEvents));
     setDate(new Date(moreEvents[0].start));
@@ -603,21 +462,17 @@ export default function Calendar() {
         }}
       >
         {renderControlButtons()}
-        {/* <Text>{date.toDateString()}</Text>
-        {`${date.getMonth()} ${date.getFullYear()}`} */}
       </View>
-      <View ref={bigCalendarConatiner} style={{ flexGrow: 1, width: "100%" }}>
+      <View ref={bigCalendarContainer} style={{ flexGrow: 1, width: "100%" }}>
         <BigCalendar
           style={{ flexGrow: 1 }}
-          height={!calendarHeight ? 500 : calendarHeight}
+          height={!calendarHeight ? 640 : calendarHeight}
           events={events}
           renderEvent={customEventRenderer}
           swipeEnabled={true}
-          // onLongPressCell={addLongEvent}
           onPressCell={onPressCell}
           onPressEvent={onPressEvent}
           onPressDateHeader={onPressDateHeader}
-          // onChangeDate={([start, _]) => setDate(start)}
           sortedMonthView={false}
           mode={mode}
           date={date}
@@ -625,18 +480,11 @@ export default function Calendar() {
             if (event.color) {
               return { backgroundColor: event.color };
             }
-            // const backgroundColor = event.eventName.match(/Meeting/) ? 'red' : 'blue'
-            // return { backgroundColor }
           }}
-          // moreLabel="+{moreCount}"
           onPressMoreLabel={onPressMoreLabel}
-          // onChangeDate={(e) => alert(`onChangeDate: ${e}`)}
-          // defaultDate={date}
-          // onNavigate={(e) => alert(`onNavigate: ${e}`)}
           onSwipeEnd={(start) => setDate(start)}
           showAdjacentMonths={true}
           itemSeparatorComponent={() => <View style={styles.itemSeparator} />}
-          // renderHeader={() => mode === 'day' && null}
           bodyContainerStyle={{ backgroundColor: "white" }}
           headerContainerStyle={{ backgroundColor: "white", height: 80 }}
           theme={{
@@ -663,50 +511,35 @@ export default function Calendar() {
 const styles = StyleSheet.create({
   buttonContainer: {
     color: "#006D62",
-    // height: tabHeight,
     backgroundColor: "#D6FFF9",
-    // borderRadius: 10,
     paddingHorizontal: 15,
     paddingVertical: 5,
-    // marginEnd: 15,
     flexGrow: 1,
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
-    // backgroundColor: "#00D262",
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
-    // borderTopWidth: 3,
-    // borderTopColor: "#64CEC2",
-    shadowColor: "#64CEC2",
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderLeftColor: "#64CEC2",
-    borderRightColor: "#64CEC2",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderWidth: 2,
+    borderColor: colours.light.primaryGreen,
   },
   buttonText: {
-    fontWeight: 700,
+    fontFamily: "Bold",
     color: "#006D62",
   },
   buttonTextActive: {
-    fontWeight: 700,
+    fontFamily: "Bold",
     color: "#fff",
   },
   buttonContainerActive: {
     borderTopColor: "#006D62",
     backgroundColor: "#00B192",
-    // borderBottomColor: "#006D62",
-    // borderBottomWidth: 3,
   },
   buttonRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 5,
-    // gap: 1,
-    // padding: 10,
+
     height: tabHeight,
   },
   headline: {
@@ -717,8 +550,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   dropdown: {
-    // width: 300,
-    // margin: 16,
     flexGrow: 1,
     height: 50,
     borderBottomColor: "gray",

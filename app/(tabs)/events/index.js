@@ -130,6 +130,7 @@ export default function Events() {
         iconSize={40}
         iconColor="white"
         onPress={handleAddEvent}
+        padding={8}
       />
     </ImageBackground>
   );

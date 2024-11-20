@@ -107,16 +107,6 @@ export default function Search() {
       isEnabled: false,
       predicateFn: (e) => new Date(e.end) > new Date(),
     },
-    // hasWith_S_inTitle: {
-    //   categories: [categories.events],
-    //   isEnabled: false,
-    //   predicateFn: (e) => !!e && e.title.toLowerCase().includes("s"),
-    // },
-    // EventsWithDefinedColour: {
-    //   categories: [categories.events],
-    //   isEnabled: false,
-    //   predicateFn: (e) => !!e.color,
-    // },
     hasImage: {
       categories: [
         categories.events,
@@ -188,7 +178,7 @@ export default function Search() {
 
       // Return function is invoked whenever the route gets out of focus.
       return () => {
-        console.log("This route is now unfocused.");
+        // console.log("This route is now unfocused.");
       };
     }, [])
   );
@@ -273,10 +263,10 @@ export default function Search() {
     <View
       style={{
         flex: 1,
-        // justifyContent: "center",
         alignItems: "center",
       }}
     >
+      {/* Search Bar */}
       <View
         style={{
           display: "flex",
@@ -287,8 +277,7 @@ export default function Search() {
           justifyContent: "space-evenly",
           paddingLeft: 10,
           paddingRight: 10,
-          paddingTop: 6,
-          // overflow: 'visible'
+          paddingVertical: 10,
         }}
       >
         <View
@@ -356,26 +345,20 @@ export default function Search() {
           >
             <View
               style={{
-                borderTopRightRadius: 28,
-                borderTopLeftRadius: 28,
+                borderTopRightRadius: 20,
+                borderTopLeftRadius: 20,
                 alignItems: "center",
                 padding: 10,
-                shadowColor: "#64CEC2",
-                shadowOffset: { width: 0, height: -4 },
-                shadowOpacity: 1,
-                shadowRadius: 0,
-                borderLeftWidth: 1,
-                borderRightWidth: 1,
-                borderLeftColor: "#64CEC2",
-                borderRightColor: "#64CEC2",
+                borderWidth: 2,
+                borderColor: "#64CEC2",
                 backgroundColor: category == x ? "#B0F0CA" : "white",
               }}
             >
               <Text
                 style={{
-                  fontFamily: "Regular",
-                  color: "#005A6D",
-                  fontWeight: 700,
+                  fontFamily: "Bold",
+                  color: colours.light.text,
+                  fontSize: 18,
                 }}
               >
                 {x}
@@ -385,72 +368,31 @@ export default function Search() {
         ))}
       </View>
 
+      {/* Filter Button */}
       <FloatingButton
         IconComponent={FontAwesome6}
         iconName="sliders"
         iconSize={32}
         iconColor="white"
         onPress={() => setHideConstraints(!hideConstraints)}
-        shadowColor="white"
+        shadowColor={colours.light.highlightGreen}
         buttonColor="#64CEC2"
         padding={12}
       />
-
       {!hideConstraints && (
         <View
           style={{
-            // position: 'absolute',
-            borderBottomEndRadius: 28,
-            borderBottomStartRadius: 28,
+            borderBottomLeftRadius: 20,
+            borderBottomRightRadius: 20,
+            borderWidth: 2,
+            borderColor: colours.light.primaryGreen,
             padding: 10,
             zIndex: 1,
             width: "100%",
-            shadowColor: "#64CEC2",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 1,
-            shadowRadius: 0,
             backgroundColor: "white",
+            overflow: "hidden",
           }}
         >
-          {/* <Text>Categories</Text>
-          <View
-            style={{
-              flexDirection: "row",
-              gap: 10,
-              width: "100%",
-              flexWrap: "wrap",
-              padding: 10,
-            }}
-          >
-            {Object.values(categories).map((x, index) => (
-              <Pressable
-                key={index}
-                style={{
-                  shadowColor: "#64CEC2",
-                  shadowOffset: { width: 0, height: 5 },
-                  shadowOpacity: 1,
-                  shadowRadius: 0,
-                  elevation: 6,
-                  backgroundColor: x !== category ? "#F7F7F7" : "purple",
-                  borderRadius: 28,
-                  padding: 10,
-                  justifyContent: "center",
-                }}
-                onPress={() => setCategory(x)}
-              >
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text numberOfLines={1}>{x}</Text>
-                </View>
-              </Pressable>
-            ))}
-          </View> */}
-
           <Text>Filters</Text>
           <View
             style={{
@@ -471,11 +413,6 @@ export default function Search() {
                 <Pressable
                   key={index}
                   style={{
-                    shadowColor: "#64CEC2",
-                    shadowOffset: { width: 0, height: 3 },
-                    shadowOpacity: 1,
-                    shadowRadius: 0,
-                    elevation: 6,
                     backgroundColor: !isEnabled ? "#F7F7F7" : "#B0F0CA",
                     borderRadius: 28,
                     padding: 10,
@@ -503,7 +440,6 @@ export default function Search() {
                 </Pressable>
               ))}
           </View>
-
           <Text>Sort By</Text>
           <View
             style={{
@@ -524,11 +460,6 @@ export default function Search() {
                 <Pressable
                   key={index}
                   style={{
-                    shadowColor: "#64CEC2",
-                    shadowOffset: { width: 0, height: 3 },
-                    shadowOpacity: 1,
-                    shadowRadius: 0,
-                    elevation: 6,
                     backgroundColor: !isEnabled ? "#F7F7F7" : "#B0F0CA",
                     borderRadius: 28,
                     padding: 10,
@@ -565,19 +496,32 @@ export default function Search() {
         </View>
       )}
 
-      {/* <Text>Results</Text> */}
-      <View style={{ width: "100%", flexShrink: 1 }}>
+      {/* Results */}
+      <View
+        style={{
+          width: "100%",
+          flexShrink: 1,
+          backgroundColor: "white",
+          // borderTopColor: colours.light.primaryGreen,
+          // borderTopWidth: 2,
+        }}
+      >
         {(category == categories.all || category == categories.events) && (
           <View
             style={{
               width: "100%",
               paddingHorizontal: 20,
-              paddingTop: 10,
+              paddingVertical: 10,
               flexShrink: 1,
             }}
           >
             <Text
-              style={{ fontFamily: "Bold", fontSize: 24, color: "#005A6D" }}
+              style={{
+                fontFamily: "Bold",
+                fontSize: 24,
+                color: "#005A6D",
+                marginBottom: 10,
+              }}
             >
               Events
             </Text>
@@ -586,7 +530,6 @@ export default function Search() {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: 50,
                 paddingVertical: 10,
                 width: "100%",
               }}
@@ -601,12 +544,10 @@ export default function Search() {
                       style={{
                         padding: 10,
                         borderRadius: 28,
-                        backgroundColor: "white",
+                        backgroundColor: params.colour || colours.light.text,
                         display: "flex",
                         flexDirection: "row",
                         alignItems: "center",
-                        // marginLeft: 10,
-                        // marginRight: 10,
                         width: "100%",
                         gap: 10,
                         padding: 10,
@@ -630,7 +571,7 @@ export default function Search() {
                       >
                         <Text
                           style={{
-                            color: "#006D62",
+                            color: "white",
                             fontFamily: "Bold",
                             fontSize: 20,
                           }}
@@ -648,8 +589,8 @@ export default function Search() {
                             alignItems: "center",
                           }}
                         >
-                          <Ionicons name="time" size={24} color="#006D62" />
-                          <Text style={{ color: "#006D62" }} numberOfLines={1}>
+                          <Ionicons name="time" size={24} color="white" />
+                          <Text style={{ color: "white" }} numberOfLines={1}>
                             {!params.start
                               ? "undefined start"
                               : formatEventTime(params.start)}
@@ -666,9 +607,9 @@ export default function Search() {
                           <Ionicons
                             name="location-sharp"
                             size={24}
-                            color="#006D62"
+                            color="white"
                           />
-                          <Text style={{ color: "#006D62" }} numberOfLines={3}>
+                          <Text style={{ color: "white" }} numberOfLines={3}>
                             {!params.location
                               ? "undefined location"
                               : params.location}
@@ -693,7 +634,12 @@ export default function Search() {
             }}
           >
             <Text
-              style={{ fontFamily: "Bold", fontSize: 24, color: "#005A6D" }}
+              style={{
+                fontFamily: "Bold",
+                fontSize: 24,
+                color: "#005A6D",
+                marginBottom: 10,
+              }}
             >
               Accounts
             </Text>
@@ -771,7 +717,12 @@ export default function Search() {
             }}
           >
             <Text
-              style={{ fontFamily: "Bold", fontSize: 24, color: "#005A6D" }}
+              style={{
+                fontFamily: "Bold",
+                fontSize: 24,
+                color: "#005A6D",
+                marginBottom: 10,
+              }}
             >
               Societies
             </Text>
