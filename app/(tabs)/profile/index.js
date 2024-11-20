@@ -211,14 +211,29 @@ export default function Profile() {
   const router = useRouter();
   const navigation = useNavigation();
   const params = useLocalSearchParams();
+
+  useEffect(() => {
+    console.log("Params:", params); // This will log the entire params object
+  }, [params]);
+
+  // Safe parsing function for JSON
+  const safeParse = (value) => {
+    try {
+      return value ? JSON.parse(value) : [];
+    } catch (error) {
+      console.error("Error parsing JSON:", error); // Log the error
+      return []; // Return empty array on error
+    }
+  };
+
   const [user, setUser] = useState(
     Object.keys(params).length === 0
       ? defaultProfile
       : {
           ...params,
-          faculties: params.faculties ? JSON.parse(params.faculties) : [],
-          societies: params.societies ? JSON.parse(params.societies) : [],
-          comments: params.comments ? JSON.parse(params.comments) : [],
+          faculties: safeParse(params.faculties),
+          societies: safeParse(params.societies),
+          comments: safeParse(params.comments),
         }
   );
 
@@ -236,17 +251,72 @@ export default function Profile() {
   });
 
   useEffect(() => {
-    console.log(params);
-    setUser(
-      Object.keys(params).length === 0
-        ? defaultProfile
-        : {
-            ...params,
-            faculties: params.faculties ? JSON.parse(params.faculties) : [],
-            societies: params.societies ? JSON.parse(params.societies) : [],
-            comments: params.comments ? JSON.parse(params.comments) : [],
+    setUser((prevUser) => {
+      const facultyColorMapping = {
+        Medicine: "#FF5733",
+        Engineering: "#0087FF",
+        ADA: "#8A3FC3",
+        Law: "#C71585",
+      };
+      console.log("Year in params:", params.year);
+      console.log(params);
+      let updatedFaculties = prevUser.faculties;
+      let updatedYear = prevUser.year;
+
+      if (params.faculties) {
+        try {
+          // JSON string representing an array?
+          if (typeof params.faculties === "string") {
+            // parse it as a JSON string
+            try {
+              const parsedFaculties = JSON.parse(params.faculties);
+              if (Array.isArray(parsedFaculties)) {
+                // successfully parsed and it's an array
+                updatedFaculties = parsedFaculties.map((faculty) => ({
+                  name: faculty.trim(),
+                  colour: facultyColorMapping[faculty.trim()] || "#CCCCCC",
+                }));
+              }
+            } catch (parseError) {
+              const facultiesArray = params.faculties
+                .split(",")
+                .map((faculty) => ({
+                  name: faculty.trim(),
+                  colour: facultyColorMapping[faculty.trim()] || "#CCCCCC",
+                }));
+              updatedFaculties = facultiesArray;
+            }
+          } else if (Array.isArray(params.faculties)) {
+            // If faculties is already an array
+            updatedFaculties = params.faculties.map((faculty) => ({
+              name: faculty.trim(),
+              colour: facultyColorMapping[faculty.trim()] || "#CCCCCC",
+            }));
+          } else {
+            updatedFaculties = [];
           }
-    );
+        } catch (error) {
+          console.error("Error processing faculties:", error); // parsing or handling errors
+          updatedFaculties = [];
+        }
+      }
+      // console.log(params.get("year"));
+      if (params.year) {
+        updatedYear = params.year; // Update year if provided in params
+      }
+      // console.log(JSON.parse(params.get("year")));
+      return {
+        ...prevUser,
+        ...params,
+        faculties: updatedFaculties,
+        societies: params.societies
+          ? JSON.parse(params.societies)
+          : prevUser.societies,
+        comments: params.comments
+          ? JSON.parse(params.comments)
+          : prevUser.comments,
+      };
+    });
   }, [params]);
 
   return (
@@ -316,8 +386,8 @@ export default function Profile() {
             {/* <Tag title="Engineering" colour="#0087FF" />
             <Tag title="Neuroscience" colour="#8A3FC3" /> */}
             {user.faculties &&
-              user.faculties.map((x, index) => (
-                <Tag key={index} title={x.name} colour={x.colour} />
+              user.faculties.map((faculty, index) => (
+                <Tag key={index} title={faculty.name} colour={faculty.colour} />
               ))}
           </View>
         </View>
